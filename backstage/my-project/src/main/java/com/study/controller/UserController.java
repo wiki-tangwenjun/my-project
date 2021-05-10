@@ -4,26 +4,20 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.study.anno.LoginRequired;
+import com.study.anno.Syslog;
+import com.study.error.ErrorCode;
+import com.study.error.ReturnValue;
+import com.study.pojo.User;
+import com.study.redis.UserLoginService;
+import com.study.service.UserService;
+import com.study.util.Base64Util;
+import com.study.util.CheckUtil;
+import com.study.util.EncryptUtil;
+import com.study.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.dondown.anno.LoginRequired;
-import com.dondown.anno.Syslog;
-import com.dondown.error.ErrorCode;
-import com.dondown.error.ReturnValue;
-import com.dondown.model.User;
-import com.dondown.redis.UserLoginService;
-import com.dondown.service.UserService;
-import com.dondown.util.Base64Util;
-import com.dondown.util.CheckUtil;
-import com.dondown.util.EncryptUtil;
-import com.dondown.util.TextUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -278,20 +272,20 @@ public class UserController {
      * @param
      * @return
      */
-//    @LoginRequired
-//    @ApiOperation(value="删除一个用户", notes="")
-//    @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType="path")})
-//    @DeleteMapping(value = "/delete/{userName}")
-//    @Syslog(module="用户",style="删除",description="删除用户信息")
-//    public ReturnValue<String> delete(@PathVariable(name="userName", required=true) String userName){
-//        try{
-//            userService.deleteByUserName(userName);
-//            return new ReturnValue<String>();
-//        }catch(Exception e){
-//            log.error(e.getCause().getMessage());
-//            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
-//        }
-//    }
+    @LoginRequired
+    @ApiOperation(value="删除一个用户", notes="")
+    @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType="path")})
+    @DeleteMapping(value = "/delete/{userName}")
+    @Syslog(module="用户",style="删除",description="删除用户信息")
+    public ReturnValue<String> delete(@PathVariable(name="userName", required=true) String userName){
+        try{
+            userService.deleteByUserName(userName);
+            return new ReturnValue<String>();
+        }catch(Exception e){
+            log.error(e.getCause().getMessage());
+            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
+        }
+    }
     @LoginRequired
     @ApiOperation(value = "用户注销", notes = "用户注销")
     @GetMapping(value = "/logout")

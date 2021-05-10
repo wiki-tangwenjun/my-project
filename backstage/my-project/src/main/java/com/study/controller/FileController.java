@@ -7,6 +7,7 @@ import java.io.IOException;
 import com.study.config.FileConfig;
 import com.study.error.ErrorCode;
 import com.study.error.ReturnValue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,14 +19,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Resource;
 
 @Slf4j
 @Api(value = "文件上传", tags = "文件相关接口")
 @RestController
 @RequestMapping("/file")
 public class FileController {
-	@Resource
+	@Autowired
 	FileConfig fileConfig;
 
 	@ApiOperation(value = "文件上传", notes = "通过http的Multipart方式上传文件")

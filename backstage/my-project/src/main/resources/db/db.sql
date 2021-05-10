@@ -371,7 +371,7 @@ CREATE TABLE IF NOT EXISTS t_user_role
 
 
 /* 页面资源表*/
-CREATE TABLE IF NOT EXISTS t_page_resource
+CREATE TABLE IF NOT EXISTS t_page_Autowired
 (
 	id 		VARCHAR(32) NOT NULL COMMENT '页面id',			/* 主键，页面id			*/
 	parentId  VARCHAR(32) DEFAULT '' COMMENT '父页面id',	/* 父页面id				*/
@@ -383,14 +383,14 @@ CREATE TABLE IF NOT EXISTS t_page_resource
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='页面资源信息 ';
 
 /* 角色-资源中间表*/
-CREATE TABLE IF NOT EXISTS t_role_resource
+CREATE TABLE IF NOT EXISTS t_role_Autowired
 (
 	id 		VARCHAR(32) NOT NULL COMMENT 'id',				/* 主键id			*/
 	roleId 	 VARCHAR(32) NOT NULL COMMENT '用户名',			/* 用户名，用户外键		*/
-	resourceId 	VARCHAR(32) NOT NULL COMMENT '资源',		/* 资源id',资源表外键			*/
+	AutowiredId 	VARCHAR(32) NOT NULL COMMENT '资源',		/* 资源id',资源表外键			*/
 	PRIMARY KEY (id),
 	FOREIGN KEY(roleId) REFERENCES t_role(id)  ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(resourceId) REFERENCES t_page_resource(id)  ON DELETE CASCADE ON UPDATE CASCADE
+	FOREIGN KEY(AutowiredId) REFERENCES t_page_Autowired(id)  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色-资源中间表 ';
 
 

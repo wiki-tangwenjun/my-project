@@ -5,6 +5,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.study.anno.LoginRequired;
+import com.study.anno.Syslog;
+import com.study.error.ErrorCode;
+import com.study.error.ReturnValue;
+import com.study.pojo.OperateLog;
+import com.study.service.OperateLogService;
+import com.study.util.CheckUtil;
+import com.study.util.TextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.dondown.anno.LoginRequired;
-import com.dondown.anno.Syslog;
-import com.dondown.error.ErrorCode;
-import com.dondown.error.ReturnValue;
-import com.dondown.model.OperateLog;
-import com.dondown.service.OperateLogService;
-import com.dondown.util.CheckUtil;
-import com.dondown.util.TextUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OperateLogController {
     @Autowired
     private OperateLogService operateLogService;
-    
+
     @LoginRequired
     @ApiOperation(value="添加操作日志信息", notes="添加操作日志信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "operateLog", value = "操作日志信息", required = true, dataType = "OperateLog", paramType="body")})
