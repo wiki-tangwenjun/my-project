@@ -7,18 +7,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
+
 @Data
-public class User {
+public class OperateLog {
     private String id;
     private String userName;
-    private String password;
+    private String userId;
     private String name;
-    private String idCard;
-    private Byte enabled;
+    private String module;
+    private String style;
+    private String url; 
+    private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private Date createTime;
-    private String caKey;
-    private String reserver1;
-    private String reserver2;
+    private Date operateTime;
+    private String operand;
+    private String result;
 }
