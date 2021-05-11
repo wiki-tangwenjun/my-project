@@ -1,5 +1,7 @@
 package com.study.util;
 
+import com.study.config.SyslogAspect;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -20,14 +22,7 @@ public class IPUtils {
                 ip = ip.split(",")[0];
             }
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-            //System.out.println("Proxy-Client-IP ip: " + ip);
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-            //System.out.println("WL-Proxy-Client-IP ip: " + ip);
-        }
+        ip = SyslogAspect.getString(request, ip);
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("HTTP_CLIENT_IP");
             //System.out.println("HTTP_CLIENT_IP ip: " + ip);

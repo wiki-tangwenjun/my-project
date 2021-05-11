@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.study.anno.LoginRequired;
 import com.study.anno.Syslog;
-import com.study.error.ErrorCode;
+import com.study.error.CommonEnum;
 import com.study.error.ReturnValue;
 import com.study.pojo.OperateLog;
 import com.study.service.OperateLogService;
@@ -44,21 +44,17 @@ public class OperateLogController {
     @PostMapping(value = "/add")
     @Syslog(module="操作日志",style="添加",description="添加操作日志信息")
     public ReturnValue<String> add(HttpServletRequest request, @RequestBody OperateLog operateLog){
-        try {
-        	if(CheckUtil.isNull(operateLog.getUserName())) {
-        		return new ReturnValue<String>(ErrorCode.ERROR_INVALID_PARAM, "用户名称不能为空!");
-        	}
-        	
-        	if(CheckUtil.isNull(operateLog.getId())) {
-        		operateLog.setId(TextUtil.getUUID());
-        	}
-        	
-            operateLogService.add(operateLog);
-            return new ReturnValue<String>(operateLog.getId());
-        }catch (Exception e) {
-            log.error(e.getCause().getMessage());
-            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR, "添加操作日志失败");
+        if(CheckUtil.isNull(operateLog.getUserName())) {
+            return new ReturnValue<String>(CommonEnum.ERROR_INVALID_PARAM, "用户名称不能为空!");
         }
+
+        if(CheckUtil.isNull(operateLog.getId())) {
+            operateLog.setId(TextUtil.getUUID());
+        }
+
+        operateLogService.add(operateLog);
+
+        return new ReturnValue<>(operateLog.getId());
     }
     
     @LoginRequired
@@ -67,17 +63,13 @@ public class OperateLogController {
     @DeleteMapping(value = "/delete/{id}")
     @Syslog(module="操作日志",style="删除",description="删除操作日志信息")
     public ReturnValue<String> delete(@PathVariable(name="id", required=true) String id){
-        try{
-        	OperateLog operateLog = operateLogService.findById(id);
-        	if(CheckUtil.isNull(operateLog)) {
-        		return new ReturnValue<String>(ErrorCode.ERROR_NOT_FOUND, "操作日志不存在!");
-        	}
-            operateLogService.delete(operateLog);
-            return new ReturnValue<String>();
-        }catch(Exception e){
-            log.error(e.getCause().getMessage());
-            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
+        OperateLog operateLog = operateLogService.findById(id);
+        if(CheckUtil.isNull(operateLog)) {
+            return new ReturnValue<String>(CommonEnum.ERROR_NOT_FOUND, "操作日志不存在!");
         }
+        operateLogService.delete(operateLog);
+
+        return new ReturnValue<String>();
     }
 
     @LoginRequired
@@ -86,18 +78,13 @@ public class OperateLogController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "body", dataType = "OperateLog", name = "operateLog", value = "操作日志信息", required = true) })
     @Syslog(module="操作日志",style="更新",description="更新操作日志信息")
     public ReturnValue<String> update( HttpServletRequest request,@RequestBody OperateLog operateLog) {
-		try{
-			OperateLog temp = operateLogService.findById(operateLog.getId());
-			if(CheckUtil.isNull(temp)){
-				return new ReturnValue<String>(ErrorCode.ERROR_NOT_FOUND, "该操作日志编号不存在!");
-			}
-			
-			operateLogService.update(operateLog);
 
-		}catch(Exception e){
-			log.debug("更新操作日志信息异常" + e.getMessage());
-			return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
-		}
+        OperateLog temp = operateLogService.findById(operateLog.getId());
+        if(CheckUtil.isNull(temp)){
+            return new ReturnValue<String>(CommonEnum.ERROR_NOT_FOUND, "该操作日志编号不存在!");
+        }
+        operateLogService.update(operateLog);
+
 		return new ReturnValue<String>();
     }
     
@@ -121,13 +108,10 @@ public class OperateLogController {
     		@RequestParam(name="beginTime", required=false) Date beginTime,
     		@RequestParam(name="endTime", required=false) Date endTime
     		){
-        try {
-            Long count = operateLogService.findMaxByAttributes(userName, userId, module, style, beginTime, endTime);
-            return new ReturnValue<Long>(count);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ReturnValue<Long>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+
+        Long count = operateLogService.findMaxByAttributes(userName, userId, module, style, beginTime, endTime);
+        return new ReturnValue<Long>(count);
+
     }
 
     @LoginRequired
@@ -158,13 +142,8 @@ public class OperateLogController {
                                                     @RequestParam(name="orderProp", required=false) String orderProp
                                                     ){
 
-        try {
-            List<OperateLog> operateLogList = operateLogService.findByAttributes(userName, userId, module, style, beginTime, endTime, pageIndex, pageSize, orderProp, order);
-            return new ReturnValue<List<OperateLog>>(operateLogList);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ReturnValue<List<OperateLog>>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+        List<OperateLog> operateLogList = operateLogService.findByAttributes(userName, userId, module, style, beginTime, endTime, pageIndex, pageSize, orderProp, order);
+        return new ReturnValue<List<OperateLog>>(operateLogList);
     }
 
 }

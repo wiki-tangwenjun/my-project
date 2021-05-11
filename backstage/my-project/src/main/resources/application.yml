@@ -30,10 +30,10 @@ spring:
         max-idle: 8
         min-idle: 0
   datasource:
-    name: my-project
-    url: jdbc:mysql://127.0.0.1:3306/myproject?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    name: myProject
+    url: jdbc:mysql://127.0.0.1:3306/myProject?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
     username: root
-    password: root
+    password:
     driver-class-name: com.mysql.jdbc.Driver
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml

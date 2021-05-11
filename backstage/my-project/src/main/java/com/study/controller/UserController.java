@@ -1,5 +1,6 @@
 package com.study.controller;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.study.anno.LoginRequired;
 import com.study.anno.Syslog;
-import com.study.error.ErrorCode;
+import com.study.error.CommonEnum;
 import com.study.error.ReturnValue;
 import com.study.pojo.User;
 import com.study.redis.UserLoginService;
@@ -41,11 +42,10 @@ public class UserController {
     @LoginRequired
     @Syslog(module = "用户", style = "添加", description = "添加用户信息")
     public ReturnValue<String> add(HttpServletRequest request, @RequestBody User user) {
-        try {
             // 同名检测
             User temp = userService.findByUserName(user.getUserName());
             if (!CheckUtil.isNull(temp)) {
-                return new ReturnValue<String>(ErrorCode.ERROR_OBJECT_EXIST, "该用户名已存在!");
+                return new ReturnValue<String>(CommonEnum.ERROR_OBJECT_EXIST, "该用户名已存在!");
             }
 
             if (CheckUtil.isNull(user.getId())) {
@@ -55,11 +55,7 @@ public class UserController {
             user.setPassword(EncryptUtil.md5(user.getPassword(), null, 2));
 
             userService.add(user);
-            return new ReturnValue<String>(user.getId());
-        } catch (Exception e) {
-            log.error(e.getCause().getMessage());
-            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR, "添加用户失败");
-        }
+            return new ReturnValue<>(user.getId());
     }
 
     @ApiOperation(value = "用户登陆", notes = "用户登陆")
@@ -69,30 +65,25 @@ public class UserController {
     })
     @GetMapping(value = "/login")
     @Syslog(module = "用户", style = "登录", description = "用户登录")
-    public ReturnValue<String> login(HttpServletRequest request, @RequestParam(name = "userName") String userName, @RequestParam(name = "password") String password) {
-        try {
+    public ReturnValue<String> login(HttpServletRequest request, @RequestParam(name = "userName") String userName, @RequestParam(name = "password") String password) throws IOException {
             // 从数据库中验证用户名密码
             userName = new String(Base64Util.decode(userName));
             User user = userService.findByUserName(userName.trim());
             if (CheckUtil.isNull(user)) {
-                return new ReturnValue<String>(ErrorCode.ERROR_NOT_FOUND, "该用户名不存在!");
+                return new ReturnValue<String>(CommonEnum.ERROR_NOT_FOUND, "该用户名不存在!");
             }
 
             String inPassword = new String(Base64Util.decode(password), StandardCharsets.UTF_8);
             String encPwd = EncryptUtil.md5(inPassword, null, 2);
             if (!encPwd.trim().equals(user.getPassword().trim())) {
-                return new ReturnValue<String>(ErrorCode.ERROR_USER_PASSWORD);
+                return new ReturnValue<String>(CommonEnum.ERROR_USER_PASSWORD);
             }
 
             // 登陆成功保存回话信息
             userLoginService.update(request.getSession(false).getId(), userName);
             userLoginService.expired(request.getSession(false).getId(), 200);
-            return new ReturnValue<String>();
-        } catch (Exception e) {
-            log.error(e.getCause().getMessage());
-        }
 
-        return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR, "用户登陆失败");
+            return new ReturnValue<String>();
     }
 
 
@@ -102,10 +93,9 @@ public class UserController {
     @ApiImplicitParams({@ApiImplicitParam(paramType = "body", dataType = "User", name = "user", value = "用户信息", required = true)})
     @Syslog(module = "用户", style = "更新", description = "更新用户信息")
     public ReturnValue<String> update(HttpServletRequest request, @RequestBody User user) {
-        try {
             User temp = userService.findById(user.getId());
             if (CheckUtil.isNull(temp)) {
-                return new ReturnValue<String>(ErrorCode.ERROR_NOT_FOUND, "该用户编号不存在!");
+                return new ReturnValue<String>(CommonEnum.ERROR_NOT_FOUND, "该用户编号不存在!");
             }
 
             if (!CheckUtil.isNull(user.getPassword())) {
@@ -113,10 +103,7 @@ public class UserController {
             }
 
             userService.update(user);
-        } catch (Exception e) {
-            log.debug("更新用户信息异常" + e.getMessage());
-            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+
         return new ReturnValue<String>();
     }
     /**
@@ -133,16 +120,16 @@ public class UserController {
     @Syslog(module = "用户", style = "查询当前用户信息", description = "获取当前登录用户信息")
     public ReturnValue<User> getPrinInfo(HttpServletRequest request) {
         if (CheckUtil.isNull(request.getSession(false))) {
-            return new ReturnValue<User>(ErrorCode.ERROR_NOT_LOGIN, "用户会话已过期");
+            return new ReturnValue<User>(CommonEnum.ERROR_NOT_LOGIN, "用户会话已过期");
         }
         String userName = userLoginService.find(request.getSession(false).getId());
         if (CheckUtil.isNull(userName)) {
-            return new ReturnValue<User>(ErrorCode.ERROR_NOT_LOGIN, "用户会话已过期");
+            return new ReturnValue<User>(CommonEnum.ERROR_NOT_LOGIN, "用户会话已过期");
         }
         // 通过用户名获取用户信息
         User user = userService.findByUserName(userName);
         if (CheckUtil.isNull(user)) {
-            return new ReturnValue<User>(ErrorCode.ERROR_SERVER_ERROR, "用户不存在");
+            return new ReturnValue<User>(CommonEnum.ERROR_OBJECT_EXIST, "用户不存在");
         }
         return new ReturnValue<User>(user);
     }
@@ -166,21 +153,18 @@ public class UserController {
     public ReturnValue<String> modifyPassword(@RequestParam("userName") String userName,
                                               @RequestParam("oldPassword") String oldPassword,
                                               @RequestParam("newPassword") String newPassword) {
-        try {
             User user = userService.findByUserName(userName);
             if (CheckUtil.isNull(user)) {
-                return new ReturnValue<String>(ErrorCode.ERROR_INVALID_PARAM, "用户不存在");
+                return new ReturnValue<String>(CommonEnum.ERROR_INVALID_PARAM, "用户不存在");
             }
 
             if (!Base64Util.encodeBytes(oldPassword.getBytes(StandardCharsets.UTF_8)).equals(user.getPassword())) {
-                return new ReturnValue<String>(ErrorCode.ERROR_INVALID_PARAM, "原密码不正确");
+                return new ReturnValue<String>(CommonEnum.ERROR_INVALID_PARAM, "原密码不正确");
             }
 
             user.setPassword(Base64Util.encodeBytes(newPassword.getBytes(StandardCharsets.UTF_8)));
             userService.update(user);
-        } catch (Exception e) {
-            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+
         return new ReturnValue<String>();
     }
 
@@ -218,13 +202,9 @@ public class UserController {
                                                     @RequestParam(name = "orderProp", required = false) String orderProp
     ) {
 
-        try {
-            List<User> userList = userService.findByAttributes(name, idCard, enabled, pageIndex, pageSize, orderProp, order);
-            return new ReturnValue<List<User>>(userList);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ReturnValue<List<User>>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+        List<User> userList = userService.findByAttributes(name, idCard, enabled, pageIndex, pageSize, orderProp, order);
+        return new ReturnValue<List<User>>(userList);
+
     }
 
     /**
@@ -247,13 +227,8 @@ public class UserController {
     public ReturnValue<Long> findMax(@RequestParam(name = "name", required = false) String name,
                                      @RequestParam(name = "idCard", required = false) String idCard,
                                      @RequestParam(name = "enabled", required = false) Long enabled) {
-        try {
-            Long count = userService.findMaxByAttributes(name, idCard, enabled);
-            return new ReturnValue<Long>(count);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return new ReturnValue<Long>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+        Long count = userService.findMaxByAttributes(name, idCard, enabled);
+        return new ReturnValue<Long>(count);
     }
 
    /**
@@ -269,13 +244,8 @@ public class UserController {
     @DeleteMapping(value = "/delete/{userName}")
     @Syslog(module="用户",style="删除",description="删除用户信息")
     public ReturnValue<String> delete(@PathVariable(name="userName", required=true) String userName){
-        try{
-            userService.deleteByUserName(userName);
-            return new ReturnValue<String>();
-        }catch(Exception e){
-            log.error(e.getCause().getMessage());
-            return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
-        }
+        userService.deleteByUserName(userName);
+        return new ReturnValue<String>();
     }
 
     /**
@@ -290,14 +260,9 @@ public class UserController {
     @GetMapping(value = "/logout")
     @Syslog(module = "用户", style = "登出", description = "用户登出")
     public ReturnValue<String> logout(HttpServletRequest request) {
-        try {
-            // 登陆成功保存回话信息
-            userLoginService.delete(request.getSession(false).getId());
-            return new ReturnValue<String>();
-        } catch (Exception e) {
-            log.error(e.getCause().getMessage());
-        }
-        return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR, "用户注销失败");
+        // 登陆成功保存回话信息
+        userLoginService.delete(request.getSession(false).getId());
+        return new ReturnValue<String>();
     }
 
 }

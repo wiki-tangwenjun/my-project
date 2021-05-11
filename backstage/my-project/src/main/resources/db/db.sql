@@ -393,5 +393,24 @@ CREATE TABLE IF NOT EXISTS t_role_Autowired
 	FOREIGN KEY(AutowiredId) REFERENCES t_page_Autowired(id)  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色-资源中间表 ';
 
+--
+-- 操作日志
+--
+CREATE TABLE IF NOT EXISTS t_operate_log(
+	id varchar(32) NOT NULL,					/*  编号			    */
+	userName varchar(32) NOT NULL,				/*  用户名			    */
+	userId varchar(32) NOT NULL,				/*  用户编号			*/
+	name varchar(32) DEFAULT '',				/*  用户姓名			*/
+	module varchar(16) DEFAULT '' ,				/*	操作的系统模块		*/
+	style varchar(16) DEFAULT '' ,				/*	操作方式			*/
+	url varchar(256) DEFAULT '' ,				/*	操作方式			*/
+	description VARCHAR(64) DEFAULT '' ,		/*  操作内容描述		*/
+	operateTime DATETIME DEFAULT NOW() ,		/*	操作时间			*/
+	operand VARCHAR(2048) DEFAULT '' ,			/*	操作对象			*/
+    result VARCHAR(2048) DEFAULT '' ,			/*	操作结果			*/
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='operate log';
 
+-- 增加索引
+call create_index_procedure('t_operate_log', 'index_t_operate_log_userName', 'userName', null, null, 0);
 
