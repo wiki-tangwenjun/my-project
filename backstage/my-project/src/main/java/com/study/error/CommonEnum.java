@@ -33,6 +33,10 @@ public enum CommonEnum implements BaseErrorInfoInterface {
     ERROR_WRITE_FAILED("-16", "写文件失败"),
     ERROR_READ_FAILED("-17", "读文件失败"),
     ERROR_UPLOAD_FAILED("-18", "上传文件失败"),
+
+    ERROR_CLASS_CAST_EXCEPTION("-40", "类型强制转换异常"),
+    ERROR_NEGATIVE_ARRAY_EXCEPTION("-41", "数组负下标异常"),
+    ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION("42", "数组下标越界异常"),
     ERROR_UNKNOW("-100", "未知错误"),
     ;
 
@@ -109,6 +113,15 @@ public enum CommonEnum implements BaseErrorInfoInterface {
         }
         if(ERROR_NOT_AVAILABLE.getError().equals(error)){
             desc = ERROR_NOT_AVAILABLE.getDescription();
+        }
+        if(ERROR_CLASS_CAST_EXCEPTION.getError().equals(error)){
+            desc = ERROR_CLASS_CAST_EXCEPTION.getDescription();
+        }
+        if(ERROR_NEGATIVE_ARRAY_EXCEPTION.getError().equals(error)){
+            desc = ERROR_NEGATIVE_ARRAY_EXCEPTION.getDescription();
+        }
+        if(ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION.getError().equals(error)){
+            desc = ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION.getDescription();
         }
 
         return desc;

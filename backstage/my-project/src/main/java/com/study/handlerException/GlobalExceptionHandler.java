@@ -20,28 +20,60 @@ import javax.servlet.http.HttpServletRequest;
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    /**
-     * 处理自定义的业务异常
-     * @param req
-     * @param e
-     * @return
-     */
+   /**
+    * @description: 处理自定义的业务异常
+    * @author tang wen jun
+    * @param req
+    * @param e
+    * @return com.study.error.ReturnValue<java.lang.String>
+    * @date 2021/5/11 18:30
+    */
     @ExceptionHandler(value = MyProjectException.class)
     @ResponseBody
-    public ReturnValue<String> bizExceptionHandler(HttpServletRequest req, CommonEnum e){
+    public ReturnValue<String> bizExceptionHandler(HttpServletRequest req, CommonEnum e) {
         return new ReturnValue(e.getError(), e.getDescription());
     }
 
+   /**
+    * @description: 空指针的异常
+    * @author tang wen jun
+    * @param req
+    * @param e
+    * @return com.study.error.ReturnValue<java.lang.String>
+    * @date 2021/5/11 18:30
+    */
+    @ExceptionHandler(value = NullPointerException.class)
+    @ResponseBody
+    public ReturnValue<String> NullPointerException(HttpServletRequest req, NullPointerException e){
+        return  new ReturnValue(CommonEnum.ERROR_NOT_FOUND);
+    }
+
     /**
-     * 处理空指针的异常
+     * @description: 类型强制转换异常
+     * @author tang wen jun
+     * @param req
+     * @param e 
+     * @return com.study.error.ReturnValue<java.lang.String>
+     * @date 2021/5/11 18:29
+     */
+    @ExceptionHandler(value =ClassCastException.class)
+    @ResponseBody
+    public ReturnValue<String> ClassCastException(HttpServletRequest req, ClassCastException e){
+        return  new ReturnValue(CommonEnum.ERROR_CLASS_CAST_EXCEPTION);
+    }
+
+    /**
+     * @description: 数组下标越界异常
+     * @author tang wen jun
      * @param req
      * @param e
-     * @return
+     * @return com.study.error.ReturnValue<java.lang.String>
+     * @date 2021/5/11 18:36
      */
-    @ExceptionHandler(value =NullPointerException.class)
+    @ExceptionHandler(value =ArrayIndexOutOfBoundsException.class)
     @ResponseBody
-    public ReturnValue<String> exceptionHandler(HttpServletRequest req, NullPointerException e){
-        return  new ReturnValue(CommonEnum.ERROR_NOT_FOUND);
+    public ReturnValue<String> NegativeArrayException(HttpServletRequest req, ArrayIndexOutOfBoundsException e){
+        return  new ReturnValue(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION);
     }
 
     /**
