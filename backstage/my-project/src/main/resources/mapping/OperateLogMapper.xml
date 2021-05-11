@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dondown.mapper.OperateLogMapper">
-    <resultMap id="BaseResultMap" type="com.dondown.model.OperateLog">
+<mapper namespace="com.study.mapper.OperateLogMapper">
+    <resultMap id="BaseResultMap" type="com.study.pojo.OperateLog">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="userName" jdbcType="VARCHAR" property="userName"/>
         <result column="userId" jdbcType="VARCHAR" property="userId"/>
@@ -28,7 +28,7 @@
         delete from t_operate_log
         where id = #{id,jdbcType=VARCHAR}
     </delete>
-    <insert id="insert" parameterType="com.dondown.model.OperateLog">
+    <insert id="insert" parameterType="com.study.pojo.OperateLog">
         insert into t_operate_log (id, userName, userId,
         name, module, style,
         url, description, operateTime,
@@ -38,7 +38,7 @@
         #{url,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP},
         #{operand,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.dondown.model.OperateLog">
+    <insert id="insertSelective" parameterType="com.study.pojo.OperateLog">
         insert into t_operate_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -111,7 +111,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.dondown.model.OperateLog">
+    <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.OperateLog">
         update t_operate_log
         <set>
             <if test="userName != null">
@@ -147,7 +147,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.dondown.model.OperateLog">
+    <update id="updateByPrimaryKey" parameterType="com.study.pojo.OperateLog">
         update t_operate_log
         set userName = #{userName,jdbcType=VARCHAR},
         userId = #{userId,jdbcType=VARCHAR},

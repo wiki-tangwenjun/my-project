@@ -7,19 +7,11 @@ import java.util.List;
 /**
  *@文件名称： UserService.java
  *@功能描述： 描述
- *@版权信息：www.dondown.com
- *@编写作者： huilong xiao
+ *@编写作者： tang wen jun
  *@开发日期： 2020年8月28日
  *@历史版本： 1.0.0.1
  */
 public interface UserService extends BaseService<User> {
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	User findById(String id);
 	
 	/**
 	 * 

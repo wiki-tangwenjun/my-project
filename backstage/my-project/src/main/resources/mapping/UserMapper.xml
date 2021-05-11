@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dondown.mapper.UserMapper">
-    <resultMap id="BaseResultMap" type="com.dondown.model.User">
+<mapper namespace="com.study.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.study.pojo.User">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="userName" jdbcType="VARCHAR" property="userName"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
@@ -9,12 +9,11 @@
         <result column="idCard" jdbcType="VARCHAR" property="idCard"/>
         <result column="enabled" jdbcType="TINYINT" property="enabled"/>
         <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="caKey" jdbcType="VARCHAR" property="caKey"/>
         <result column="reserver1" jdbcType="VARCHAR" property="reserver1"/>
         <result column="reserver2" jdbcType="VARCHAR" property="reserver2"/>
     </resultMap>
     <sql id="Base_Column_List">
-        id, userName, password, name, idCard, enabled, createTime, caKey, reserver1, reserver2
+        id, userName, password, name, idCard, enabled, createTime, reserver1, reserver2
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -26,17 +25,17 @@
         delete from t_user
         where id = #{id,jdbcType=VARCHAR}
     </delete>
-    <insert id="insert" parameterType="com.dondown.model.User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.study.pojo.User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user (id, userName, password,
         name, idCard,
         enabled, createTime, reserver1,
         reserver2)
         values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
         #{name,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR},
-        #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{caKey,jdbcType=VARCHAR},
+        #{enabled,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}
         #{reserver1,jdbcType=VARCHAR}, #{reserver2,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.dondown.model.User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertSelective" parameterType="com.study.pojo.User" useGeneratedKeys="true" keyProperty="id">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -59,9 +58,6 @@
             </if>
             <if test="createTime != null">
                 createTime,
-            </if>
-            <if test="caKey != null">
-                caKey,
             </if>
             <if test="reserver1 != null">
                 reserver1,
@@ -92,9 +88,6 @@
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="caKey != null">
-                #{caKey,jdbcType=VARCHAR},
-            </if>
             <if test="reserver1 != null">
                 #{reserver1,jdbcType=VARCHAR},
             </if>
@@ -103,7 +96,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.dondown.model.User">
+    <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.User">
         update t_user
         <set>
             <if test="userName != null">
@@ -124,9 +117,6 @@
             <if test="createTime != null">
                 createTime = #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="caKey != null">
-                caKey = #{caKey,jdbcType=VARCHAR},
-            </if>
             <if test="reserver1 != null">
                 reserver1 = #{reserver1,jdbcType=VARCHAR},
             </if>
@@ -136,7 +126,7 @@
         </set>
         where id = #{id,jdbcType=VARCHAR}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.dondown.model.User">
+    <update id="updateByPrimaryKey" parameterType="com.study.pojo.User">
         update t_user
         set userName = #{userName,jdbcType=VARCHAR},
         password = #{password,jdbcType=VARCHAR},
@@ -144,7 +134,6 @@
         idCard = #{idCard,jdbcType=VARCHAR},
         enabled = #{enabled,jdbcType=TINYINT},
         createTime = #{createTime,jdbcType=TIMESTAMP},
-        caKey = #{caKey,jdbcType=VARCHAR},
         reserver1 = #{reserver1,jdbcType=VARCHAR},
         reserver2 = #{reserver2,jdbcType=VARCHAR}
         where id = #{id,jdbcType=VARCHAR}

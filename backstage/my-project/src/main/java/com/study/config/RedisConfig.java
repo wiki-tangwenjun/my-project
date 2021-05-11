@@ -24,9 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * @文件名：RedisConfig.java
  * @功  能：redis序列化和反序列化配置
- * @作  者：lixx2048@163.com
- * @交流群：961179337(QQ群)
- * @日  期：2020/8/27
+ * @作  者：tang wen jun
+ * @日  期：2021/5/11
  * @版  本：1.0.0.1
  */
 @Configuration

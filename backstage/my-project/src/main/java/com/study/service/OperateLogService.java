@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  *@文件名称： OperateLogService.java
- *@开发日期： 2020年9月8日
+ *@开发日期： 2021/5/11
  *@历史版本： 1.0.0.1
  */
 public interface OperateLogService extends BaseService<OperateLog> {

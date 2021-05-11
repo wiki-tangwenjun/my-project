@@ -160,27 +160,19 @@ public class TextUtil {
 		date = sdFormat.parse(datetime);
         return date;
     }
-	
 
-
-	// 获取当前时间
+	/**
+	 * 获取当前时间
+	 *
+	 * @return
+	 * @throws ParseException
+	 */
 	public static Date obtainNowTime() throws ParseException {
 		Date date = new Date();
 		SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss");
 		String strTime = formatter.format(date);
 
 		return formatter.parse(strTime);
-	}
-
-	/**
-	 * 检查身份证号码是否为（15位、17位、18位）
-	 * @return
-	 */
-	public static boolean checkIdCardNum (String text) {
-		if (text.length() == 15 || text.length() == 17 || text.length() == 18) {
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -271,65 +263,7 @@ public class TextUtil {
 		return false;
 	}
 
-	/**
-	 * 判断是否符合时间格式字符串
-	 * @return
-	 */
-	public static boolean isTimeCharacter(String str) {
-		boolean isTimeChar = true;
-		if (CheckUtil.isNull(str)) {
-			// 时间对象允许为空
-			return true;
-		}
-		
-		String chineseStr = str.replaceAll("\\d+", "");
-		String removeChinesStr = removeChinese(str);
-		if (removeChinesStr.length() > 0) {
-			boolean isNumber = checkStrOrNumber(removeChinesStr);
-			if (isNumber) {
-				if (str.contains("-")) {
-					return checkDate(str, "-");
-				} else if (str.contains("年") && str.contains("日")) {
-					if (!str.contains("月")) {
-						return  false;
-					}
-				} else if (str.contains(".")) {
-					return checkDate(str, ".");
-				} else if (str.contains("、")) {
-					return checkDate(str, "、");
-				} else if (str.contains("年")) {
-					return checkDate(str, "年");
-				} else if (str.contains("月")) {
-					return checkDate(str, "月");
-				} else if (str.contains("日")) {
-					return checkDate(str, "月");
-				} else if (str.contains("/")) {
-					return checkDate(str, "/");
-				}
-			}
-		}
-		
-		int len = str.length();
-		boolean isNumber1 = checkStrOrNumber(str);
-		if (!isNumber1) {
-			return false;
-		}
-		if (len > 1 && len < 5) { // 认为只包含年份 返回true
-			return true;
-		}
-		if (chineseStr.isEmpty() && !str.isEmpty()) {
-			return false;
-		}
-		String timeUnit = "年月日、-.";
-		String[] strArr = chineseStr.split("");
-		for (String each : strArr) {
-			int index = timeUnit.indexOf(each);
-			if (index == -1) {
-				isTimeChar = false;
-			}
-		}
-		return isTimeChar;
-	}
+
 
 	/**
 	 * 获取到classes目录
@@ -539,21 +473,6 @@ public class TextUtil {
 	}
 
 	/**
-	 * 检查身份证号码
-	 * @return	返回错误描述
-	 */
-	public static String checkIdCard (String text) {
-		if (CheckUtil.isNull(text) || text.equals("")) {
-			return "-身份证号码不能为空!; ";
-		}
-
-		if (!TextUtil.isIDNumber(text)) {
-			return "-身份证号码{"+text+"}不合法!; ";
-		}
-		return null;
-	}
-
-	/**
 	 * 护照验证
 	 * 规则： G + 8位数字, P + 7位数字, S/D + 7或8位数字,等
 	 * 例： G12345678, P1234567
@@ -608,61 +527,7 @@ public class TextUtil {
 		return false;
 	}
 
-	/**
-	 * 检查人员亲属人员完整性
-	 * @return 返回缺失的亲属信息描述列表
-	 */
-	public static Set<String> checkPersonRelation (List<String> relations, String sex) {
-		Set<String> missRelationsInfo = new HashSet<>();
 
-		boolean isContainsSpouse = false;
-		boolean isContainsFather = false;
-		boolean isContainsMother = false;
-		String[] spouseText = new String[]{"配偶","夫妻","妻","媳妇","夫","丈夫","妻子","老婆","老公","爱人"};
-		String[] fatherText = new String[]{"岳父","公","岳丈","丈人","家公","公公","老爷","妻子父亲","丈夫父亲","夫父","妻父","继岳父","公父","外父","家父"};
-		String[] motherText = new String[]{"岳母","婆","丈母娘","家婆","婆婆","婆母","公婆","奶奶","妻子母亲","丈夫母亲","夫母","妻母","继岳母","公母","外母","家母"};
-
-		for (String relation : relations) {
-			for (String item : spouseText) {
-				if (relation.contains(item)) {
-					isContainsSpouse = true;
-					break;
-				}
-			}
-			for (String item : fatherText) {
-				if (relation.contains(item)) {
-					isContainsFather = true;
-					break;
-				}
-			}
-			for (String item : motherText) {
-				if (relation.contains(item)) {
-					isContainsMother = true;
-					break;
-				}
-			}
-		}
-
-		if (!isContainsSpouse) {
-			missRelationsInfo.add("配偶");
-		}
-		if (!isContainsFather) {
-			if (sex.equals("男")){
-				missRelationsInfo.add("岳父");
-			}else {
-				missRelationsInfo.add("家公");
-			}
-		}
-		if (!isContainsMother) {
-			if (sex.equals("男")){
-				missRelationsInfo.add("岳母");
-			}else {
-				missRelationsInfo.add("家婆");
-			}
-		}
-
- 		return missRelationsInfo;
-	}
 	
 	/**
 	 * 

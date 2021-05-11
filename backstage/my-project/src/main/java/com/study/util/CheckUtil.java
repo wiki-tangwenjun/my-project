@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * @文件名称: CheckUtil.java
  * @功能描述: TODO(格式检查工具)
- * @编写作者： tangwenjun
- * @开发日期： 2020年3月26日
+ * @编写作者： tang wen jun
+ * @开发日期： 2021年5月10日
  * @历史版本： V1.0
  */
 public class CheckUtil {

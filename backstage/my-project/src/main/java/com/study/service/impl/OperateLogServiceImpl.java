@@ -4,15 +4,15 @@ package com.study.service.impl;
 import com.study.mapper.OperateLogMapper;
 import com.study.pojo.OperateLog;
 import com.study.service.OperateLogService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class OperateLogServiceImpl implements OperateLogService {
-    @Autowired
+    @Resource
     private OperateLogMapper operateLogMapper;
 
     @Override

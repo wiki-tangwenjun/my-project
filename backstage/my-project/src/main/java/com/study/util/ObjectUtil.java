@@ -20,8 +20,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @文件名: ObjectUtil.java
  * @功    能: 对象处理工具
- * @作    者： lixx2048@163.com
- * @日    期： 2020年5月8日
+ * @作    者： tang wen jun
+ * @日    期： 2021年5月8日
  * @版    本： V1.0
  */
 @Slf4j

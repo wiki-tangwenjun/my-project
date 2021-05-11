@@ -6,9 +6,8 @@ import org.springframework.context.ApplicationContext;
 /**
  * @文件名称: SpringUtil.java
  * @功能描述: TODO(获取spring容器上下文工具-单例)
- * @版权信息： www.dondown.com
- * @编写作者： lixx2048@163.com
- * @开发日期： 2020年3月26日
+ * @编写作者： tang wen jun
+ * @开发日期： 2021/5/11
  * @历史版本： V1.0
  */
 public class SpringUtil {

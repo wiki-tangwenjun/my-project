@@ -3,6 +3,7 @@ package com.study.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.study.anno.LoginRequired;
@@ -13,7 +14,6 @@ import com.study.pojo.OperateLog;
 import com.study.service.OperateLogService;
 import com.study.util.CheckUtil;
 import com.study.util.TextUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,9 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/operateLog")
 @Api(value = "操作日志管理接口列表", tags = "提供操作日志管理相关接口")
 public class OperateLogController {
-    @Autowired
+    @Resource
     private OperateLogService operateLogService;
-
+    
     @LoginRequired
     @ApiOperation(value="添加操作日志信息", notes="添加操作日志信息")
     @ApiImplicitParams({@ApiImplicitParam(name = "operateLog", value = "操作日志信息", required = true, dataType = "OperateLog", paramType="body")})

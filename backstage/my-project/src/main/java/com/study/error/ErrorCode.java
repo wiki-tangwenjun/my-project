@@ -24,18 +24,7 @@ public enum ErrorCode { // 数字值保持与c++后台一致
 	ERROR_READ_FAILED(-42, "读文件失败"),
 	ERROR_UPLOAD_FAILED(-43, "上传文件失败"),
 	ERROR_UNKNOW(-50, "未知错误"),
-	ERROR_REGION_LIMIT(-51, "区域已经达到最大个数"),
-	ERROR_BATCH_SOME_SUCCESS(-52, "批量操作部分成功"),
-	ERROR_BATCH_ALL_FAILED(-53, "批量操作全部失败"),
-	ERROR_TIME_TRANSFORMATIONFIAL(-54, "时间转换失败"),
-	ERROR_ENTERPRISE(-55, "档案企业信息格式有误"),
-	ERROR_ARCHIVES(-56, "个人档案信息格式有误"),
-	ERROR_RELATIVES(-57, "档案亲戚关系格式有误"),
-	ERROR_HOUSE(-58, "档案房屋信息格式有误"),
-	ERROR_PARTTIMEJOB(-59, "档案兼职信息有误"),
-	ERROR_COMPARISON(-60, "档案校验信息有误"),
-	ERROR_PERSONID(-61, "档案身份证号码异常")
-	;		
+	;
 	
 	private Integer error;	
 	private String description;	

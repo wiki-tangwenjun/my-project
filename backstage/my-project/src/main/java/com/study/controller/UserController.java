@@ -1,7 +1,9 @@
 package com.study.controller;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.study.anno.LoginRequired;
@@ -15,9 +17,7 @@ import com.study.util.Base64Util;
 import com.study.util.CheckUtil;
 import com.study.util.EncryptUtil;
 import com.study.util.TextUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -30,9 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 @Api(value = "用户管理接口列表", tags = "提供用户信息管理相关接口")
 public class UserController {
-    @Autowired
+    @Resource
     private UserLoginService userLoginService;
-    @Autowired
+    @Resource
     private UserService userService;
 
     @ApiOperation(value = "添加一个新的用户", notes = "用户名、密码必填")
@@ -54,8 +54,6 @@ public class UserController {
             // 加密password
             user.setPassword(EncryptUtil.md5(user.getPassword(), null, 2));
 
-            String decryptCaKey = new String(Base64Util.decode(user.getCaKey()));
-            user.setCaKey(EncryptUtil.md5(decryptCaKey, null, 2));
             userService.add(user);
             return new ReturnValue<String>(user.getId());
         } catch (Exception e) {
@@ -80,7 +78,7 @@ public class UserController {
                 return new ReturnValue<String>(ErrorCode.ERROR_NOT_FOUND, "该用户名不存在!");
             }
 
-            String inPassword = new String(Base64Util.decode(password), "utf-8");
+            String inPassword = new String(Base64Util.decode(password), StandardCharsets.UTF_8);
             String encPwd = EncryptUtil.md5(inPassword, null, 2);
             if (!encPwd.trim().equals(user.getPassword().trim())) {
                 return new ReturnValue<String>(ErrorCode.ERROR_USER_PASSWORD);
@@ -97,38 +95,6 @@ public class UserController {
         return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR, "用户登陆失败");
     }
 
-    @ApiOperation(value = "用户密匙登陆", notes = "用户密匙登陆")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userName", value = "用户名称", required = true, dataType = "String", paramType = "query"),
-            @ApiImplicitParam(name = "caKey", value = "用户密匙", required = true, dataType = "String", paramType = "query")
-    })
-    @GetMapping(value = "/caLogin")
-    @Syslog(module = "用户", style = "登录", description = "用户密匙登录")
-    public ReturnValue<String> caLogin(HttpServletRequest request, @RequestParam(name = "userName") String userName, @RequestParam(name = "caKey") String caKey) {
-        try {
-            // 从数据库中验证用户名密码
-            userName = new String(Base64Util.decode(userName));
-            User user = userService.findByUserName(userName.trim());
-            if (CheckUtil.isNull(user)) {
-                return new ReturnValue<String>(ErrorCode.ERROR_NOT_FOUND, "用户名或密码错误!");
-            }
-
-            String realCaKey = new String(Base64Util.decode(caKey));
-            String encCaKey = new String(EncryptUtil.md5(realCaKey, null, 2));
-            if (!encCaKey.trim().equals(user.getCaKey().trim())) {
-                return new ReturnValue<String>(ErrorCode.ERROR_USER_PASSWORD, "用户名或密码错误!");
-            }
-
-            // 登陆成功保存回话信息
-            userLoginService.update(request.getSession(false).getId(), userName);
-            userLoginService.expired(request.getSession(false).getId(), 20);
-            return new ReturnValue<String>();
-        } catch (Exception e) {
-            log.error(e.getCause().getMessage());
-        }
-
-        return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR, "用户登陆失败");
-    }
 
     @LoginRequired
     @PutMapping("/update")
@@ -143,7 +109,7 @@ public class UserController {
             }
 
             if (!CheckUtil.isNull(user.getPassword())) {
-                user.setPassword(Base64Util.encodeBytes(user.getPassword().getBytes("utf-8")));
+                user.setPassword(Base64Util.encodeBytes(user.getPassword().getBytes(StandardCharsets.UTF_8)));
             }
 
             userService.update(user);
@@ -153,11 +119,12 @@ public class UserController {
         }
         return new ReturnValue<String>();
     }
-
     /**
-     * 获取用户登录信息
-     *
-     * @return
+     * @description: 获取用户登录信息
+     * @author tang wen jun
+     * @param request
+     * @return com.study.error.ReturnValue<com.study.pojo.User>
+     * @date 2021/5/11 16:28
      */
     @LoginRequired
     @ApiOperation(value = "获取当前登录用户信息", notes = "获取当前登录用户信息")
@@ -181,12 +148,13 @@ public class UserController {
     }
 
     /**
-     * 修改用户
-     *
+     * @description: 修改当前用户密码
+     * @author tang wen jun
      * @param userName
      * @param oldPassword
      * @param newPassword
-     * @return
+     * @return com.study.error.ReturnValue<java.lang.String>
+     * @date 2021/5/11 16:28
      */
     @LoginRequired
     @ApiOperation(value = "修改当前用户密码", notes = "通过用户名修改用户密码")
@@ -204,11 +172,11 @@ public class UserController {
                 return new ReturnValue<String>(ErrorCode.ERROR_INVALID_PARAM, "用户不存在");
             }
 
-            if (!Base64Util.encodeBytes(oldPassword.getBytes("utf-8")).equals(user.getPassword())) {
+            if (!Base64Util.encodeBytes(oldPassword.getBytes(StandardCharsets.UTF_8)).equals(user.getPassword())) {
                 return new ReturnValue<String>(ErrorCode.ERROR_INVALID_PARAM, "原密码不正确");
             }
 
-            user.setPassword(Base64Util.encodeBytes(newPassword.getBytes("utf-8")));
+            user.setPassword(Base64Util.encodeBytes(newPassword.getBytes(StandardCharsets.UTF_8)));
             userService.update(user);
         } catch (Exception e) {
             return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
@@ -216,6 +184,19 @@ public class UserController {
         return new ReturnValue<String>();
     }
 
+    /**
+     * @description: 获取用户列表
+     * @author tang wen jun
+     * @param name
+     * @param idCard
+     * @param enabled
+     * @param pageIndex
+     * @param pageSize
+     * @param order
+     * @param orderProp
+     * @return com.study.error.ReturnValue<java.util.List < com.study.pojo.User>>
+     * @date 2021/5/11 16:27
+     */
     @LoginRequired
     @GetMapping("/findByAttributes")
     @ApiOperation(value = "获取用户列表", notes = "分页查询用户列表")
@@ -246,6 +227,15 @@ public class UserController {
         }
     }
 
+    /**
+     * @description: 获取用户总数
+     * @author tang wen jun
+     * @param name
+     * @param idCard
+     * @param enabled 
+     * @return com.study.error.ReturnValue<java.lang.Long>
+     * @date 2021/5/11 16:27
+     */
     @LoginRequired
     @GetMapping("/findMaxByAttributes")
     @ApiOperation(value = "获取用户总数", notes = "获取用户总数")
@@ -266,12 +256,13 @@ public class UserController {
         }
     }
 
-    /**
-     * 删除一个用户
-     *
-     * @param
-     * @return
-     */
+   /**
+    * @description: 删除一个用户
+    * @author tang wen jun
+    * @param userName
+    * @return com.study.error.ReturnValue<java.lang.String>
+    * @date 2021/5/11 16:27
+    */
     @LoginRequired
     @ApiOperation(value="删除一个用户", notes="")
     @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType="path")})
@@ -286,6 +277,14 @@ public class UserController {
             return new ReturnValue<String>(ErrorCode.ERROR_SERVER_ERROR);
         }
     }
+
+    /**
+     * @description: 用户注销
+     * @author tang wen jun
+     * @param request 
+     * @return com.study.error.ReturnValue<java.lang.String>
+     * @date 2021/5/11 16:27
+     */
     @LoginRequired
     @ApiOperation(value = "用户注销", notes = "用户注销")
     @GetMapping(value = "/logout")

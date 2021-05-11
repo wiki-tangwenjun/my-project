@@ -11,7 +11,6 @@ import lombok.Data;
 @Data
 @Configuration
 public class FileConfig {
-	//${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
 	@Value("${file.ip}")
 	private String ip;
 	@Value("${server.port}")
