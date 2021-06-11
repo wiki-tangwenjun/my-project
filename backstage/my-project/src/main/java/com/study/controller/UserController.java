@@ -68,7 +68,7 @@ public class UserController {
     public ReturnValue<String> login(HttpServletRequest request, @RequestParam(name = "userName") String userName, @RequestParam(name = "password") String password) throws IOException {
             // 从数据库中验证用户名密码
             userName = new String(Base64Util.decode(userName));
-            User user = userService.findByUserName(userName.trim());
+            User user = userService.findByUserName(userName);
             if (CheckUtil.isNull(user)) {
                 return new ReturnValue<String>(CommonEnum.ERROR_NOT_FOUND, "该用户名不存在!");
             }
@@ -80,8 +80,8 @@ public class UserController {
             }
 
             // 登陆成功保存回话信息
-            userLoginService.update(request.getSession(false).getId(), userName);
-            userLoginService.expired(request.getSession(false).getId(), 200);
+            userLoginService.update(request.getSession().getId(), userName);
+            userLoginService.expired(request.getSession().getId(), 200);
 
             return new ReturnValue<String>();
     }
@@ -212,7 +212,7 @@ public class UserController {
      * @author tang wen jun
      * @param name
      * @param idCard
-     * @param enabled 
+     * @param enabled
      * @return com.study.error.ReturnValue<java.lang.Long>
      * @date 2021/5/11 16:27
      */
@@ -251,7 +251,7 @@ public class UserController {
     /**
      * @description: 用户注销
      * @author tang wen jun
-     * @param request 
+     * @param request
      * @return com.study.error.ReturnValue<java.lang.String>
      * @date 2021/5/11 16:27
      */

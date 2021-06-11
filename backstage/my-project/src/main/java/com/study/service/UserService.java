@@ -5,56 +5,51 @@ import com.study.pojo.User;
 import java.util.List;
 
 /**
- *@文件名称： UserService.java
- *@功能描述： 描述
- *@编写作者： tang wen jun
- *@开发日期： 2020年8月28日
- *@历史版本： 1.0.0.1
+ * 用户相关接口对象
+ *
+ * @author tang wen jun
+ * @date 2021/6/11 17:39
  */
 public interface UserService extends BaseService<User> {
-	
-	/**
-	 * 
-	 * @param userName
-	 * @return
-	 */
-	 User findByUserName(String userName);
-	
-	
-	/**
-	 * 
-	 * @param idCard
-	 * @return
-	 */
-	 User findByIdCard(String idCard);
-	
-	/**
-	 * 
-	 * @param userName
-	 * @return
-	 */
-	 void deleteByUserName(String userName);
 
-	/**
-	 * 
-	 * @param userName
-	 * @param idCard
-	 * @param enabled
-	 * @return
-	 */
-	 Long findMaxByAttributes(String userName, String idCard, Long enabled);
-	
-	/**
-	 * 
-	 * @param userName
-	 * @param idCard
-	 * @param enabled
-	 * @param pageIndex
-	 * @param pageSize
-	 * @param orderProp
-	 * @param order
-	 * @return
-	 */
-	 List<User> findByAttributes(String userName, String idCard ,Long enabled, Long pageIndex, Long pageSize, String orderProp, String order);
-	
+    /**
+     * 根据用户名称查找记录
+     *
+     * @param userName
+     * @return
+     */
+    User findByUserName(String userName);
+
+    /**
+     * 根据用户名称删除记录
+     *
+     * @param userName
+     * @return
+     */
+    void deleteByUserName(String userName);
+
+    /**
+     * 根据条件查找最大数
+     *
+     * @param userName
+     * @param idCard
+     * @param enabled
+     * @return
+     */
+    Long findMaxByAttributes(String userName, String idCard, Long enabled);
+
+    /**
+     * 根据条件查找用户相关信息
+     *
+     * @param userName
+     * @param idCard
+     * @param enabled
+     * @param pageIndex
+     * @param pageSize
+     * @param orderProp
+     * @param order
+     * @return
+     */
+    List<User> findByAttributes(String userName, String idCard, Long enabled, Long pageIndex, Long pageSize, String orderProp, String order);
+
 }

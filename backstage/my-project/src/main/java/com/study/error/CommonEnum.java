@@ -7,8 +7,8 @@ import com.study.error.service.BaseErrorInfoInterface;
  * @package: com.study.error
  * @className: CommonEnum
  * @author: tang wen jun
- * @description: 异常枚举类
- * @date: 2021年05月11日 17:10
+ * @description: &#x5F02;&#x5E38;&#x679A;&#x4E3E;&#x7C7B;
+ * @date: 2021&#x5E74;05&#x6708;11&#x65E5; 17:10
  * @version: 1.0
  */
 public enum CommonEnum implements BaseErrorInfoInterface {

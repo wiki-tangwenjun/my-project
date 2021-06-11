@@ -38,21 +38,21 @@ public class SyslogAspect {
 	private UserLoginService userLoginService;
 	@Resource
 	private UserService userService;
-	
+
 	/**
 	 * 切点。注解的方式
 	 */
     @Pointcut("@annotation(com.study.anno.Syslog)")
-    public void operLogPoinCut() { 
+    public void operLogPoinCut() {
     }
-    
+
     /**
      * 设置操作异常切入点记录异常日志 扫描所有controller包下操作
      */
     @Pointcut("execution(* com.study.controller..*.*(..))")
     public void operExceptionLogPoinCut() {
     }
-    
+
     /**
      * 正常返回通知，拦截用户操作日志，连接点正常执行完成后执行， 如果连接点抛出异常，则不会执行
      * @param joinPoint 切入点
@@ -103,7 +103,7 @@ public class SyslogAspect {
                 for (Map.Entry<String, Object> entry : body.entrySet()) {
                 	String name = entry.getKey();
                 	Object val = entry.getValue();
-                	if(name.equals("request")) {
+                	if("request".equals(name)) {
                 		continue;
                 	}
                 	if(!CheckUtil.isNull(param)) {
@@ -122,7 +122,7 @@ public class SyslogAspect {
             ReturnValue<?> relReturnValue = (ReturnValue<?>)returnValue;
             // 返回结果
             operateLog.setResult(relReturnValue.getDescription());
-            
+
             if(CheckUtil.isNull(request.getSession(false))) {
                 return;
             }
@@ -131,9 +131,9 @@ public class SyslogAspect {
             if(!CheckUtil.isNull(user)){
             	operateLog.setUserName(userName);
             	operateLog.setUserId(user.getId());
-            	operateLog.setName(user.getName());
+            	operateLog.setName(user.getPersonName());
             }
-        	
+
             // 请求URI request.getRequestURI()
             operateLog.setId(TextUtil.getUUID());
             operateLogService.add(operateLog);
@@ -141,7 +141,7 @@ public class SyslogAspect {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * 转换request 请求参数
      *
@@ -154,7 +154,7 @@ public class SyslogAspect {
         }
         return rtnMap;
     }
-    
+
     /**
      * 获取登录用户的IP地址
      * @param request
@@ -192,15 +192,15 @@ public class SyslogAspect {
      */
     Map<String, Object> getNameAndValue(JoinPoint joinPoint) {
         Map<String, Object> param = new HashMap<>();
- 
+
         Object[] paramValues = joinPoint.getArgs();
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String[] paramNames = signature.getParameterNames();
- 
+
         for (int i = 0; i < paramNames.length; i++) {
             param.put(paramNames[i], paramValues[i]);
         }
- 
+
         return param;
     }
 

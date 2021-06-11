@@ -1,23 +1,37 @@
 package com.study.pojo;
 
+import lombok.Data;
+
+import java.io.Serializable;
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import lombok.Data;
+/***
+* @author tang wen jun
+* @date 2021/6/11 17:38
+*/
 @Data
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 3445979952646637065L;
     private String id;
+
     private String userName;
+
     private String password;
-    private String name;
-    private String idCard;
+
+    private String personName;
+
+    private String idNumber;
+
+    private String telphone;
+
+    private Byte loginWay;
+
     private Byte enabled;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+
+    private Byte expired;
+
+    private Byte locked;
+
     private Date createTime;
-    private String reserver1;
-    private String reserver2;
+
 }

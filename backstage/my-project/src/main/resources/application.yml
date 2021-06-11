@@ -1,5 +1,5 @@
 server:
-  port: 9003
+  port: 8001
   servlet:
     context-path: /
     multipart:
@@ -31,14 +31,15 @@ spring:
         min-idle: 0
   datasource:
     name: myProject
-    url: jdbc:mysql://127.0.0.1:3306/myProject?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/myproject?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
     username: root
     password:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 mybatis:
   mapper-locations: classpath:mapping/*Mapper.xml
   type-aliases-package: com.study.pojo
 
+# 文件上传配置
 file:
   enable: true
   ip: 127.0.0.1

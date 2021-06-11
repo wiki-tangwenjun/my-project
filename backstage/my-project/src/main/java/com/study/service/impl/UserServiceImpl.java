@@ -1,6 +1,5 @@
 package com.study.service.impl;
 
-import java.util.List;
 
 import com.study.mapper.UserMapper;
 import com.study.pojo.User;
@@ -8,6 +7,7 @@ import com.study.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @Service
@@ -24,15 +24,10 @@ public class UserServiceImpl implements UserService {
     public void update(User o) {
         userMapper.updateByPrimaryKeySelective(o);
     }
-    
+
     @Override
     public User findById(String id){
         return userMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public User findByIdCard(String idCard){
-        return userMapper.selectByIdCard(idCard);
     }
 
     @Override

@@ -332,19 +332,21 @@ DELIMITER ;
 CREATE TABLE IF NOT EXISTS t_user
 (
 	id 		VARCHAR(32) NOT NULL COMMENT '用户id	',			/* 主键，用户id			*/
-	departmentId VARCHAR(32) DEFAULT NULL COMMENT '所属部门',	/* 部门id，部门外键		*/
 	userName 	 VARCHAR(64) NOT NULL COMMENT '账号名',			/* 账号名				*/
 	password VARCHAR(64) NOT NULL COMMENT '密码',				/* 密码(加密后)			*/
 	personName VARCHAR(32) DEFAULT '' COMMENT '账号使用者',		/* 账号使用者名称		*/
 	idNumber VARCHAR(32) DEFAULT '' COMMENT '证件号码',			/* 证件号码				*/
 	telphone VARCHAR(32) DEFAULT '' COMMENT '联系号码',			/* 联系号码				*/
 	loginWay TINYINT DEFAULT 0 COMMENT '登录方式',				/* 登录方式				*/
-	GDCAKey VARCHAR(2048) DEFAULT '' COMMENT '数字证书',			/* 数字证书				*/
 	enabled TINYINT DEFAULT 1 COMMENT '是否启用',				/* 是否启用				*/
 	expired TINYINT DEFAULT 0 COMMENT '是否失效',				/* 是否失效 			*/
 	locked 	TINYINT DEFAULT 0 COMMENT '是否锁定',				/* 是否锁定 			*/
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息 ';
+ALTER TABLE t_user ADD createTime datetime default now() COMMENT '创建时间' ;
+
+-- 初始化数据
+INSERT INTO `myproject`.`t_user` (`id`, `userName`, `password`, `personName`, `idNumber`, `telphone`, `loginWay`, `enabled`, `expired`, `locked`, `createTime`) VALUES ('1', 'admin', 'c254322100d8b4e838525208be321ae9', 'admin', '43052319981221071X', '13357214920', '0', '1', '0', '0', '2021-06-11 16:49:18');
 
 
 /* 角色表*/
@@ -358,6 +360,13 @@ CREATE TABLE IF NOT EXISTS t_role
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息 ';
 
+-- 初始化数据
+INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('1', '超级管理员', '1', '0', '超级管理员拥有平台所有权限');
+INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('2', '管理员', '2', '0', '系统管理员,拥有平台大部分权限');
+INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('3', '房东', '3', '0', '房东能添加房子,和修改自己房子的配套信息');
+INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('4', '普通用户', '4', '0', '普通用户只能查看和预约看房子');
+
+
 /* 用户-角色中间表*/
 CREATE TABLE IF NOT EXISTS t_user_role
 (
@@ -368,30 +377,8 @@ CREATE TABLE IF NOT EXISTS t_user_role
 	FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(roleId) REFERENCES t_role(id)  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户-角色中间表 ';
-
-
-/* 页面资源表*/
-CREATE TABLE IF NOT EXISTS t_page_Autowired
-(
-	id 		VARCHAR(32) NOT NULL COMMENT '页面id',			/* 主键，页面id			*/
-	parentId  VARCHAR(32) DEFAULT '' COMMENT '父页面id',	/* 父页面id				*/
-	name VARCHAR(64) NOT  NULL COMMENT '名称',				/* 页面名称				*/
-	icon VARCHAR(64)DEFAULT '' COMMENT '图标',				/* 图标					*/
-	zIndex TINYINT DEFAULT 0,								/* 菜单顺序0~255		*/
-	type TINYINT DEFAULT 0,									/* 0:菜单  1:页面		*/
-	PRIMARY KEY (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='页面资源信息 ';
-
-/* 角色-资源中间表*/
-CREATE TABLE IF NOT EXISTS t_role_Autowired
-(
-	id 		VARCHAR(32) NOT NULL COMMENT 'id',				/* 主键id			*/
-	roleId 	 VARCHAR(32) NOT NULL COMMENT '用户名',			/* 用户名，用户外键		*/
-	AutowiredId 	VARCHAR(32) NOT NULL COMMENT '资源',		/* 资源id',资源表外键			*/
-	PRIMARY KEY (id),
-	FOREIGN KEY(roleId) REFERENCES t_role(id)  ON DELETE CASCADE ON UPDATE CASCADE,
-	FOREIGN KEY(AutowiredId) REFERENCES t_page_Autowired(id)  ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色-资源中间表 ';
+-- 初始化数据
+INSERT INTO `myproject`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('1', '1', '1');
 
 --
 -- 操作日志

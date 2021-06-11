@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.study.anno.Syslog;
 import com.study.config.FileConfig;
 import com.study.error.CommonEnum;
 import com.study.error.ReturnValue;
@@ -29,6 +30,7 @@ public class FileController {
 	@Resource
 	FileConfig fileConfig;
 
+	@Syslog(module = "文件上传", style = "上传文件", description = "上传文件")
 	@ApiOperation(value = "文件上传", notes = "通过http的Multipart方式上传文件")
 	@PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
 	public ReturnValue<String> upload(@ApiParam(value = "上传的文件", required = true) MultipartFile file) throws IOException {
@@ -45,8 +47,9 @@ public class FileController {
 		}
 
 		File upload = new File(path.getAbsolutePath(), "static/file/");
-		if (!upload.exists())
+		if (!upload.exists()) {
 			upload.mkdirs();
+		}
 
 		String filePath = upload + "/" + fileName;
 
@@ -57,10 +60,8 @@ public class FileController {
 		out.write(file.getBytes());
 
 		log.info(localFile.getAbsolutePath());
-		if (out != null) {
-			out.flush();
-			out.close();
-		}
+		out.flush();
+		out.close();
 
 		return new ReturnValue<>(fileConfig.getFileString(false) + fileName);
 	}
