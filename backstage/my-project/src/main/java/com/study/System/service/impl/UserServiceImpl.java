@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
         userName = new String(Base64Util.decode(userName));
         User user = userMapper.selectByPersonName(userName);
         if (CheckUtil.isNull(user)) {
-             throw new NullPointerException(CommonEnum.ERROR_NOT_FOUND.getDescription());
+             throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getDescription());
         }
 
         String inPassword = new String(Base64Util.decode(password), StandardCharsets.UTF_8);
@@ -80,6 +80,8 @@ public class UserServiceImpl implements UserService {
         if (!encPwd.trim().equals(user.getPassword().trim())) {
             throw new Exception(CommonEnum.ERROR_USER_PASSWORD.getDescription());
         }
+
+        // 登录成功查找用户角色资源
         userResources.setUser(user);
         List<Role> roles = roleMapper.selectByUserId(user.getId());
         userResources.setUserRole(roles);

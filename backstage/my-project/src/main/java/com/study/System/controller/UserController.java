@@ -93,18 +93,12 @@ public class UserController {
         return new ReturnValue<String>();
     }
 
-    /**
-     * @return com.study.error.ReturnValue<com.study.pojo.User>
-     * @description: 获取用户登录信息
-     * @author tang wen jun
-     * @date 2021/5/11 16:28
-     */
     @LoginRequired
     @ApiOperation(value = "获取当前登录用户信息", notes = "获取当前登录用户信息")
     @ApiImplicitParams({})
     @GetMapping("/principal/info")
     @Syslog(module = "用户", style = "查询当前用户信息", description = "获取当前登录用户信息")
-    public ReturnValue<User> getPrinInfo(HttpServletRequest request) {
+    public ReturnValue<User> getPrincipalInfo(HttpServletRequest request) {
         if (CheckUtil.isNull(request.getSession(false))) {
             return new ReturnValue<User>(CommonEnum.ERROR_NOT_LOGIN, "用户会话已过期");
         }
@@ -112,6 +106,7 @@ public class UserController {
         if (CheckUtil.isNull(userName)) {
             return new ReturnValue<User>(CommonEnum.ERROR_NOT_LOGIN, "用户会话已过期");
         }
+
         // 通过用户名获取用户信息
         User user = userMapper.selectByPersonName(userName);
         if (CheckUtil.isNull(user)) {

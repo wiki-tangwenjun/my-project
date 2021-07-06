@@ -48,9 +48,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseBody
     public ReturnValue<Object> NullPointerException(HttpServletRequest req, NullPointerException e){
-        e.printStackTrace();
         log.error(e.getMessage());
-        return  new ReturnValue<>(e.getMessage());
+        return  new ReturnValue<>(CommonEnum.ERROR_NOT_FOUND.getError(), e.getMessage());
     }
 
     /**
@@ -66,7 +65,7 @@ public class GlobalExceptionHandler {
     public ReturnValue<String> ClassCastException(HttpServletRequest req, ClassCastException e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return  new ReturnValue<String>(CommonEnum.ERROR_CLASS_CAST_EXCEPTION);
+        return  new ReturnValue<String>(CommonEnum.ERROR_CLASS_CAST_EXCEPTION, e.getMessage());
     }
 
     /**
@@ -82,7 +81,7 @@ public class GlobalExceptionHandler {
     public ReturnValue<String> NegativeArrayException(HttpServletRequest req, ArrayIndexOutOfBoundsException e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return  new ReturnValue<String>(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION);
+        return  new ReturnValue<String>(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, e.getMessage());
     }
 
     /**
@@ -96,6 +95,6 @@ public class GlobalExceptionHandler {
     public ReturnValue<String> exceptionHandler(HttpServletRequest req, Exception e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return new ReturnValue<String>(CommonEnum.ERROR_UNKNOW);
+        return new ReturnValue<String>(CommonEnum.ERROR_UNKNOW, e.getMessage());
     }
 }
