@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.study.pojo.Menu" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="folderOrMenu" property="folderOrMenu" jdbcType="BIGINT" />
+    <result column="menuHref" property="menuHref" jdbcType="VARCHAR" />
+    <result column="menuRoute" property="menuRoute" jdbcType="VARCHAR" />
+    <result column="menuLevel" property="menuLevel" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="VARCHAR" />
+    <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, folderOrMenu, menuHref, menuRoute, menuLevel, status, remark, parentId, 
+    reserve1
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.study.pojo.Menu" >
+    insert into t_menu (id, name, folderOrMenu, 
+      menuHref, menuRoute, menuLevel, 
+      status, remark, parentId, 
+      reserve1)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{folderOrMenu,jdbcType=BIGINT}, 
+      #{menuHref,jdbcType=VARCHAR}, #{menuRoute,jdbcType=VARCHAR}, #{menuLevel,jdbcType=BIGINT}, 
+      #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{reserve1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.study.pojo.Menu" >
+    insert into t_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="folderOrMenu != null" >
+        folderOrMenu,
+      </if>
+      <if test="menuHref != null" >
+        menuHref,
+      </if>
+      <if test="menuRoute != null" >
+        menuRoute,
+      </if>
+      <if test="menuLevel != null" >
+        menuLevel,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="parentId != null" >
+        parentId,
+      </if>
+      <if test="reserve1 != null" >
+        reserve1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="folderOrMenu != null" >
+        #{folderOrMenu,jdbcType=BIGINT},
+      </if>
+      <if test="menuHref != null" >
+        #{menuHref,jdbcType=VARCHAR},
+      </if>
+      <if test="menuRoute != null" >
+        #{menuRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        #{reserve1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.Menu" >
+    update t_menu
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="folderOrMenu != null" >
+        folderOrMenu = #{folderOrMenu,jdbcType=BIGINT},
+      </if>
+      <if test="menuHref != null" >
+        menuHref = #{menuHref,jdbcType=VARCHAR},
+      </if>
+      <if test="menuRoute != null" >
+        menuRoute = #{menuRoute,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        menuLevel = #{menuLevel,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parentId = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="reserve1 != null" >
+        reserve1 = #{reserve1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.study.pojo.Menu" >
+    update t_menu
+    set name = #{name,jdbcType=VARCHAR},
+      folderOrMenu = #{folderOrMenu,jdbcType=BIGINT},
+      menuHref = #{menuHref,jdbcType=VARCHAR},
+      menuRoute = #{menuRoute,jdbcType=VARCHAR},
+      menuLevel = #{menuLevel,jdbcType=BIGINT},
+      status = #{status,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      parentId = #{parentId,jdbcType=VARCHAR},
+      reserve1 = #{reserve1,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
