@@ -90,4 +90,11 @@
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <!-- 根据用户id查找用户所有角色 -->
+  <select id="selectByUserId" resultMap="BaseResultMap">
+    select a.id as id,name,level,status,remark from t_role as a left join t_user_role as b on a.id = b.roleId where b.userId = #{userId}
+
+  </select>
+
 </mapper>

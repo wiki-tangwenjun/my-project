@@ -37,6 +37,8 @@ public enum CommonEnum implements BaseErrorInfoInterface {
     ERROR_CLASS_CAST_EXCEPTION("-40", "类型强制转换异常"),
     ERROR_NEGATIVE_ARRAY_EXCEPTION("-41", "数组负下标异常"),
     ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION("42", "数组下标越界异常"),
+    ERROR_USER_NOT_FOUND("43", "用户不存在"),
+
     ERROR_UNKNOW("-100", "未知错误"),
     ;
 

@@ -1,13 +1,29 @@
 package com.study.system.service.impl;
 
 
+import com.study.error.CommonEnum;
+import com.study.error.ReturnValue;
+import com.study.redis.UserLoginService;
 import com.study.system.dto.UserQueryParam;
+import com.study.system.mapping.MenuMapper;
+import com.study.system.mapping.RoleMapper;
 import com.study.system.mapping.UserMapper;
+import com.study.system.pojo.Menu;
+import com.study.system.pojo.Role;
 import com.study.system.pojo.User;
+import com.study.system.pojo.UserResources;
 import com.study.system.service.UserService;
+import com.study.util.Base64Util;
+import com.study.util.CheckUtil;
+import com.study.util.EncryptUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -20,6 +36,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserLoginService userLoginService;
+    @Resource
+    private MenuMapper menuMapper;
+    @Resource
+    private RoleMapper roleMapper;
 
     @Override
     public void add(User o) {
@@ -41,14 +63,46 @@ public class UserServiceImpl implements UserService {
         userMapper.deleteByPrimaryKey(o.getId());
     }
 
+
     @Override
-    public User findByUserName(String userName) {
-        return null;
+    public UserResources findByUserName(HttpServletRequest request, String userName, String password) throws Exception {
+        UserResources userResources = new UserResources();
+
+        // 从数据库中验证用户名密码
+        userName = new String(Base64Util.decode(userName));
+        User user = userMapper.selectByPersonName(userName);
+        if (CheckUtil.isNull(user)) {
+             throw new NullPointerException(CommonEnum.ERROR_NOT_FOUND.getDescription());
+        }
+
+        String inPassword = new String(Base64Util.decode(password), StandardCharsets.UTF_8);
+        String encPwd = EncryptUtil.md5(inPassword, null, 2);
+        if (!encPwd.trim().equals(user.getPassword().trim())) {
+            throw new Exception(CommonEnum.ERROR_USER_PASSWORD.getDescription());
+        }
+        userResources.setUser(user);
+        List<Role> roles = roleMapper.selectByUserId(user.getId());
+        userResources.setUserRole(roles);
+        List<List<Menu>> menus = new ArrayList<>();
+        for(Role role: roles) {
+            menus.add(menuMapper.selectByRoleId(role.getId()));
+        }
+
+        List<Menu> menuList = new LinkedList<>();
+        for (List<Menu> list: menus) {
+            menuList.addAll(list);
+        }
+        userResources.setRoleMenu(menuList);
+
+        // 登陆成功保存回话信息
+        userLoginService.update(request.getSession().getId(), userName);
+        userLoginService.expired(request.getSession().getId(), 200);
+
+        return userResources;
     }
 
     @Override
     public List<User> findByAttributes(UserQueryParam userQueryParam) {
         return userMapper.selectByAttributes(userQueryParam);
     }
-
 }

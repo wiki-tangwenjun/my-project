@@ -14,11 +14,11 @@
     <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, folderOrMenu, menuHref, menuRoute, menuLevel, status, remark, parentId, 
+    id, name, folderOrMenu, menuHref, menuRoute, menuLevel, status, remark, parentId,
     reserve1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_menu
     where id = #{id,jdbcType=VARCHAR}
@@ -28,13 +28,13 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.study.system.pojo.Menu" >
-    insert into t_menu (id, name, folderOrMenu, 
-      menuHref, menuRoute, menuLevel, 
-      status, remark, parentId, 
+    insert into t_menu (id, name, folderOrMenu,
+      menuHref, menuRoute, menuLevel,
+      status, remark, parentId,
       reserve1)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{folderOrMenu,jdbcType=BIGINT}, 
-      #{menuHref,jdbcType=VARCHAR}, #{menuRoute,jdbcType=VARCHAR}, #{menuLevel,jdbcType=BIGINT}, 
-      #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{folderOrMenu,jdbcType=BIGINT},
+      #{menuHref,jdbcType=VARCHAR}, #{menuRoute,jdbcType=VARCHAR}, #{menuLevel,jdbcType=BIGINT},
+      #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
       #{reserve1,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.study.system.pojo.Menu" >
@@ -150,4 +150,8 @@
       reserve1 = #{reserve1,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <!-- 根据角色id查找角色菜单 -->
+  <select id="selectByRoleId" resultMap="BaseResultMap">
+    select b.id, name,folderOrMenu, menuHref,menuRoute, menuLevel,`status`,remark,parentId,reserve1 from t_role_menu as a left join t_menu as b on a.menuId = b.id where a.roleId = #{roleId}
+  </select>
 </mapper>

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.study.anno.Syslog;
 import com.study.error.ReturnValue;
+import com.study.system.mapping.UserMapper;
 import com.study.system.pojo.OperateLog;
 import com.study.system.pojo.User;
 import com.study.redis.UserLoginService;
@@ -39,6 +40,8 @@ public class SyslogAspect {
     private UserLoginService userLoginService;
     @Resource
     private UserService userService;
+    @Resource
+    private UserMapper userMapper;
 
     /**
      * 切点。注解的方式
@@ -132,7 +135,7 @@ public class SyslogAspect {
                 return;
             }
             String userName = userLoginService.find(request.getSession(false).getId());
-            User user = userService.findByUserName(userName);
+            User user = userMapper.selectByPersonName(userName);
             if (!CheckUtil.isNull(user)) {
                 operateLog.setUserName(userName);
                 operateLog.setUserId(user.getId());

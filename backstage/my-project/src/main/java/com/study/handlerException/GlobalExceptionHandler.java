@@ -32,9 +32,9 @@ public class GlobalExceptionHandler {
     */
     @ExceptionHandler(value = MyProjectException.class)
     @ResponseBody
-    public ReturnValue bizExceptionHandler(HttpServletRequest req, CommonEnum e) {
+    public ReturnValue<String> bizExceptionHandler(HttpServletRequest req, CommonEnum e) {
         log.error(e.getError(), e.getDescription());
-        return new ReturnValue(e.getError(), e.getDescription());
+        return new ReturnValue<String>(e.getError(), e.getDescription());
     }
 
    /**
@@ -47,10 +47,10 @@ public class GlobalExceptionHandler {
     */
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseBody
-    public ReturnValue<String> NullPointerException(HttpServletRequest req, NullPointerException e){
+    public ReturnValue<Object> NullPointerException(HttpServletRequest req, NullPointerException e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return  new ReturnValue(CommonEnum.ERROR_NOT_FOUND);
+        return  new ReturnValue<>(e.getMessage());
     }
 
     /**
@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
     public ReturnValue<String> ClassCastException(HttpServletRequest req, ClassCastException e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return  new ReturnValue(CommonEnum.ERROR_CLASS_CAST_EXCEPTION);
+        return  new ReturnValue<String>(CommonEnum.ERROR_CLASS_CAST_EXCEPTION);
     }
 
     /**
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
     public ReturnValue<String> NegativeArrayException(HttpServletRequest req, ArrayIndexOutOfBoundsException e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return  new ReturnValue(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION);
+        return  new ReturnValue<String>(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION);
     }
 
     /**
@@ -93,9 +93,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value =Exception.class)
     @ResponseBody
-    public ReturnValue exceptionHandler(HttpServletRequest req, Exception e){
+    public ReturnValue<String> exceptionHandler(HttpServletRequest req, Exception e){
         e.printStackTrace();
         log.error(e.getMessage());
-        return new ReturnValue(CommonEnum.ERROR_UNKNOW);
+        return new ReturnValue<String>(CommonEnum.ERROR_UNKNOW);
     }
 }

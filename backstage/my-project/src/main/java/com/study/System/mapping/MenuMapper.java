@@ -1,6 +1,9 @@
 package com.study.system.mapping;
 
 import com.study.system.pojo.Menu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface MenuMapper {
     int deleteByPrimaryKey(String id);
@@ -14,4 +17,6 @@ public interface MenuMapper {
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    List<Menu> selectByRoleId(@Param("roleId")String roleId);
 }
