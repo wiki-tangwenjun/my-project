@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.study.mapper.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.study.pojo.User" >
+<mapper namespace="com.study.system.mapping.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.study.system.pojo.User" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="personName" property="personName" jdbcType="VARCHAR" />
@@ -27,7 +27,7 @@
     delete from t_user
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.study.pojo.User" >
+  <insert id="insert" parameterType="com.study.system.pojo.User" >
     insert into t_user (id, personName, password,
       personName, idNumber, telphone,
       loginWay, enabled, expired,
@@ -37,7 +37,7 @@
       #{loginWay,jdbcType=TINYINT}, #{enabled,jdbcType=TINYINT}, #{expired,jdbcType=TINYINT},
       #{locked,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.study.pojo.User" >
+  <insert id="insertSelective" parameterType="com.study.system.pojo.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -110,7 +110,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.system.pojo.User" >
     update t_user
     <set >
       <if test="personName != null" >
@@ -146,7 +146,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.pojo.User" >
+  <update id="updateByPrimaryKey" parameterType="com.study.system.pojo.User" >
     update t_user
     set personName = #{personName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -172,22 +172,6 @@
     <include refid="Base_Column_List"/>
     from t_user
     where personName = #{personName,jdbcType=VARCHAR}
-  </select>
-  <!-- 查询根据属性查找数量 -->
-  <select id="selectMaxByAttributes" resultType="java.lang.Long">
-    select count(id)
-    from t_user
-    <where>
-      <if test="personName != null">
-        and personName like '%${personName}%'
-      </if>
-      <if test="idNumber != null">
-        and idNumber = #{idNumber,jdbcType=VARCHAR}
-      </if>
-      <if test="enabled != null">
-        and enabled = #{enabled,jdbcType=TINYINT}
-      </if>
-    </where>
   </select>
   <select id="selectByPersonName" resultMap="BaseResultMap">
     select

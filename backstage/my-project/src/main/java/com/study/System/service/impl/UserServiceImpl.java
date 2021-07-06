@@ -1,9 +1,10 @@
-package com.study.service.impl;
+package com.study.system.service.impl;
 
 
-import com.study.mapper.UserMapper;
-import com.study.pojo.User;
-import com.study.service.UserService;
+import com.study.system.dto.UserQueryParam;
+import com.study.system.mapping.UserMapper;
+import com.study.system.pojo.User;
+import com.study.system.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,12 +47,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long findMaxByAttributes(String name, String idCard, Long enabled) {
-        return userMapper.selectMaxByAttributes(name, idCard, enabled);
+    public List<User> findByAttributes(UserQueryParam userQueryParam) {
+        return userMapper.selectByAttributes(userQueryParam);
     }
 
-    @Override
-    public List<User> findByAttributes(String name, String idCard, Long enabled, Long pageIndex, Long pageSize, String orderProp, String order){
-        return userMapper.selectByAttributes(name, idCard, enabled, pageIndex, pageSize, orderProp, order);
-    }
 }

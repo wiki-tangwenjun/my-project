@@ -1,4 +1,4 @@
-package com.study.pojo;
+package com.study.system.pojo;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ public class OperateLog {
     private String name;
     private String module;
     private String style;
-    private String url; 
+    private String url;
     private String description;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")

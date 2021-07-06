@@ -1,6 +1,6 @@
-package com.study.mapper;
+package com.study.system.mapping;
 
-import com.study.pojo.Role;
+import com.study.system.pojo.Role;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(String id);

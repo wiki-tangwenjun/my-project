@@ -1,4 +1,4 @@
-package com.study.controller;
+package com.study.system.controller;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,9 +11,10 @@ import com.study.anno.LoginRequired;
 import com.study.anno.Syslog;
 import com.study.error.CommonEnum;
 import com.study.error.ReturnValue;
-import com.study.pojo.User;
+import com.study.system.dto.UserQueryParam;
+import com.study.system.pojo.User;
 import com.study.redis.UserLoginService;
-import com.study.service.UserService;
+import com.study.system.service.UserService;
 import com.study.util.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -165,67 +166,14 @@ public class UserController {
         return new ReturnValue<String>();
     }
 
-    /**
-     * @description: 获取用户列表
-     * @author tang wen jun
-     * @param name
-     * @param idCard
-     * @param enabled
-     * @param pageIndex
-     * @param pageSize
-     * @param order
-     * @param orderProp
-     * @return com.study.error.ReturnValue<java.util.List < com.study.pojo.User>>
-     * @date 2021/5/11 16:27
-     */
     @LoginRequired
     @GetMapping("/findByAttributes")
     @ApiOperation(value = "获取用户列表", notes = "分页查询用户列表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "name", value = "用户姓名", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "idCard", value = "用户身份证", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "enabled", value = "可用性", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "pageIndex", value = "页索引", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "pageSize", value = "页大小", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "orderProp", value = "排序字段", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "order", value = "排序方式（asc,desc）", required = false)})
     @Syslog(module = "用户", style = "查询数据列表", description = "获取用户列表")
-    public ReturnValue<List<User>> findByAttributes(@RequestParam(name = "name", required = false) String name,
-                                                    @RequestParam(name = "idCard", required = false) String idCard,
-                                                    @RequestParam(name = "enabled", required = false) Long enabled,
-                                                    @RequestParam(name = "pageIndex", required = true) Long pageIndex,
-                                                    @RequestParam(name = "pageSize", required = true) Long pageSize,
-                                                    @RequestParam(name = "order", required = false) String order,
-                                                    @RequestParam(name = "orderProp", required = false) String orderProp
-    ) {
+    public ReturnValue<List<User>> findByAttributes(UserQueryParam userQueryParam) {
+        List<User> userList = userService.findByAttributes(userQueryParam);
+        return new ReturnValue<>(userList);
 
-        List<User> userList = userService.findByAttributes(name, idCard, enabled, pageIndex, pageSize, orderProp, order);
-        return new ReturnValue<List<User>>(userList);
-
-    }
-
-    /**
-     * @description: 获取用户总数
-     * @author tang wen jun
-     * @param name
-     * @param idCard
-     * @param enabled
-     * @return com.study.error.ReturnValue<java.lang.Long>
-     * @date 2021/5/11 16:27
-     */
-    @LoginRequired
-    @GetMapping("/findMaxByAttributes")
-    @ApiOperation(value = "获取用户总数", notes = "获取用户总数")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "name", value = "用户姓名", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "String", name = "idCard", value = "用户身份证", required = false),
-            @ApiImplicitParam(paramType = "query", dataType = "Long", name = "enabled", value = "可用性", required = false)})
-    @Syslog(module = "用户", style = "查询数据数", description = "获取用户总数")
-    public ReturnValue<Long> findMax(@RequestParam(name = "name", required = false) String name,
-                                     @RequestParam(name = "idCard", required = false) String idCard,
-                                     @RequestParam(name = "enabled", required = false) Long enabled) {
-        Long count = userService.findMaxByAttributes(name, idCard, enabled);
-        return new ReturnValue<Long>(count);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.study.pojo;
+package com.study.system.pojo;
 
 public class Role {
     private String id;

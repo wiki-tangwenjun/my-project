@@ -1,10 +1,9 @@
-package com.study.controller;
+package com.study.system.controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.study.anno.Syslog;
 import com.study.config.FileConfig;
 import com.study.error.CommonEnum;
 import com.study.error.ReturnValue;

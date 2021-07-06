@@ -1,6 +1,6 @@
-package com.study.service;
+package com.study.system.service;
 
-import com.study.pojo.Role;
+import com.study.system.pojo.Role;
 
 /**
  * @projectName: my-project

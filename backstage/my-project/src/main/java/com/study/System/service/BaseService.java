@@ -1,4 +1,4 @@
-package com.study.service;
+package com.study.system.service;
 
 public interface BaseService<T> {
 	/**

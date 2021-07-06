@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.study.mapper.RoleMapper" >
-  <resultMap id="BaseResultMap" type="com.study.pojo.Role" >
+<mapper namespace="com.study.system.mapping.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.study.system.pojo.Role" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="level" property="level" jdbcType="TINYINT" />
@@ -12,7 +12,7 @@
     id, name, level, status, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_role
     where id = #{id,jdbcType=VARCHAR}
@@ -21,13 +21,13 @@
     delete from t_role
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.study.pojo.Role" >
-    insert into t_role (id, name, level, 
+  <insert id="insert" parameterType="com.study.system.pojo.Role" >
+    insert into t_role (id, name, level,
       status, remark)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=TINYINT},
       #{status,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.study.pojo.Role" >
+  <insert id="insertSelective" parameterType="com.study.system.pojo.Role" >
     insert into t_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -64,7 +64,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.Role" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.system.pojo.Role" >
     update t_role
     <set >
       <if test="name != null" >
@@ -82,7 +82,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.pojo.Role" >
+  <update id="updateByPrimaryKey" parameterType="com.study.system.pojo.Role" >
     update t_role
     set name = #{name,jdbcType=VARCHAR},
       level = #{level,jdbcType=TINYINT},

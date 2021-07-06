@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.study.anno.Syslog;
 import com.study.error.ReturnValue;
-import com.study.pojo.OperateLog;
-import com.study.pojo.User;
+import com.study.system.pojo.OperateLog;
+import com.study.system.pojo.User;
 import com.study.redis.UserLoginService;
-import com.study.service.OperateLogService;
-import com.study.service.UserService;
+import com.study.system.service.OperateLogService;
+import com.study.system.service.UserService;
 import com.study.util.CheckUtil;
 import com.study.util.TextUtil;
 import org.aspectj.lang.JoinPoint;
@@ -21,6 +21,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -49,7 +50,7 @@ public class SyslogAspect {
     /**
      * 设置操作异常切入点记录异常日志 扫描所有controller包下操作
      */
-    @Pointcut("execution(* com.study.controller..*.*(..))")
+    @Pointcut("execution(* com.study.*.controller..*.*(..))")
     public void operExceptionLogPoinCut() {
     }
 
@@ -192,9 +193,6 @@ public class SyslogAspect {
 
     /**
      * 获取参数Map集合
-     *
-     * @param joinPoint
-     * @return
      */
     Map<String, Object> getNameAndValue(JoinPoint joinPoint) {
         Map<String, Object> param = new HashMap<>();

@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 
 @SpringBootApplication(exclude={DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
 
-@MapperScan("com.study.mapper")
+@MapperScan("com.study.*.mapping")
 public class MyProjectApplication {
 
 	public static void main(String[] args) {

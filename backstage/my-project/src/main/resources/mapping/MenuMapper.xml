@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.study.mapper.MenuMapper" >
-  <resultMap id="BaseResultMap" type="com.study.pojo.Menu" >
+<mapper namespace="com.study.system.mapping.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.study.system.pojo.Menu" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="folderOrMenu" property="folderOrMenu" jdbcType="BIGINT" />
@@ -27,7 +27,7 @@
     delete from t_menu
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.study.pojo.Menu" >
+  <insert id="insert" parameterType="com.study.system.pojo.Menu" >
     insert into t_menu (id, name, folderOrMenu, 
       menuHref, menuRoute, menuLevel, 
       status, remark, parentId, 
@@ -37,7 +37,7 @@
       #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
       #{reserve1,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.study.pojo.Menu" >
+  <insert id="insertSelective" parameterType="com.study.system.pojo.Menu" >
     insert into t_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -104,7 +104,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.Menu" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.study.system.pojo.Menu" >
     update t_menu
     <set >
       <if test="name != null" >
@@ -137,7 +137,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.pojo.Menu" >
+  <update id="updateByPrimaryKey" parameterType="com.study.system.pojo.Menu" >
     update t_menu
     set name = #{name,jdbcType=VARCHAR},
       folderOrMenu = #{folderOrMenu,jdbcType=BIGINT},

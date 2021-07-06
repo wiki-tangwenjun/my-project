@@ -1,6 +1,6 @@
-package com.study.mapper;
+package com.study.system.mapping;
 
-import com.study.pojo.Menu;
+import com.study.system.pojo.Menu;
 
 public interface MenuMapper {
     int deleteByPrimaryKey(String id);
