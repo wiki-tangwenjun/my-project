@@ -1,5 +1,7 @@
 package com.study.service;
 
+import com.study.pojo.Role;
+
 /**
  * @projectName: my-project
  * @package: com.study.service
@@ -9,5 +11,6 @@ package com.study.service;
  * @date: 2021年07月06日 12:27
  * @version: 1.0
  */
-public class IRoleService {
+public interface IRoleService extends BaseService<Role> {
+
 }

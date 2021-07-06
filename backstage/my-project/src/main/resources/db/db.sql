@@ -386,9 +386,9 @@ CREATE TABLE IF NOT EXISTS t_menu
 (
     id 		VARCHAR(32) NOT NULL COMMENT 'id',				                        /* 主键id			*/
     name    VARCHAR(32) NOT NULL COMMENT '菜单名称',                                 /*  菜单名称          */
-    isFolderOrMunu  BIGINT(4) NOT NULL DEFAULT 0 COMMENT '是目录还是菜单 0目录 1菜单',  /*  是目录还是菜单  0目录 1菜单   */
+    folderOrMenu  BIGINT(4) NOT NULL DEFAULT 0 COMMENT '是目录还是菜单 0目录 1菜单',  /*  是目录还是菜单  0目录 1菜单   */
     menuHref VARCHAR(256)         COMMENT '菜单链接',                               /*  菜单链接          */
-    menuteRouter    VARCHAR(128)  COMMENT '菜单路由',                                /*  菜单路由          */
+    menuRoute    VARCHAR(128)  COMMENT '菜单路由',                                /*  菜单路由          */
     menuLevel       BIGINT(4)     COMMENT '菜单排序',                               /*  菜单排序          */
     status          BIGINT(2) NOT NULL DEFAULT 0   COMMENT '是否停用',              /*  是否停用 0 正常 1 停用 */
     remark    VARCHAR(256)        COMMENT '备注',                                  /*  备注 */
