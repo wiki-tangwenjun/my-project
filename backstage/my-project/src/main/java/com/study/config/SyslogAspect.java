@@ -32,16 +32,16 @@ import com.alibaba.fastjson.JSONObject;
 @Component
 @Aspect
 public class SyslogAspect {
-	@Resource
-	private OperateLogService operateLogService;
-	@Resource
-	private UserLoginService userLoginService;
-	@Resource
-	private UserService userService;
+    @Resource
+    private OperateLogService operateLogService;
+    @Resource
+    private UserLoginService userLoginService;
+    @Resource
+    private UserService userService;
 
-	/**
-	 * 切点。注解的方式
-	 */
+    /**
+     * 切点。注解的方式
+     */
     @Pointcut("@annotation(com.study.anno.Syslog)")
     public void operLogPoinCut() {
     }
@@ -55,7 +55,8 @@ public class SyslogAspect {
 
     /**
      * 正常返回通知，拦截用户操作日志，连接点正常执行完成后执行， 如果连接点抛出异常，则不会执行
-     * @param joinPoint 切入点
+     *
+     * @param joinPoint   切入点
      * @param returnValue 返回结果
      */
     @AfterReturning(value = "operLogPoinCut()", returning = "returnValue")
@@ -63,6 +64,7 @@ public class SyslogAspect {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
+        assert requestAttributes != null;
         HttpServletRequest request = (HttpServletRequest) requestAttributes
                 .resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
@@ -75,12 +77,12 @@ public class SyslogAspect {
             // 获取操作
             Syslog syslog = method.getAnnotation(Syslog.class);
             if (syslog != null) {
-            	 String desc = syslog.description();
-                 String module = syslog.module();
-                 String style = syslog.style();
-                 operateLog.setDescription(desc);
-                 operateLog.setModule(module);
-                 operateLog.setStyle(style);
+                String desc = syslog.description();
+                String module = syslog.module();
+                String style = syslog.style();
+                operateLog.setDescription(desc);
+                operateLog.setModule(module);
+                operateLog.setStyle(style);
             }
             // 获取请求的类名
             String className = joinPoint.getTarget().getClass().getName();
@@ -89,49 +91,51 @@ public class SyslogAspect {
             methodName = className + "." + methodName;
 
             // 请求的参数
+            assert request != null;
             Map<String, String> rtnMap = converMap(request.getParameterMap());
+            assert syslog != null;
             String param = syslog.param();
             String params = "";
             // 将参数所在的数组转换成json
-            if(rtnMap.size() > 0) {
-                 params = JSON.toJSONString(rtnMap);
-                 if(params.length() > 2048) {
-                 	params = params.substring(0, 2047);
-                 }
-            }else {
-            	Map<String, Object> body = getNameAndValue(joinPoint);
+            if (rtnMap.size() > 0) {
+                params = JSON.toJSONString(rtnMap);
+                if (params.length() > 2048) {
+                    params = params.substring(0, 2047);
+                }
+            } else {
+                Map<String, Object> body = getNameAndValue(joinPoint);
                 for (Map.Entry<String, Object> entry : body.entrySet()) {
-                	String name = entry.getKey();
-                	Object val = entry.getValue();
-                	if("request".equals(name)) {
-                		continue;
-                	}
-                	if(!CheckUtil.isNull(param)) {
-                		if(name.equals(param)) {
-                    		params = JSONObject.toJSON(val).toString();
-                    		break;
-                    	}
-                	}else {
-                		params = JSONObject.toJSON(val).toString();
-                		break;
-                	}
+                    String name = entry.getKey();
+                    Object val = entry.getValue();
+                    if ("request".equals(name)) {
+                        continue;
+                    }
+                    if (!CheckUtil.isNull(param)) {
+                        if (name.equals(param)) {
+                            params = JSONObject.toJSON(val).toString();
+                            break;
+                        }
+                    } else {
+                        params = JSONObject.toJSON(val).toString();
+                        break;
+                    }
                 }
             }
             // 请求参数
             operateLog.setOperand(params);
-            ReturnValue<?> relReturnValue = (ReturnValue<?>)returnValue;
+            ReturnValue<?> relReturnValue = (ReturnValue<?>) returnValue;
             // 返回结果
             operateLog.setResult(relReturnValue.getDescription());
 
-            if(CheckUtil.isNull(request.getSession(false))) {
+            if (CheckUtil.isNull(request.getSession(false))) {
                 return;
             }
             String userName = userLoginService.find(request.getSession(false).getId());
             User user = userService.findByUserName(userName);
-            if(!CheckUtil.isNull(user)){
-            	operateLog.setUserName(userName);
-            	operateLog.setUserId(user.getId());
-            	operateLog.setName(user.getPersonName());
+            if (!CheckUtil.isNull(user)) {
+                operateLog.setUserName(userName);
+                operateLog.setUserId(user.getId());
+                operateLog.setName(user.getPersonName());
             }
 
             // 请求URI request.getRequestURI()
@@ -157,6 +161,7 @@ public class SyslogAspect {
 
     /**
      * 获取登录用户的IP地址
+     *
      * @param request
      * @return
      */
@@ -187,6 +192,7 @@ public class SyslogAspect {
 
     /**
      * 获取参数Map集合
+     *
      * @param joinPoint
      * @return
      */

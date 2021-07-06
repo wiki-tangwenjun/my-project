@@ -14,10 +14,7 @@ import com.study.error.ReturnValue;
 import com.study.pojo.User;
 import com.study.redis.UserLoginService;
 import com.study.service.UserService;
-import com.study.util.Base64Util;
-import com.study.util.CheckUtil;
-import com.study.util.EncryptUtil;
-import com.study.util.TextUtil;
+import com.study.util.*;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
@@ -43,7 +40,7 @@ public class UserController {
     @Syslog(module = "用户", style = "添加", description = "添加用户信息")
     public ReturnValue<String> add(HttpServletRequest request, @RequestBody User user) {
             // 同名检测
-            User temp = userService.findByUserName(user.getUserName());
+            User temp = userService.findByUserName(user.getPersonName());
             if (!CheckUtil.isNull(temp)) {
                 return new ReturnValue<String>(CommonEnum.ERROR_OBJECT_EXIST, "该用户名已存在!");
             }
@@ -231,23 +228,6 @@ public class UserController {
         return new ReturnValue<Long>(count);
     }
 
-   /**
-    * @description: 删除一个用户
-    * @author tang wen jun
-    * @param userName
-    * @return com.study.error.ReturnValue<java.lang.String>
-    * @date 2021/5/11 16:27
-    */
-    @LoginRequired
-    @ApiOperation(value="删除一个用户", notes="")
-    @ApiImplicitParams({@ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType="path")})
-    @DeleteMapping(value = "/delete/{userName}")
-    @Syslog(module="用户",style="删除",description="删除用户信息")
-    public ReturnValue<String> delete(@PathVariable(name="userName", required=true) String userName){
-        userService.deleteByUserName(userName);
-        return new ReturnValue<String>();
-    }
-
     /**
      * @description: 用户注销
      * @author tang wen jun
@@ -264,5 +244,4 @@ public class UserController {
         userLoginService.delete(request.getSession(false).getId());
         return new ReturnValue<String>();
     }
-
 }

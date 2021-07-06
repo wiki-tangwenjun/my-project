@@ -3,6 +3,7 @@ package com.study.handlerException;
 import com.study.error.CommonEnum;
 import com.study.error.ReturnValue;
 import com.study.exception.MyProjectException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  * @version: 1.0
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
    /**
     * @description: 处理自定义的业务异常
@@ -30,7 +32,8 @@ public class GlobalExceptionHandler {
     */
     @ExceptionHandler(value = MyProjectException.class)
     @ResponseBody
-    public ReturnValue<String> bizExceptionHandler(HttpServletRequest req, CommonEnum e) {
+    public ReturnValue bizExceptionHandler(HttpServletRequest req, CommonEnum e) {
+        log.error(e.getError(), e.getDescription());
         return new ReturnValue(e.getError(), e.getDescription());
     }
 
@@ -45,6 +48,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseBody
     public ReturnValue<String> NullPointerException(HttpServletRequest req, NullPointerException e){
+        e.printStackTrace();
+        log.error(e.getMessage());
         return  new ReturnValue(CommonEnum.ERROR_NOT_FOUND);
     }
 
@@ -52,13 +57,15 @@ public class GlobalExceptionHandler {
      * @description: 类型强制转换异常
      * @author tang wen jun
      * @param req
-     * @param e 
+     * @param e
      * @return com.study.error.ReturnValue<java.lang.String>
      * @date 2021/5/11 18:29
      */
     @ExceptionHandler(value =ClassCastException.class)
     @ResponseBody
     public ReturnValue<String> ClassCastException(HttpServletRequest req, ClassCastException e){
+        e.printStackTrace();
+        log.error(e.getMessage());
         return  new ReturnValue(CommonEnum.ERROR_CLASS_CAST_EXCEPTION);
     }
 
@@ -73,6 +80,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value =ArrayIndexOutOfBoundsException.class)
     @ResponseBody
     public ReturnValue<String> NegativeArrayException(HttpServletRequest req, ArrayIndexOutOfBoundsException e){
+        e.printStackTrace();
+        log.error(e.getMessage());
         return  new ReturnValue(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION);
     }
 
@@ -84,7 +93,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value =Exception.class)
     @ResponseBody
-    public ReturnValue<String> exceptionHandler(HttpServletRequest req, Exception e){
+    public ReturnValue exceptionHandler(HttpServletRequest req, Exception e){
+        e.printStackTrace();
+        log.error(e.getMessage());
         return new ReturnValue(CommonEnum.ERROR_UNKNOW);
     }
 }

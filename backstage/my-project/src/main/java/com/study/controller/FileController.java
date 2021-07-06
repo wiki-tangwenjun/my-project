@@ -30,7 +30,6 @@ public class FileController {
 	@Resource
 	FileConfig fileConfig;
 
-	@Syslog(module = "文件上传", style = "上传文件", description = "上传文件")
 	@ApiOperation(value = "文件上传", notes = "通过http的Multipart方式上传文件")
 	@PostMapping(value = "/upload", headers = "content-type=multipart/form-data")
 	public ReturnValue<String> upload(@ApiParam(value = "上传的文件", required = true) MultipartFile file) throws IOException {

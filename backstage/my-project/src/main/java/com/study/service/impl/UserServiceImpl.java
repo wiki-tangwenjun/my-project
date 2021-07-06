@@ -10,6 +10,11 @@ import javax.annotation.Resource;
 import java.util.List;
 
 
+/**
+* @description: 用户相关操作接口
+* @author wen jun tang
+* @date 2021/6/15 17:24
+*/
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
@@ -31,19 +36,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserName(String userName) {
-        return userMapper.selectByUserName(userName);
-    }
-
-    @Override
-    public void deleteByUserName(String userName) {
-        userMapper.deleteByUserName(userName);
-    }
-
-
-    @Override
     public void delete(User o) {
         userMapper.deleteByPrimaryKey(o.getId());
+    }
+
+    @Override
+    public User findByUserName(String userName) {
+        return null;
     }
 
     @Override
@@ -55,5 +54,4 @@ public class UserServiceImpl implements UserService {
     public List<User> findByAttributes(String name, String idCard, Long enabled, Long pageIndex, Long pageSize, String orderProp, String order){
         return userMapper.selectByAttributes(name, idCard, enabled, pageIndex, pageSize, orderProp, order);
     }
-
 }

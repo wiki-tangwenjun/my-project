@@ -3,7 +3,6 @@
 <mapper namespace="com.study.mapper.UserMapper" >
   <resultMap id="BaseResultMap" type="com.study.pojo.User" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="userName" property="userName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="personName" property="personName" jdbcType="VARCHAR" />
     <result column="idNumber" property="idNumber" jdbcType="VARCHAR" />
@@ -15,7 +14,7 @@
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, userName, password, personName, idNumber, telphone, loginWay, enabled, expired,
+    id, personName, password, personName, idNumber, telphone, loginWay, enabled, expired,
     locked, createTime
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -29,11 +28,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.study.pojo.User" >
-    insert into t_user (id, userName, password,
+    insert into t_user (id, personName, password,
       personName, idNumber, telphone,
       loginWay, enabled, expired,
       locked, createTime)
-    values (#{id,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+    values (#{id,jdbcType=VARCHAR}, #{personName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{personName,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR},
       #{loginWay,jdbcType=TINYINT}, #{enabled,jdbcType=TINYINT}, #{expired,jdbcType=TINYINT},
       #{locked,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
@@ -44,8 +43,8 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="userName != null" >
-        userName,
+      <if test="personName != null" >
+        personName,
       </if>
       <if test="password != null" >
         password,
@@ -79,8 +78,8 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="userName != null" >
-        #{userName,jdbcType=VARCHAR},
+      <if test="personName != null" >
+        #{personName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -114,8 +113,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.study.pojo.User" >
     update t_user
     <set >
-      <if test="userName != null" >
-        userName = #{userName,jdbcType=VARCHAR},
+      <if test="personName != null" >
+        personName = #{personName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -149,7 +148,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.study.pojo.User" >
     update t_user
-    set userName = #{userName,jdbcType=VARCHAR},
+    set personName = #{personName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       personName = #{personName,jdbcType=VARCHAR},
       idNumber = #{idNumber,jdbcType=VARCHAR},
@@ -163,24 +162,24 @@
   </update>
 
   <!-- 使用用户名删除用户 -->
-  <delete id="deleteByUserName" parameterType="java.lang.String">
+  <delete id="deleteBypersonName" parameterType="java.lang.String">
         delete from t_user
-        where userName = #{userName,jdbcType=VARCHAR}
+        where personName = #{personName,jdbcType=VARCHAR}
     </delete>
   <!-- 通过用户名查找用户 -->
-  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectBypersonName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from t_user
-    where userName = #{userName,jdbcType=VARCHAR}
+    where personName = #{personName,jdbcType=VARCHAR}
   </select>
   <!-- 查询根据属性查找数量 -->
   <select id="selectMaxByAttributes" resultType="java.lang.Long">
     select count(id)
     from t_user
     <where>
-      <if test="userName != null">
-        and userName like '%${userName}%'
+      <if test="personName != null">
+        and personName like '%${personName}%'
       </if>
       <if test="idNumber != null">
         and idNumber = #{idNumber,jdbcType=VARCHAR}
@@ -190,14 +189,24 @@
       </if>
     </where>
   </select>
+  <select id="selectByPersonName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"></include>
+    from t_user
+    <where>
+      <if test="personName != null">
+        personName = #{personName}
+      </if>
+    </where>
+  </select>
   <!-- 查询根据属性查找信息 -->
   <select id="selectByAttributes" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from t_user
     <where>
-      <if test="userName != null">
-        and userName like '%${userName}%'
+      <if test="personName != null">
+        and personName like '%${personName}%'
       </if>
       <if test="idNumber != null">
         and idNumber like '%${idNumber}%'

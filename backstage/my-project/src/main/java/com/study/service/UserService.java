@@ -20,13 +20,6 @@ public interface UserService extends BaseService<User> {
      */
     User findByUserName(String userName);
 
-    /**
-     * 根据用户名称删除记录
-     *
-     * @param userName
-     * @return
-     */
-    void deleteByUserName(String userName);
 
     /**
      * 根据条件查找最大数
