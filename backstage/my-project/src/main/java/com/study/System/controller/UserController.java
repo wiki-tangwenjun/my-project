@@ -142,8 +142,7 @@ public class UserController {
 
         user.setPassword(Base64Util.encodeBytes(newPassword.getBytes(StandardCharsets.UTF_8)));
         userService.update(user);
-
-        return new ReturnValue<String>();
+        return new ReturnValue<String>( );
     }
 
     @LoginRequired
