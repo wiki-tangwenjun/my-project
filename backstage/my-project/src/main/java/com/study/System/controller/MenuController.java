@@ -22,5 +22,5 @@ import javax.annotation.Resource;
 public class MenuController {
     @Resource
     private IMenuService iMenuService;
-    
+
 }
