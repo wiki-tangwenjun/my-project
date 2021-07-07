@@ -1,4 +1,4 @@
-package com.study.util;
+package com.study.mapper;
 
 import java.io.Serializable;
 import java.util.List;

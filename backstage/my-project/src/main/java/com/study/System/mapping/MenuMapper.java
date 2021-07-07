@@ -1,11 +1,14 @@
 package com.study.system.mapping;
 
 import com.study.system.pojo.Menu;
-import com.study.util.BaseMapper;
+import com.study.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * @author wen jun tang
+ */
 public interface MenuMapper extends BaseMapper<Menu> {
     int deleteByPrimaryKey(String id);
 
