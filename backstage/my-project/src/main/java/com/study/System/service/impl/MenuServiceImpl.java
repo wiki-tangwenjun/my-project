@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 public class MenuServiceImpl implements IMenuService {
     @Resource
     private MenuMapper menuMapper;
+
     @Override
     public void add(Menu o) {
         menuMapper.insert(o);
