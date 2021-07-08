@@ -31,7 +31,7 @@ public interface BaseMapper<T> {
      * @author wen jun tang
      * @date 2021/7/7 14:38
      */
-    int deleteById(Serializable id);
+    int deleteByPrimaryKey(Serializable id);
 
     /**
      * 根据条件删除内容
@@ -51,7 +51,7 @@ public interface BaseMapper<T> {
      * @author wen jun tang
      * @date 2021/7/7 14:37
      */
-    int updateById(T entity);
+    int updateByPrimaryKeySelective(T entity);
 
     /**
      * 根据 ID 查询
@@ -61,7 +61,7 @@ public interface BaseMapper<T> {
      * @author wen jun tang
      * @date 2021/7/7 14:36
      */
-    T selectById(Serializable id);
+    T selectByPrimaryKey(Serializable id);
 
     /**
      * 根据 Wrapper 条件，查询总记录数

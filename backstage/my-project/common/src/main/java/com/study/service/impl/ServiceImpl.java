@@ -5,6 +5,7 @@ import com.study.mapper.BaseMapper;
 import com.study.service.BaseService;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,17 +31,17 @@ public class ServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {
 
     @Override
     public void delete(T id) {
-        baseMapper.delete(id);
+        baseMapper.deleteByPrimaryKey((Serializable) id);
     }
 
     @Override
     public void update(T entity) {
-        baseMapper.updateById(entity);
+        baseMapper.updateByPrimaryKeySelective(entity);
     }
 
     @Override
     public T findById(String id) {
-        return baseMapper.selectById(id);
+        return baseMapper.selectByPrimaryKey(id);
     }
 
     @Override

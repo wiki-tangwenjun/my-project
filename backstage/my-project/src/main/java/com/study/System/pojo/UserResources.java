@@ -25,6 +25,5 @@ public class UserResources implements Serializable {
     private User user;
     @ApiModelProperty("用户拥有的角色信息")
     private List<Role> userRole;
-    @ApiModelProperty("角色拥有的菜单")
-    private List<Menu> roleMenu;
+
 }

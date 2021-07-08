@@ -1,5 +1,6 @@
 package com.study.system.service.impl;
 
+import com.study.service.impl.ServiceImpl;
 import com.study.system.mapping.MenuMapper;
 import com.study.system.pojo.Menu;
 import com.study.system.service.IMenuService;
@@ -17,7 +18,7 @@ import javax.annotation.Resource;
  * @version: 1.0
  */
 @Service
-public class MenuServiceImpl implements IMenuService {
+public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IMenuService {
     @Resource
     private MenuMapper menuMapper;
 
@@ -33,7 +34,7 @@ public class MenuServiceImpl implements IMenuService {
 
     @Override
     public void update(Menu o) {
-        menuMapper.updateByPrimaryKey(o);
+        menuMapper.updateByPrimaryKeySelective(o);
     }
 
     @Override

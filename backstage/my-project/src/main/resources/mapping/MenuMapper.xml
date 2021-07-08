@@ -37,73 +37,6 @@
       #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
       #{reserve1,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.study.system.pojo.Menu" >
-    insert into t_menu
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="folderOrMenu != null" >
-        folderOrMenu,
-      </if>
-      <if test="menuHref != null" >
-        menuHref,
-      </if>
-      <if test="menuRoute != null" >
-        menuRoute,
-      </if>
-      <if test="menuLevel != null" >
-        menuLevel,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="remark != null" >
-        remark,
-      </if>
-      <if test="parentId != null" >
-        parentId,
-      </if>
-      <if test="reserve1 != null" >
-        reserve1,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="folderOrMenu != null" >
-        #{folderOrMenu,jdbcType=BIGINT},
-      </if>
-      <if test="menuHref != null" >
-        #{menuHref,jdbcType=VARCHAR},
-      </if>
-      <if test="menuRoute != null" >
-        #{menuRoute,jdbcType=VARCHAR},
-      </if>
-      <if test="menuLevel != null" >
-        #{menuLevel,jdbcType=BIGINT},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=BIGINT},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="parentId != null" >
-        #{parentId,jdbcType=VARCHAR},
-      </if>
-      <if test="reserve1 != null" >
-        #{reserve1,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.study.system.pojo.Menu" >
     update t_menu
     <set >
@@ -135,19 +68,6 @@
         reserve1 = #{reserve1,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.study.system.pojo.Menu" >
-    update t_menu
-    set name = #{name,jdbcType=VARCHAR},
-      folderOrMenu = #{folderOrMenu,jdbcType=BIGINT},
-      menuHref = #{menuHref,jdbcType=VARCHAR},
-      menuRoute = #{menuRoute,jdbcType=VARCHAR},
-      menuLevel = #{menuLevel,jdbcType=BIGINT},
-      status = #{status,jdbcType=BIGINT},
-      remark = #{remark,jdbcType=VARCHAR},
-      parentId = #{parentId,jdbcType=VARCHAR},
-      reserve1 = #{reserve1,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <!-- 根据角色id查找角色菜单 -->

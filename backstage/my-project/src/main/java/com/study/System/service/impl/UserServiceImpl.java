@@ -2,13 +2,11 @@ package com.study.system.service.impl;
 
 
 import com.study.error.CommonEnum;
-import com.study.error.ReturnValue;
 import com.study.redis.UserLoginService;
 import com.study.system.dto.UserQueryParam;
 import com.study.system.mapping.MenuMapper;
 import com.study.system.mapping.RoleMapper;
 import com.study.system.mapping.UserMapper;
-import com.study.system.pojo.Menu;
 import com.study.system.pojo.Role;
 import com.study.system.pojo.User;
 import com.study.system.pojo.UserResources;
@@ -20,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -84,17 +79,10 @@ public class UserServiceImpl implements UserService {
         // 登录成功查找用户角色资源
         userResources.setUser(user);
         List<Role> roles = roleMapper.selectByUserId(user.getId());
-        userResources.setUserRole(roles);
-        List<List<Menu>> menus = new ArrayList<>();
         for(Role role: roles) {
-            menus.add(menuMapper.selectByRoleId(role.getId()));
+            role.setRoleMenu(menuMapper.selectByRoleId(role.getId()));
         }
-
-        List<Menu> menuList = new LinkedList<>();
-        for (List<Menu> list: menus) {
-            menuList.addAll(list);
-        }
-        userResources.setRoleMenu(menuList);
+        userResources.setUserRole(roles);
 
         // 登陆成功保存回话信息
         userLoginService.update(request.getSession().getId(), userName);
