@@ -338,12 +338,26 @@ CREATE TABLE IF NOT EXISTS t_user
 	idNumber VARCHAR(32) DEFAULT '' COMMENT '证件号码',			/* 证件号码				*/
 	telphone VARCHAR(32) DEFAULT '' COMMENT '联系号码',			/* 联系号码				*/
 	loginWay TINYINT DEFAULT 0 COMMENT '登录方式',				/* 登录方式				*/
-	enabled TINYINT DEFAULT 1 COMMENT '是否启用',				/* 是否启用				*/
+	score   FLOAT   DEFAULT 5 COMMENT '用户评分',                 /* 用户评分				*/
+	enabled TINYINT DEFAULT 1 COMMENT '是否认证启用',				/* 是否启用				*/
 	expired TINYINT DEFAULT 0 COMMENT '是否失效',				/* 是否失效 			*/
 	locked 	TINYINT DEFAULT 0 COMMENT '是否锁定',				/* 是否锁定 			*/
+	createTime datetime default now() COMMENT '创建时间',        /* 创建时间 			*/
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户信息 ';
-ALTER TABLE t_user ADD createTime datetime default now() COMMENT '创建时间' ;
+
+/* 用户认证附件表 */
+CREATE TABLE IF NOT EXISTS t_user_enclosure
+(
+    id 		VARCHAR(32) NOT NULL COMMENT 'id	',
+    userId  VARCHAR(32) NOT NULL COMMENT '用户id	',
+    fileUrl VARCHAR(264) NOT NULL COMMENT '文件地址',
+    fileName VARCHAR(128) NOT NULL COMMENT '文件名称',
+    fileSize VARCHAR(16) NOT NULL COMMENT '文件大小',
+    fileType BIGINT(4) NOT NULL   COMMENT '文件类型  0身份证 1驾驶证',
+    FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户认证 ';
 
 -- 初始化数据
 INSERT INTO `myproject`.`t_user` (`id`, `userName`, `password`, `personName`, `idNumber`, `telphone`, `loginWay`, `enabled`, `expired`, `locked`, `createTime`) VALUES ('1', 'admin', 'c254322100d8b4e838525208be321ae9', 'admin', '43052319981221071X', '13357214920', '0', '1', '0', '0', '2021-06-11 16:49:18');
@@ -408,6 +422,79 @@ CREATE TABLE IF NOT EXISTS t_role_menu
 	FOREIGN KEY(roleId) REFERENCES t_role(id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(menuId) REFERENCES t_menu(id)  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单中间表 ';
+
+/* 出租屋表 */
+CREATE TABLE IF NOT EXISTS t_hourse
+(
+    id  VARCHAR(32) NOT NULL COMMENT 'id',
+    userId VARCHAR(32) NOT NULL COMMENT '房屋所属人',			/* 用户id COMMENT '',用户表外键			*/
+    name VARCHAR(32) NOT NULL COMMENT '房子名称',
+    floor BIGINT(4) NOT NULL COMMENT '房子所在第几层',
+    floorTop BIGINT(4) NOT NULL COMMENT '房子有多少层',
+    starTime VARCHAR(4) NOT NULL COMMENT '起租时间 例子： 0.5年起',
+    elevator BIGINT(2) NOT NULL DEFAULT 0 COMMENT '是否有电梯 0 没有 1 有',
+    pets  BIGINT(2) NOT NULL DEFAULT 0 COMMENT '宠物 0 没有 1 有',
+    cook BIGINT(2) NOT NULL DEFAULT 0 COMMENT '做饭 0 没有 1 有',
+    machine BIGINT(2) NOT NULL DEFAULT 0 COMMENT '洗衣机 0 没有 1 有',
+    conditioner BIGINT(2) NOT NULL DEFAULT 0 COMMENT '空调 0 没有 1 有',
+    heater	BIGINT(2) NOT NULL DEFAULT 0 COMMENT '热水器 0 没有 1 有',
+    clean   BIGINT(2) NOT NULL DEFAULT 0 COMMENT '干净 0 没有 1 有',
+    houseScore float  NOT NULL DEFAULT 80.0 COMMENT '房屋评分 默认80分，随着浏览量高而自动加分 同理反之，每周更新一次',
+    province VARCHAR(16) NOT NULL COMMENT '房屋所在省份',
+    provinceCode VARCHAR(32) NOT NULL COMMENT '城市所在省code',
+    cityStreet  VARCHAR(32) NOT NULL COMMEMT '房屋所在城市具体位置',
+    cityCode    VARCHAR(16) NOT NULL COMMENT '所在城市code',
+    status BIGINT(4)   NOT NULL COMMENT '房子状态 0待出租 1已出租 2正在装修 3合同纠纷 4其他',
+    longitude VARCHAR(32) COMMENT '房屋经度',
+    latitude VARCHAR(32) COMMENT '房屋纬度',
+    create_time datetime NOT NULL DEFAULT NOW() COMMENT '创建时间',
+    update_time datetime COMMENT '修改时间',
+    remark  VARCHAR(128)  COMMENT '备注',
+    reserve1  VARCHAR(128) COMMENT '备用字段1'       /*  备用字段1 */
+    PRIMARY KEY (id),
+    FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出租屋表 ';
+
+/* 出租屋附件表 */
+CREATE TABLE IF NO EXISTS t_hourse_enclosure
+(
+    id  VARCHAR(32) NOT NULL COMMENT 'id',
+    hourseId VARCHAR(32) NOT NULL COMMENT '出租屋id',
+    fileUrl VARCHAR(264) NOT NULL COMMENT '文件地址',
+    fileName VARCHAR(128) NOT NULL COMMENT '文件名称',
+    fileSize VARCHAR(16) NOT NULL COMMENT '文件大小',
+    PRIMARY KEY (id),
+    FOREIGN KEY(hourseId) REFERENCES t_hourse(id)  ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出租屋附件表 ';
+
+/* 预约看房表 */
+CREATE TABLE IF NOT EXISTS t_appointment_hourse
+(
+    id  VARCHAR(32) NOT NULL COMMENT 'id',
+    userId VARCHAR(32) NOT NULL COMMENT '看房人用户id',
+    hourseId VARCHAR(32) NOT NULL COMMENT '所看的房子id',
+    seeTime DATETIME NOT NULL COMMENT '预约看房时间',
+    telphone VARCHAR(11) NOT NULL COMMENT '看房人手机号',
+    onTime BIGINT(2) NOT NULL COMMENT '看房人是否准时到达 0迟到  1早到 2准时',
+    PRIMARY KEY (id),
+    FOREIGN KEY(hourseId) REFERENCES t_hourse(id)  ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出租屋看房预约表 ';
+
+/* 评价表 */
+CREATE TABLE IF NOT EXISTS t_evaluate
+(
+    id  VARCHAR(32) NOT NULL COMMENT 'id',
+    userId VARCHAR(32) NOT NULL COMMENT '看房人用户id',
+    hourseId VARCHAR(32) NOT NULL COMMENT '所看的房子id',
+    onTime BIGINT(2) NOT NULL COMMENT '工作人员是否准时到达 0迟到  1早到 2准时',
+    attitude BIGINT(2) NOT NULL DEFAULT 5 COMMENT '工作人员服务态度 5分满分',
+    authenticity BIGINT(2) NOT NULL DEFAULT 5 COMMENT '房屋真实度 5分满分',
+    remark VARCHAR(128) COMMENT '其他描述',
+    PRIMARY KEY (id),
+    FOREIGN KEY(hourseId) REFERENCES t_hourse(id)  ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评价表 ';
 
 --
 -- 操作日志

@@ -22,7 +22,6 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -81,12 +80,9 @@ public class SyslogAspect {
             // 获取操作
             Syslog syslog = method.getAnnotation(Syslog.class);
             if (syslog != null) {
-                String desc = syslog.description();
-                String module = syslog.module();
-                String style = syslog.style();
-                operateLog.setDescription(desc);
-                operateLog.setModule(module);
-                operateLog.setStyle(style);
+                operateLog.setDescription(syslog.description());
+                operateLog.setModule(syslog.module());
+                operateLog.setStyle(syslog.style());
             }
             // 获取请求的类名
             String className = joinPoint.getTarget().getClass().getName();
