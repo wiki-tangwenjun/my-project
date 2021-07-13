@@ -269,7 +269,6 @@ DELIMITER ||
 -- 如果存在则删除存储过程
 drop procedure if exists create_fulltext_procedure ||
 
-  -- 将黑名单导出到布控表
 -- 参数1：tb_name：表名称
 -- 参数2：tb_index_name：唯一索引名
 -- 参数3：index_column：索引列
@@ -376,10 +375,9 @@ CREATE TABLE IF NOT EXISTS t_role
 
 -- 初始化数据
 INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('1', '超级管理员', '1', '0', '超级管理员拥有平台所有权限');
-INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('2', '管理员', '2', '0', '系统管理员,拥有平台大部分权限');
+INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('2', '管理员', '2', '0', '系统管理员，除去添加管理员、查看日志和修改超级管理员信息功能外拥有平台所有权限');
 INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('3', '房东', '3', '0', '房东能添加房子,和修改自己房子的配套信息');
-INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('4', '普通用户', '4', '0', '普通用户只能查看和预约看房子');
-
+INSERT INTO `myproject`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('4', '普通用户', '4', '0', '普通用户拥有查看、预约和评价房子与工作人员');
 
 /* 用户-角色中间表*/
 CREATE TABLE IF NOT EXISTS t_user_role
@@ -394,8 +392,7 @@ CREATE TABLE IF NOT EXISTS t_user_role
 -- 初始化数据
 INSERT INTO `myproject`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('1', '1', '1');
 
-
-/* 菜单资源表 */
+/* 菜单表 */
 CREATE TABLE IF NOT EXISTS t_menu
 (
     id 		VARCHAR(32) NOT NULL COMMENT 'id',				                        /* 主键id			*/
@@ -442,7 +439,7 @@ CREATE TABLE IF NOT EXISTS t_hourse
     houseScore float  NOT NULL DEFAULT 80.0 COMMENT '房屋评分 默认80分，随着浏览量高而自动加分 同理反之，每周更新一次',
     province VARCHAR(16) NOT NULL COMMENT '房屋所在省份',
     provinceCode VARCHAR(32) NOT NULL COMMENT '城市所在省code',
-    cityStreet  VARCHAR(32) NOT NULL COMMEMT '房屋所在城市具体位置',
+    cityStreet  VARCHAR(32) NOT NULL COMMENT '房屋所在城市具体位置',
     cityCode    VARCHAR(16) NOT NULL COMMENT '所在城市code',
     status BIGINT(4)   NOT NULL COMMENT '房子状态 0待出租 1已出租 2正在装修 3合同纠纷 4其他',
     longitude VARCHAR(32) COMMENT '房屋经度',
@@ -450,13 +447,13 @@ CREATE TABLE IF NOT EXISTS t_hourse
     create_time datetime NOT NULL DEFAULT NOW() COMMENT '创建时间',
     update_time datetime COMMENT '修改时间',
     remark  VARCHAR(128)  COMMENT '备注',
-    reserve1  VARCHAR(128) COMMENT '备用字段1'       /*  备用字段1 */
+    reserve1  VARCHAR(128) COMMENT '备用字段1',       /*  备用字段1 */
     PRIMARY KEY (id),
     FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出租屋表 ';
 
 /* 出租屋附件表 */
-CREATE TABLE IF NO EXISTS t_hourse_enclosure
+CREATE TABLE IF NOT EXISTS t_hourse_enclosure
 (
     id  VARCHAR(32) NOT NULL COMMENT 'id',
     hourseId VARCHAR(32) NOT NULL COMMENT '出租屋id',
@@ -496,10 +493,11 @@ CREATE TABLE IF NOT EXISTS t_evaluate
     FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评价表 ';
 
---
+--+98
 -- 操作日志
 --
-CREATE TABLE IF NOT EXISTS t_operate_log(
+CREATE TABLE IF NOT EXISTS t_operate_log
+(
 	id varchar(32) NOT NULL,					/*  编号			    */
 	userName varchar(32) NOT NULL,				/*  用户名			    */
 	userId varchar(32) NOT NULL,				/*  用户编号			*/
