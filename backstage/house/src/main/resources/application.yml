@@ -1,0 +1,49 @@
+server:
+  port: 8001
+  servlet:
+    context-path: /
+    multipart:
+      #location:
+      #上传文件最大为
+      max-file-size: 10MB
+      #上传请求最大为
+      max-request-size: 20MB
+    #nio的web服务配置
+    undertow:
+      #为工作者创建的I/O线程数
+      io-threads: 20
+      #工作者线程数量
+      worker-threads: 50
+      #访问日志
+      accesslog:
+        enabled: false
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 6000
+    jedis:
+      pool:
+        max-active: 20   #连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  datasource:
+    name: house
+    url: jdbc:mysql://127.0.0.1:3306/house?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.wenjun.busines.*.pojo
+
+# 文件上传配置
+file:
+  enable: true
+  ip: 127.0.0.1
+
+# jwt配置
+jwt:
+  secret: tangwenjun
