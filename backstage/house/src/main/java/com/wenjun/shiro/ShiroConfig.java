@@ -1,6 +1,6 @@
 package com.wenjun.shiro;
 
-import com.wenjun.Filter.JWTFilter;
+import com.wenjun.filter.JWTFilter;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
