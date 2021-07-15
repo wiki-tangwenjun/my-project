@@ -27,7 +27,7 @@ public interface IService<T> {
      * @param id 主键
      * @date 2021/7/7 14:43
      */
-    void delete(T id);
+    void delete(Object id);
 
     /**
      * 根据对象id更新对象信息

@@ -1,6 +1,7 @@
 package com.wenjun.busines.system.service.impl;
 
 
+import com.wenjun.busines.system.controller.UserController;
 import com.wenjun.busines.system.dto.LoginParam;
 import com.wenjun.busines.system.dto.UserQueryParam;
 import com.wenjun.busines.system.mapper.UserMapper;
@@ -24,10 +25,10 @@ import java.util.List;
 
 
 /**
-* @description: 用户相关操作接口
-* @author wen jun tang
-* @date 2021/6/15 17:24
-*/
+ * @author wen jun tang
+ * @description: 用户相关操作接口
+ * @date 2021/6/15 17:24
+ */
 @Service
 public class UserServiceImpl implements UserService {
     @Resource
@@ -50,31 +51,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(String id){
+    public User findById(String id) {
         return userMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public void delete(User o) {
-        userMapper.deleteByPrimaryKey(o.getId());
+    public void delete(Object id) {
+        userMapper.deleteByPrimaryKey((String) id);
     }
 
 
     @Override
     public String findByUserName(LoginParam loginParam) throws Exception {
-        // 从数据库中验证用户名密码
-        String userName = new String(Base64Util.decode(loginParam.getUserName()));
-        User user = userMapper.selectByPersonName(userName);
-        if (CheckUtil.isNull(user)) {
-             throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getDescription());
+        // 先验证验证码是否正确
+        String code = userLoginService.getKey(UserController.RANDOMKEY);
+        if (CheckUtil.isNull(code)) {
+            throw new Exception(CommonEnum.ERROR_CHECK_CODE.getError());
         }
 
-        String inPassword = new String(Base64Util.decode(loginParam.getPassword()), StandardCharsets.UTF_8);
-        String encPwd = EncryptUtil.md5(inPassword, null, 2);
-        if (!encPwd.trim().equals(user.getPassword().trim())) {
-            throw new Exception(CommonEnum.ERROR_USER_PASSWORD.getDescription());
+        User user = null;
+        if (loginParam.getCode().equals(code)) {
+            // 从数据库中验证用户名密码
+            String userName = new String(Base64Util.decode(loginParam.getUserName()));
+            user = userMapper.selectByPersonName(userName);
+            if (CheckUtil.isNull(user)) {
+                throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getDescription());
+            }
+
+            String inPassword = new String(Base64Util.decode(loginParam.getPassword()), StandardCharsets.UTF_8);
+            String encPwd = EncryptUtil.md5(inPassword, null, 2);
+            if (!encPwd.trim().equals(user.getPassword().trim())) {
+                throw new Exception(CommonEnum.ERROR_USER_PASSWORD.getDescription());
+            }
         }
 
+        assert user != null;
         return JWTUtil.createToken(user.getUserName());
     }
 
@@ -90,7 +101,7 @@ public class UserServiceImpl implements UserService {
         // 登录成功查找用户角色资源
         userResources.setUser(user);
         Role role = iRoleService.findByUserId(user.getId());
-            role.setRoleMenu(iMenuService.selectByRoleId(role.getId()));
+        role.setRoleMenu(iMenuService.selectByRoleId(role.getId()));
         userResources.setUserRole(role);
 
         return userResources;

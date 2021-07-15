@@ -26,8 +26,8 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public void delete(Role o) {
-        roleMapper.deleteByPrimaryKey(o.getId());
+    public void delete(Object id) {
+        roleMapper.deleteByPrimaryKey((String) id);
     }
 
     @Override

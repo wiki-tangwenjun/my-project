@@ -34,8 +34,8 @@ public class OperateLogServiceImpl implements OperateLogService {
     }
 
     @Override
-    public void delete(OperateLog o) {
-        operateLogMapper.deleteByPrimaryKey(o.getId());
+    public void delete(Object id) {
+        operateLogMapper.deleteByPrimaryKey((String) id);
     }
 
     @Override

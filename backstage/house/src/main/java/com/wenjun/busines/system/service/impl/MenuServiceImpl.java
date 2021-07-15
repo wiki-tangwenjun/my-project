@@ -28,8 +28,8 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public void delete(Menu o) {
-        menuMapper.deleteByPrimaryKey(o.getId());
+    public void delete(Object id) {
+        menuMapper.deleteByPrimaryKey((String) id);
     }
 
     @Override
