@@ -14,6 +14,8 @@ public class Role {
 
     private String name;
 
+    private String roleKey;
+
     private Byte level;
 
     private Byte status;

@@ -11,10 +11,11 @@
     <result column="status" property="status" jdbcType="BIGINT" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="parentId" property="parentId" jdbcType="VARCHAR" />
+    <result column="permissionName" property="permissionName" jdbcType="VARCHAR" />
     <result column="reserve1" property="reserve1" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, folderOrMenu, menuHref, menuRoute, menuLevel, status, remark, parentId,
+    id, name, folderOrMenu,permissionName, menuHref, menuRoute, menuLevel, status, remark, parentId,
     reserve1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -30,11 +31,11 @@
   <insert id="insert" parameterType="com.wenjun.busines.system.pojo.Menu" >
     insert into t_menu (id, name, folderOrMenu,
       menuHref, menuRoute, menuLevel,
-      status, remark, parentId,
+      status, remark, parentId,permissionName,
       reserve1)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{folderOrMenu,jdbcType=BIGINT},
       #{menuHref,jdbcType=VARCHAR}, #{menuRoute,jdbcType=VARCHAR}, #{menuLevel,jdbcType=BIGINT},
-      #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},
+      #{status,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{permissionName,jdbcType=VARCHAR},
       #{reserve1,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wenjun.busines.system.pojo.Menu" >
@@ -66,6 +67,9 @@
       </if>
       <if test="parentId != null" >
         parentId,
+      </if>
+      <if test="permissionName != null" >
+       permissionName,
       </if>
       <if test="reserve1 != null" >
         reserve1,
@@ -99,6 +103,9 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=VARCHAR},
       </if>
+      <if test="permissionName != null" >
+        #{permissionName,jdbcType=VARCHAR},
+      </if>
       <if test="reserve1 != null" >
         #{reserve1,jdbcType=VARCHAR},
       </if>
@@ -131,6 +138,9 @@
       <if test="parentId != null" >
         parentId = #{parentId,jdbcType=VARCHAR},
       </if>
+      <if test="permissionName != null" >
+        permissionName = #{permissionName,jdbcType=VARCHAR},
+      </if>
       <if test="reserve1 != null" >
         reserve1 = #{reserve1,jdbcType=VARCHAR},
       </if>
@@ -147,11 +157,12 @@
       status = #{status,jdbcType=BIGINT},
       remark = #{remark,jdbcType=VARCHAR},
       parentId = #{parentId,jdbcType=VARCHAR},
+      permissionName = #{permissionName,jdbcType=VARCHAR},
       reserve1 = #{reserve1,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <!-- 根据角色id查找角色菜单 -->
   <select id="selectByRoleId" resultMap="BaseResultMap">
-    select b.id, name,folderOrMenu, menuHref,menuRoute, menuLevel,`status`,remark,parentId,reserve1 from t_role_menu as a left join t_menu as b on a.menuId = b.id where a.roleId = #{roleId}
+    select b.id, name,folderOrMenu, menuHref,menuRoute, menuLevel,`status`,remark,parentId, permissionName,reserve1 from t_role_menu as a left join t_menu as b on a.menuId = b.id where a.roleId = #{roleId}
   </select>
 </mapper>

@@ -359,7 +359,8 @@ CREATE TABLE IF NOT EXISTS t_user_enclosure
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户认证 ';
 
 -- 初始化数据
-INSERT INTO `house`.`t_user` (`id`, `userName`, `password`, `personName`, `idNumber`, `telphone`, `loginWay`, `enabled`, `expired`, `locked`, `createTime`) VALUES ('1', 'admin', 'c254322100d8b4e838525208be321ae9', 'admin', '43052319981221071X', '13357214920', '0', '1', '0', '0', '2021-06-11 16:49:18');
+INSERT INTO `house`.`t_user` (`id`, `userName`, `password`, `personName`, `idNumber`, `telphone`, `loginWay`, `enabled`, `expired`, `locked`, `createTime`) VALUES ('1', 'YWRtaW4=', 'fe3ca4c5097cd9f957b61f9d65035b6c', 'admin', '43052319981221071X', '13357214920', '0', '1', '0', '0', '2021-06-11 16:49:18');
+INSERT INTO `house`.`t_user` (`id`, `userName`, `password`, `personName`, `idNumber`, `telphone`, `loginWay`, `score`, `enabled`, `expired`, `locked`, `createTime`) VALUES ('2', 'dHdq', 'MTIzNDU2', 'admin', '43052319981221071X', '13357214920', '0', '5', '1', '0', '0', '2021-07-15 16:17:34');
 
 
 /* 角色表*/
@@ -367,6 +368,7 @@ CREATE TABLE IF NOT EXISTS t_role
 (
 	id 		VARCHAR(32) NOT NULL COMMENT '角色id',			/* 主键，角色id			*/
 	name 	VARCHAR(64) NOT NULL COMMENT '名称',			/* 角色名称				*/
+	roleKey VARCHAR(32) NOT NULL COMMENT '角色key',
 	level  TINYINT COMMENT '用户级别',						/* 用户级别			*/
 	status TINYINT DEFAULT 0 COMMENT '状态',				/* 状态 启用、禁止		*/
 	remark	VARCHAR(128) DEFAULT '' COMMENT '描述',			/* 描述					*/
@@ -374,10 +376,10 @@ CREATE TABLE IF NOT EXISTS t_role
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色信息 ';
 
 -- 初始化数据
-INSERT INTO `house`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('1', '超级管理员', '1', '0', '超级管理员拥有平台所有权限');
-INSERT INTO `house`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('2', '管理员', '2', '0', '系统管理员，除去添加管理员、查看日志和修改超级管理员信息功能外拥有平台所有权限');
-INSERT INTO `house`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('3', '房东', '3', '0', '房东能添加房子,和修改自己房子的配套信息');
-INSERT INTO `house`.`t_role` (`id`, `name`, `level`, `status`, `remark`) VALUES ('4', '普通用户', '4', '0', '普通用户拥有查看、预约和评价房子与工作人员');
+INSERT INTO `house`.`t_role` (`id`, `name`, `roleKey`, `level`, `status`, `remark`) VALUES ('1', '超级管理员', 'superAdmin', '1', '0', '超级管理员拥有平台所有权限');
+INSERT INTO `house`.`t_role` (`id`, `name`, `roleKey`, `level`, `status`, `remark`) VALUES ('2', '管理员', 'admin', '2', '0', '系统管理员，除去添加管理员、查看日志和修改超级管理员信息功能外拥有平台所有权限');
+INSERT INTO `house`.`t_role` (`id`, `name`, `roleKey`, `level`, `status`, `remark`) VALUES ('3', '房东', 'landlord', '3', '0', '房东能添加房子,和修改自己房子的配套信息');
+INSERT INTO `house`.`t_role` (`id`, `name`, `roleKey`, `level`, `status`, `remark`) VALUES ('4', '普通用户', 'user', '4', '0', '普通用户拥有查看、预约和评价房子与工作人员');
 
 /* 用户-角色中间表*/
 CREATE TABLE IF NOT EXISTS t_user_role
@@ -391,6 +393,8 @@ CREATE TABLE IF NOT EXISTS t_user_role
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户-角色中间表 ';
 -- 初始化数据
 INSERT INTO `house`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('1', '1', '1');
+INSERT INTO `house`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('2', '2', '2');
+
 
 /* 菜单表 */
 CREATE TABLE IF NOT EXISTS t_menu
@@ -404,9 +408,16 @@ CREATE TABLE IF NOT EXISTS t_menu
     status          BIGINT(2) NOT NULL DEFAULT 0   COMMENT '是否停用',              /*  是否停用 0 正常 1 停用 */
     remark    VARCHAR(256)        COMMENT '备注',                                  /*  备注 */
     parentId  VARCHAR(16)        COMMENT '父菜单目录id',                              /*  父菜单目录id */
+    permissionName  VARCHAR(32) NOT NULL COMMENT'菜单权限名称',                            /* 菜单权限名称 */
     reserve1  VARCHAR(128)        COMMENT '备用字段1',                               /*  备用字段1 */
     PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单资源表 ';
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('1', '系统管理', '0', 'system', 'system', '0', '0', '系统管理', NULL, 'system', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('2', '用户管理', '1', 'userMange', 'system/userMange', '1', '0', '用户管理', '1', 'system-user', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('3', '角色管理', '2', 'roleMange', 'system/roleMange', '2', '0', '角色管理', '1', 'system-role', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('4', '菜单管理', '3', 'menuMange', 'system/menuMange', '3', '0', '菜单管理', '1', 'system-menu', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('5', '系统日志', '4', 'operateLog', 'system/operate', '4', '0', '系统日志', '1', 'system-log', NULL);
+
 
 
 /* 角色菜单 */
@@ -419,6 +430,16 @@ CREATE TABLE IF NOT EXISTS t_role_menu
 	FOREIGN KEY(roleId) REFERENCES t_role(id)  ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY(menuId) REFERENCES t_menu(id)  ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单中间表 ';
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('1', '1', '1');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('2', '1', '2');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('3', '1', '3');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('4', '1', '4');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('5', '1', '5');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('6', '2', '1');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('7', '2', '2');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('8', '2', '3');
+INSERT INTO `house`.`t_role_menu` (`id`, `roleId`, `menuId`) VALUES ('9', '2', '4');
+
 
 /* 出租屋表 */
 CREATE TABLE IF NOT EXISTS t_house

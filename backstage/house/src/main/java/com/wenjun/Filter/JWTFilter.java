@@ -1,6 +1,7 @@
 package com.wenjun.Filter;
 
 import com.wenjun.shiro.JWTToken;
+import com.wenjun.util.CheckUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @projectName: house
@@ -39,6 +41,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                 return true;
             } catch (Exception e) {
                 // token 错误
+                responseError(response, "token 错误");
                 throw new Exception("token 错误");
             }
         }
@@ -53,7 +56,11 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
-        String token = req.getHeader("token");
+        String header = req.getHeader("Authorization");
+        String token = null;
+        if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
+            token = header.substring(7);
+        }
         return token != null;
     }
 
@@ -63,12 +70,17 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token = httpServletRequest.getHeader("token");
-        JWTToken jwtToken = new JWTToken(token);
-        // 提交给realm进行登入，如果错误它会抛出异常并被捕获
-        getSubject(request, response).login(jwtToken);
-        // 如果没有抛出异常则代表登入成功，返回true
-        return true;
+        boolean flag = false;
+        String header = httpServletRequest.getHeader("Authorization");
+        if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            JWTToken jwtToken = new JWTToken(token);
+            // 提交给realm进行登入，如果错误它会抛出异常并被捕获
+            getSubject(request, response).login(jwtToken);
+            flag = true;
+        }
+
+        return flag;
     }
 
     /**
@@ -95,9 +107,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private void responseError(ServletResponse response, String message) throws Exception {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            //设置编码，否则中文字符在重定向时会变为空字符串
-            message = URLEncoder.encode(message, "UTF-8");
-            httpServletResponse.sendRedirect("/unauthorized/" + message);
+            // 设置编码，否则中文字符在重定向时会变为空字符串
+            message = URLEncoder.encode(message, StandardCharsets.UTF_8);
+            httpServletResponse.sendRedirect("/404/" + message);
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new Exception("权限认证异常");

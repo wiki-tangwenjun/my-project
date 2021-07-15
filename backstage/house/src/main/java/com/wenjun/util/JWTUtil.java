@@ -30,13 +30,13 @@ public class JWTUtil {
     private static String SECRET;
 
     @Value("${jwt.secret}")
-    private static void setSecretKey(String secret) {
+    private void setSecretKey(String secret) {
         JWTUtil.SECRET = secret;
     }
     /**
-     * 过期时间 2 小时
+     * 过期时间 20 小时
      */
-    private static final long EXPIRE_TIME = 7200*1000;
+    private static final long EXPIRE_TIME = 72000*1000;
 
 
     /**

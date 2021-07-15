@@ -68,6 +68,7 @@ public class CustomRealm extends AuthorizingRealm {
         if (user.getLocked() == 1) {
             throw new AuthenticationException("该用户已被封号！");
         }
+
         return new SimpleAuthenticationInfo(token, token, "MyRealm");
     }
 
@@ -78,15 +79,18 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         // 获得该用户角色
         User user = userMapper.selectByPersonName(username);
-        Role role = iRoleService.findByUserId(user.getId());
-        // 每个角色拥有默认的权限
+            Role role = iRoleService.findByUserId(user.getId());
+        // 查找该角色权限
         List<Menu> menus = iMenuService.selectByRoleId(role.getId());
-        Set<String> roleSet = new HashSet<>();
-        Set<String> permissions = new HashSet<>();
+            Set<String> roleSet = new HashSet<>();
+            Set<String> permissions = new HashSet<>();
 
-        // 需要将 role, permission 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
-        roleSet.add(role.getName());
-        permissions.add(Arrays.toString(menus.toArray()));
+            // 需要将 role, permission 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
+            roleSet.add(role.getRoleKey());
+        for (Menu menu: menus) {
+            permissions.add(menu.getPermissionName());
+        }
+
         //设置该用户拥有的角色和权限
         info.setRoles(roleSet);
         info.setStringPermissions(permissions);

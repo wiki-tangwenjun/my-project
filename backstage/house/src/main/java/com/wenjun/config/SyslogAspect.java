@@ -129,7 +129,7 @@ public class SyslogAspect {
             if (CheckUtil.isNull(request.getSession(false))) {
                 return;
             }
-            String userName = userLoginService.find(request.getSession(false).getId());
+            String userName = userLoginService.getKey(request.getSession(false).getId());
             User user = userMapper.selectByPersonName(userName);
             if (!CheckUtil.isNull(user)) {
                 operateLog.setUserName(userName);

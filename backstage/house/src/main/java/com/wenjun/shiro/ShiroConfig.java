@@ -49,6 +49,7 @@ public class ShiroConfig {
 
         // 放行不需要权限认证的接口
         filterRuleMap.put("/user/login", "anon");
+        filterRuleMap.put("/user/getVerificationCode", "anon");
         filterRuleMap.put("/unauthorized/**", "anon");
 
         //放行Swagger接口

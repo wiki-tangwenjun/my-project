@@ -1,10 +1,10 @@
 package com.wenjun.busines.system.service;
 
+import com.wenjun.busines.system.dto.LoginParam;
 import com.wenjun.busines.system.dto.UserQueryParam;
 import com.wenjun.busines.system.pojo.User;
 import com.wenjun.busines.system.pojo.UserResources;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -16,12 +16,32 @@ import java.util.List;
 public interface UserService extends IService<User> {
 
     /**
-     * 根据用户名称查找记录
-     * @return UserResources
+     * 登录接口
+     *
+     * @param loginParam 登录参数
+     * @return java.lang.String
+     * @author wen jun tang
+     * @date 2021/7/15 12:05
      */
-    UserResources findByUserName(HttpServletRequest request, String userName, String password) throws Exception;
+    String findByUserName(LoginParam loginParam) throws Exception;
 
 
+    /**
+     * 按条件查询用户信息
+     *
+     * @param userQueryParam 查询条件参数
+     * @return java.util.List<com.wenjun.busines.system.pojo.User>
+     * @author wen jun tang
+     * @date 2021/7/15 12:05
+     */
     List<User> findByAttributes(UserQueryParam userQueryParam);
 
+    /**
+     * 根据token获取用户名称--》 根据用户名称查询用户角色和资源
+    * @author wen jun tang
+    * @param token 用户登录获取的token
+    * @return com.wenjun.busines.system.pojo.UserResources
+    * @date 2021/7/15 12:08
+    */
+    UserResources findByUserResource(String token);
 }

@@ -1,18 +1,22 @@
 package com.wenjun.busines.system.controller;
 
 import com.wenjun.busines.system.dto.LoginParam;
+import com.wenjun.busines.system.pojo.UserResources;
+import com.wenjun.busines.system.service.UserService;
+import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.handlerException.error.ReturnValue;
+import com.wenjun.redis.UserLoginService;
+import com.wenjun.util.CheckUtil;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -29,18 +33,38 @@ import javax.validation.Valid;
 @RestController
 @Api(value = "用户相关操作接口", tags = "用户相关操作接口")
 public class UserController {
+    @Resource
+    private UserLoginService userLoginService;
+    @Resource
+    private UserService userService;
+
+    public static final String RANDOMKEY = "randomCode";
 
     @GetMapping("/login")
     public ReturnValue<String> login(@Valid LoginParam loginParam) throws Exception {
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(loginParam.getUserName(), loginParam.getPassword());
-        try {
-            subject.login(token);
-            return new ReturnValue<>();
-        } catch (UnknownAccountException e) {
-            throw new NullPointerException("用户名不存在");
-        } catch (IncorrectCredentialsException e) {
-            throw new Exception("密码错误");
+        return new ReturnValue<>(userService.findByUserName(loginParam));
+    }
+
+    @GetMapping("/getVerificationCode")
+    public ReturnValue<String> getVerificationCode() {
+        userLoginService.delete(RANDOMKEY);
+        userLoginService.setKey(RANDOMKEY, String.valueOf((int) ((Math.random() * 9 + 1) * 10000)), 60);
+
+        String randomCode = userLoginService.getKey(RANDOMKEY);
+
+        return new ReturnValue<>(CommonEnum.ERROR_SUCCESS, randomCode);
+    }
+
+//    @RequiresRoles(logical = Logical.OR, value = {"user", "admin"})
+    @GetMapping("/getUserResources")
+    @RequiresRoles(logical = Logical.OR, value = {"admin", "superAdmin"})
+    public ReturnValue<UserResources> getUserResources(HttpServletRequest request) {
+        UserResources userResources = null;
+        String header = request.getHeader("Authorization");
+        if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+            userResources = userService.findByUserResource(token);
         }
+        return new ReturnValue<>(userResources);
     }
 }

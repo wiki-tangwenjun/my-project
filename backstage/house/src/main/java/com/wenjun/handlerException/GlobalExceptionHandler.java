@@ -5,6 +5,8 @@ import com.wenjun.handlerException.error.ReturnValue;
 import com.wenjun.handlerException.exception.HouseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.ShiroException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,15 +39,31 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * @param e 异常参数
-     * @return com.wenjun.handlerException.error.ReturnValue<java.lang.String>
-     * @description: 捕捉shiro的异常
+     * @description: 捕捉无权限操作失败异常
      * @author wen jun tang
-     * @date 2021/7/14 17:14
+     * @param ex 异常参数
+     * @return com.wenjun.handlerException.error.ReturnValue<java.lang.String>
+     * @date 2021/7/15 16:45
      */
-    @ExceptionHandler(ShiroException.class)
-    public ReturnValue<String> shiroException(CommonEnum e) {
+    @ResponseBody
+    @ExceptionHandler(UnauthorizedException.class)
+    public ReturnValue<String> handleShiroException(Exception ex) {
+        log.error(ex.getMessage());
         return new ReturnValue<>(CommonEnum.ERROR_NO_RIGHT.getError(), CommonEnum.ERROR_NO_RIGHT.getDescription());
+    }
+
+    /**
+    * @description: 捕捉权限认证失败异常
+    * @author wen jun tang
+    * @param ex 异常参数
+    * @return com.wenjun.handlerException.error.ReturnValue<java.lang.String>
+    * @date 2021/7/15 16:45
+    */
+    @ResponseBody
+    @ExceptionHandler(AuthorizationException.class)
+    public ReturnValue<String> AuthorizationException(Exception ex) {
+        log.error(ex.getMessage());
+        return new ReturnValue<>(CommonEnum.ERROR_NO_RIGHT_ERROR.getError(), CommonEnum.ERROR_NO_RIGHT_ERROR.getDescription());
     }
 
     /**
@@ -72,7 +90,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ClassCastException.class)
     @ResponseBody
     public ReturnValue<String> classCastException(ClassCastException e) {
-        e.printStackTrace();
         log.error(e.getMessage());
         return new ReturnValue<>(CommonEnum.ERROR_CLASS_CAST_EXCEPTION, e.getMessage());
     }
@@ -87,7 +104,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = ArrayIndexOutOfBoundsException.class)
     @ResponseBody
     public ReturnValue<String> negativeArrayException(ArrayIndexOutOfBoundsException e) {
-        e.printStackTrace();
         log.error(e.getMessage());
         return new ReturnValue<>(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, e.getMessage());
     }
@@ -102,7 +118,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ReturnValue<String> exceptionHandler(Exception e) {
-        e.printStackTrace();
         log.error(e.getMessage());
         return new ReturnValue<>(CommonEnum.ERROR_UNKNOW, e.getMessage());
     }
