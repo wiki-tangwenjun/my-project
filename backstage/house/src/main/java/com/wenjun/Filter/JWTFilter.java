@@ -1,4 +1,4 @@
-package com.wenjun.Filter;
+package com.wenjun.filter;
 
 import com.wenjun.shiro.JWTToken;
 import com.wenjun.util.CheckUtil;
