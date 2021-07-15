@@ -3,13 +3,11 @@ package com.wenjun.config;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wenjun.anno.Syslog;
-import com.wenjun.busines.system.mapper.UserMapper;
 import com.wenjun.busines.system.pojo.OperateLog;
-import com.wenjun.busines.system.pojo.User;
+import com.wenjun.busines.system.pojo.UserResources;
 import com.wenjun.busines.system.service.OperateLogService;
 import com.wenjun.busines.system.service.UserService;
 import com.wenjun.handlerException.error.ReturnValue;
-import com.wenjun.redis.UserLoginService;
 import com.wenjun.util.CheckUtil;
 import com.wenjun.util.TextUtil;
 import org.aspectj.lang.JoinPoint;
@@ -37,9 +35,7 @@ public class SyslogAspect {
     @Resource
     private OperateLogService operateLogService;
     @Resource
-    private UserLoginService userLoginService;
-    @Resource
-    private UserMapper userMapper;
+    private UserService userService;
 
     /**
      * 切点。注解的方式
@@ -129,12 +125,17 @@ public class SyslogAspect {
             if (CheckUtil.isNull(request.getSession(false))) {
                 return;
             }
-            String userName = userLoginService.getKey(request.getSession(false).getId());
-            User user = userMapper.selectByPersonName(userName);
-            if (!CheckUtil.isNull(user)) {
-                operateLog.setUserName(userName);
-                operateLog.setUserId(user.getId());
-                operateLog.setName(user.getPersonName());
+
+            String header = request.getHeader("Authorization");
+            if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
+                String token = header.substring(7);
+                UserResources userResources = userService.findByUserResource(token);
+
+                if (!CheckUtil.isNull(userResources)) {
+                    operateLog.setUserName(userResources.getUser().getUserName());
+                    operateLog.setUserId(userResources.getUser().getId());
+                    operateLog.setName(userResources.getUser().getPersonName());
+                }
             }
 
             // 请求URI request.getRequestURI()
