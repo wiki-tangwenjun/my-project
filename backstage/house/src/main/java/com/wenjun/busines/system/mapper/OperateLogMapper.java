@@ -20,5 +20,7 @@ public interface OperateLogMapper {
 
     int updateByPrimaryKey(OperateLog record);
 
+    int selectCountByAttributes(OperateLogQueryParam operateLogParam);
+
    	List<OperateLog> selectByAttributes(OperateLogQueryParam operateLogQueryParam);
 }

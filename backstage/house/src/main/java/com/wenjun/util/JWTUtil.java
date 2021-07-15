@@ -34,9 +34,9 @@ public class JWTUtil {
         JWTUtil.SECRET = secret;
     }
     /**
-     * 过期时间 20 小时
+     * 过期时间 24 小时
      */
-    private static final long EXPIRE_TIME = 72000*1000;
+    private static final long EXPIRE_TIME = 86400;
 
 
     /**

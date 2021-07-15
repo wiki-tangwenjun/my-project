@@ -45,7 +45,7 @@ public class OperateLogController {
     @ApiImplicitParams({@ApiImplicitParam(name = "operateLog", value = "操作日志信息", required = true, dataType = "OperateLog", paramType="body")})
     @PostMapping(value = "/add")
     @Syslog(module="操作日志",style="添加",description="添加操作日志信息")
-    @RequiresRoles(logical = Logical.OR, value = {"user", "admin"})
+    @RequiresRoles(logical = Logical.OR, value = {"superAdmin", "admin"})
     @RequiresPermissions(logical = Logical.OR, value = {""})
     public ReturnValue<String> add(HttpServletRequest request, @RequestBody OperateLog operateLog){
         if(CheckUtil.isNull(operateLog.getUserName())) {
