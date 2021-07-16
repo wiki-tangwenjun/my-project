@@ -6,6 +6,7 @@ import com.wenjun.busines.system.service.IRoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @projectName: my-project
@@ -41,7 +42,7 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public Role findByUserId(String userId) {
+    public List<Role> findByUserId(String userId) {
         return roleMapper.selectByUserId(userId);
     }
 }

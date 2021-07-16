@@ -12,4 +12,13 @@ import com.wenjun.busines.system.pojo.UserRole;
  * @version: 1.0
  */
 public interface IUserRoleService extends IService<UserRole>{
+
+    /**
+    * 根据角色id和用户id删除用户角色
+    * @author wen jun tang
+    * @param userId 用户id
+    * @param roleId 角色id
+    * @date 2021/7/16 16:29
+    */
+    void deleteByAttributes(String userId, String roleId);
 }

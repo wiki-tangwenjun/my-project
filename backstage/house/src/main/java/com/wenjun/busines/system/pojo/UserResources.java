@@ -24,6 +24,6 @@ public class UserResources implements Serializable {
     @ApiModelProperty("用户信息")
     private User user;
     @ApiModelProperty("用户拥有的角色信息")
-    private Role userRole;
+    private List<Role> userRole;
 
 }

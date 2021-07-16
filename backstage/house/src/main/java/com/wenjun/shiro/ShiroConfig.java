@@ -1,6 +1,6 @@
 package com.wenjun.shiro;
 
-import com.wenjun.filter.JWTFilter;
+import com.wenjun.Filter.JWTFilter;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -37,8 +37,8 @@ public class ShiroConfig {
          */
         // 添加自己的过滤器并且取名为jwt
         Map<String, Filter> filterMap = new LinkedHashMap<>();
-        //设置我们自定义的JWT过滤器
-        filterMap.put("jwt", (Filter) new JWTFilter());
+        // 设置我们自定义的JWT过滤器
+        filterMap.put("jwt", new JWTFilter());
         factoryBean.setFilters(filterMap);
         factoryBean.setSecurityManager(securityManager);
         // 设置无权限时跳转的 url;
@@ -59,7 +59,6 @@ public class ShiroConfig {
         filterRuleMap.put("/swagger-resources/configuration/security","anon");
         filterRuleMap.put("/swagger-ui.html","anon");
         filterRuleMap.put("/webjars/**","anon");
-
 
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;

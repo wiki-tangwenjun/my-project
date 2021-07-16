@@ -10,6 +10,7 @@ import com.wenjun.busines.system.service.UserService;
 import com.wenjun.handlerException.error.ReturnValue;
 import com.wenjun.util.CheckUtil;
 import com.wenjun.util.TextUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,6 +32,7 @@ import java.util.Map;
  */
 @Component
 @Aspect
+@Slf4j
 public class SyslogAspect {
     @Resource
     private OperateLogService operateLogService;
@@ -58,7 +60,7 @@ public class SyslogAspect {
      * @param returnValue 返回结果
      */
     @AfterReturning(value = "operLogPoinCut()", returning = "returnValue")
-    public void saveOperLog(JoinPoint joinPoint, Object returnValue) {
+    public void saveOperLog(JoinPoint joinPoint, Object returnValue) throws Exception {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
@@ -142,7 +144,8 @@ public class SyslogAspect {
             operateLog.setId(TextUtil.getUUID());
             operateLogService.add(operateLog);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new Exception("记录日志异常");
         }
     }
 

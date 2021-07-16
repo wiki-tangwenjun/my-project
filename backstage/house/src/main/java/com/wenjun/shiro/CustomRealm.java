@@ -79,19 +79,21 @@ public class CustomRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         // 获得该用户角色
         User user = userMapper.selectByPersonName(username);
-            Role role = iRoleService.findByUserId(user.getId());
-        // 查找该角色权限
-        List<Menu> menus = iMenuService.selectByRoleId(role.getId());
+            List<Role> roles = iRoleService.findByUserId(user.getId());
             Set<String> roleSet = new HashSet<>();
             Set<String> permissions = new HashSet<>();
+            for (Role role: roles) {
+                // 查找该角色权限
+                List<Menu> menus = iMenuService.selectByRoleId(role.getId());
+                role.setRoleMenu(menus);
+                // 需要将 [role], [permission] 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
+                roleSet.add(role.getRoleKey());
+                for (Menu menu: menus) {
+                    permissions.add(menu.getPermissionName());
+                }
+            }
 
-            // 需要将 role, permission 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
-            roleSet.add(role.getRoleKey());
-        for (Menu menu: menus) {
-            permissions.add(menu.getPermissionName());
-        }
-
-        //设置该用户拥有的角色和权限
+        // 设置用户[角色]和[权限]
         info.setRoles(roleSet);
         info.setStringPermissions(permissions);
         return info;

@@ -4,20 +4,19 @@ package com.wenjun.busines.system.service.impl;
 import com.wenjun.busines.system.controller.UserController;
 import com.wenjun.busines.system.dto.LoginParam;
 import com.wenjun.busines.system.dto.UserQueryParam;
+import com.wenjun.busines.system.mapper.MenuMapper;
+import com.wenjun.busines.system.mapper.RoleMapper;
 import com.wenjun.busines.system.mapper.UserMapper;
-import com.wenjun.busines.system.pojo.Role;
-import com.wenjun.busines.system.pojo.User;
-import com.wenjun.busines.system.pojo.UserResources;
+import com.wenjun.busines.system.mapper.UserRoleMapper;
+import com.wenjun.busines.system.pojo.*;
 import com.wenjun.busines.system.service.IMenuService;
 import com.wenjun.busines.system.service.IRoleService;
 import com.wenjun.busines.system.service.UserService;
 import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.redis.UserLoginService;
-import com.wenjun.util.Base64Util;
-import com.wenjun.util.CheckUtil;
-import com.wenjun.util.EncryptUtil;
-import com.wenjun.util.JWTUtil;
+import com.wenjun.util.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
@@ -36,9 +35,11 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserLoginService userLoginService;
     @Resource
-    private IMenuService iMenuService;
+    private MenuMapper menuMapper;
     @Resource
-    private IRoleService iRoleService;
+    private RoleMapper roleMapper;
+    @Resource
+    private UserRoleMapper userRoleMapper;
 
     @Override
     public void add(User o) {
@@ -61,6 +62,21 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void insert(AddUserParam addUserParam) {
+        addUserParam.getUser().setId(TextUtil.getUUID());
+
+        UserRole userRole = new UserRole();
+            userRole.setId(TextUtil.getUUID());
+            userRole.setUserId(addUserParam.getUser().getId());
+            userRole.setRoleId(addUserParam.getRoleId());
+
+        userRoleMapper.insert(userRole);
+
+        userMapper.insert(addUserParam.getUser());
+    }
+
     @Override
     public String findByUserName(LoginParam loginParam) throws Exception {
         // 先验证验证码是否正确
@@ -69,24 +85,26 @@ public class UserServiceImpl implements UserService {
             throw new Exception(CommonEnum.ERROR_CHECK_CODE.getError());
         }
 
-        User user = null;
+        String tokenName = "";
         if (loginParam.getCode().equals(code)) {
             // 从数据库中验证用户名密码
             String userName = new String(Base64Util.decode(loginParam.getUserName()));
-            user = userMapper.selectByPersonName(userName);
+            User user = userMapper.selectByPersonName(userName);
             if (CheckUtil.isNull(user)) {
                 throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getDescription());
             }
 
+            tokenName = user.getUserName();
             String inPassword = new String(Base64Util.decode(loginParam.getPassword()), StandardCharsets.UTF_8);
             String encPwd = EncryptUtil.md5(inPassword, null, 2);
             if (!encPwd.trim().equals(user.getPassword().trim())) {
-                throw new Exception(CommonEnum.ERROR_USER_PASSWORD.getDescription());
+                throw new Exception(CommonEnum.ERROR_USER_PASSWORD.getError());
             }
+        } else {
+            throw new Exception(CommonEnum.ERROR_CHECK_CODE.getError());
         }
 
-        assert user != null;
-        return JWTUtil.createToken(user.getUserName());
+        return JWTUtil.createToken(tokenName);
     }
 
     @Override
@@ -100,9 +118,11 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByPersonName(JWTUtil.getUsername(token));
         // 登录成功查找用户角色资源
         userResources.setUser(user);
-        Role role = iRoleService.findByUserId(user.getId());
-        role.setRoleMenu(iMenuService.selectByRoleId(role.getId()));
-        userResources.setUserRole(role);
+            List<Role> roles = roleMapper.selectByUserId(user.getId());
+            userResources.setUserRole(roles);
+            for (Role role: roles) {
+                role.setRoleMenu(menuMapper.selectByRoleId(role.getId()));
+            }
 
         return userResources;
     }

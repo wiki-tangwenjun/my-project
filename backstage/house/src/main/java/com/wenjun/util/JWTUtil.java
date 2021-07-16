@@ -36,7 +36,7 @@ public class JWTUtil {
     /**
      * 过期时间 24 小时
      */
-    private static final long EXPIRE_TIME = 86400;
+    private static final long EXPIRE_TIME = 86400*1000;
 
 
     /**

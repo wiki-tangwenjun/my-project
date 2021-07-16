@@ -394,6 +394,8 @@ CREATE TABLE IF NOT EXISTS t_user_role
 -- 初始化数据
 INSERT INTO `house`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('1', '1', '1');
 INSERT INTO `house`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('2', '2', '2');
+INSERT INTO `house`.`t_user_role` (`id`, `userId`, `roleId`) VALUES ('3', '1', '2');
+
 
 
 /* 菜单表 */

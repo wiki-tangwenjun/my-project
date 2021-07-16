@@ -1,5 +1,6 @@
-package com.wenjun.filter;
+package com.wenjun.Filter;
 
+import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.shiro.JWTToken;
 import com.wenjun.util.CheckUtil;
 import lombok.SneakyThrows;
@@ -33,16 +34,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     @SneakyThrows
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-        //判断请求的请求头是否带上 "token"
+        // 判断请求的请求头是否带上 "token"
         if (isLoginAttempt(request, response)) {
-            //如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
+            // 如果存在，则进入 executeLogin 方法执行登入，检查 token 是否正确
             try {
                 executeLogin(request, response);
                 return true;
             } catch (Exception e) {
                 // token 错误
                 responseError(response, "token 错误");
-                throw new Exception("token 错误");
+                throw new Exception(CommonEnum.ERROR_TOKEN.getError());
             }
         }
         // 如果请求头不存在 token，则可能是执行登陆操作或者是游客状态访问，无需检查 token，直接返回 true

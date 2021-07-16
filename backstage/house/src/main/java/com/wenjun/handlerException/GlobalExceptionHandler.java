@@ -108,6 +108,8 @@ public class GlobalExceptionHandler {
         return new ReturnValue<>(CommonEnum.ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION, e.getMessage());
     }
 
+
+
     /**
      * @param e 异常参数
      * @return com.wenjun.handlerException.error.ReturnValue<java.lang.String>

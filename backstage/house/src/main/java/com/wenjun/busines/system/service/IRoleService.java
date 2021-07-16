@@ -3,6 +3,8 @@ package com.wenjun.busines.system.service;
 
 import com.wenjun.busines.system.pojo.Role;
 
+import java.util.List;
+
 /**
  * @projectName: my-project
  * @package: com.study.service
@@ -22,5 +24,5 @@ public interface IRoleService extends IService<Role> {
      * @author wen jun tang
      * @date 2021/7/6 17:28
      */
-    Role findByUserId(String userId);
+    List<Role> findByUserId(String userId);
 }

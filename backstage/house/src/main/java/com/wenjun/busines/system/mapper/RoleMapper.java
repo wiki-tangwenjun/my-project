@@ -3,6 +3,8 @@ package com.wenjun.busines.system.mapper;
 import com.wenjun.busines.system.pojo.Role;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface RoleMapper {
     int deleteByPrimaryKey(String id);
 
@@ -25,5 +27,5 @@ public interface RoleMapper {
      * @author wen jun tang
      * @date 2021/7/6 17:28
      */
-    Role selectByUserId(@Param("userId") String userId);
+    List<Role> selectByUserId(@Param("userId") String userId);
 }

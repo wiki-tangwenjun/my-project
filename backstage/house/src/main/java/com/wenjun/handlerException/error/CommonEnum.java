@@ -13,8 +13,6 @@ import com.wenjun.handlerException.error.service.BaseErrorInfoInterface;
  */
 public enum CommonEnum implements BaseErrorInfoInterface {
     ERROR_SUCCESS("0", "成功"),
-    ERROR_SERVER_ERROR("-500", "服务内部错误"),
-    ERROR_BUSY("-429", "系统繁忙，请稍后重试"),
     ERROR_NOT_FOUND("-1", "未找到或不存在"),
     ERROR_HANDLE_TIMEOUT("-2", "超时"),
     ERROR_INVALID_PARAM("-3", "无效参数"),
@@ -34,14 +32,17 @@ public enum CommonEnum implements BaseErrorInfoInterface {
     ERROR_READ_FAILED("-17", "读文件失败"),
     ERROR_UPLOAD_FAILED("-18", "上传文件失败"),
 
-    ERROR_CLASS_CAST_EXCEPTION("-40", "类型强制转换异常"),
-    ERROR_NEGATIVE_ARRAY_EXCEPTION("-41", "数组负下标异常"),
-    ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION("-42", "数组下标越界异常"),
-    ERROR_USER_NOT_FOUND("-43", "用户不存在"),
-    ERROR_NO_RIGHT_ERROR("-44", "权限认证失败"),
+    ERROR_CLASS_CAST_EXCEPTION("-19", "类型强制转换异常"),
+    ERROR_NEGATIVE_ARRAY_EXCEPTION("-20", "数组负下标异常"),
+    ERROR_ARRAY_INDEX_OUT_OF_BOUNDS_EXCEPTION("-21", "数组下标越界异常"),
+    ERROR_USER_NOT_FOUND("-22", "用户不存在"),
+    ERROR_NO_RIGHT_ERROR("-23", "权限认证失败"),
+    ERROR_TOKEN("-24", "token已过时或无效"),
 
-    ERROR_UNKNOW("-100", "未知错误"),
-    ;
+    ERROR_BUSY("-429", "系统繁忙，请稍后重试"),
+    ERROR_SERVER_ERROR("-500", "服务内部错误"),
+
+    ERROR_UNKNOW("-100", "未知错误");
 
     private String error;
     private String description;

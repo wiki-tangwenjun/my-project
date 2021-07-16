@@ -2,6 +2,7 @@ package com.wenjun.busines.system.service;
 
 import com.wenjun.busines.system.dto.LoginParam;
 import com.wenjun.busines.system.dto.UserQueryParam;
+import com.wenjun.busines.system.pojo.AddUserParam;
 import com.wenjun.busines.system.pojo.User;
 import com.wenjun.busines.system.pojo.UserResources;
 
@@ -14,6 +15,16 @@ import java.util.List;
  * @date 2021/6/11 17:39
  */
 public interface UserService extends IService<User> {
+
+    /**
+    * 增加一个对象
+     *
+    * @author wen jun tang
+    * @param addUserParam 用户保存对象
+    * @return void
+    * @date 2021/7/16 15:47
+    */
+    void insert(AddUserParam addUserParam);
 
     /**
      * 登录接口
