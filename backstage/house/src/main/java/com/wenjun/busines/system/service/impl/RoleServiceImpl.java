@@ -1,5 +1,6 @@
 package com.wenjun.busines.system.service.impl;
 
+import com.wenjun.busines.system.dto.RoleQueryParam;
 import com.wenjun.busines.system.mapper.RoleMapper;
 import com.wenjun.busines.system.pojo.Role;
 import com.wenjun.busines.system.service.IRoleService;
@@ -44,5 +45,15 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public List<Role> findByUserId(String userId) {
         return roleMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public Integer findCountByAttributes(RoleQueryParam roleQueryParam) {
+        return roleMapper.selectCountByAttributes(roleQueryParam);
+    }
+
+    @Override
+    public List<Role> findByAttributes(RoleQueryParam roleQueryParam) {
+        return roleMapper.selectByAttributes(roleQueryParam);
     }
 }

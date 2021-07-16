@@ -1,5 +1,6 @@
 package com.wenjun.busines.system.mapper;
 
+import com.wenjun.busines.system.dto.RoleQueryParam;
 import com.wenjun.busines.system.pojo.Role;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +29,24 @@ public interface RoleMapper {
      * @date 2021/7/6 17:28
      */
     List<Role> selectByUserId(@Param("userId") String userId);
+
+    /**
+     * 根据条件差总数
+     *
+     * @author wen jun tang
+     * @param roleQueryParam 查询条件
+     * @return java.util.List<com.wenjun.busines.system.pojo.Role>
+     * @date 2021/7/16 18:15
+     */
+    int selectCountByAttributes(RoleQueryParam roleQueryParam);
+
+    /**
+     * 根据条件查信息
+     *
+     * @author wen jun tang
+     * @param roleQueryParam 查询条件
+     * @return java.util.List<com.wenjun.busines.system.pojo.Role>
+     * @date 2021/7/16 18:16
+     */
+    List<Role> selectByAttributes(RoleQueryParam roleQueryParam);
 }
