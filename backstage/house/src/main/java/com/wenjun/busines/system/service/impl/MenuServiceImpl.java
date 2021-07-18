@@ -1,5 +1,6 @@
 package com.wenjun.busines.system.service.impl;
 
+import com.wenjun.busines.system.dto.MenuQueryParam;
 import com.wenjun.busines.system.mapper.MenuMapper;
 import com.wenjun.busines.system.pojo.Menu;
 import com.wenjun.busines.system.service.IMenuService;
@@ -43,7 +44,17 @@ public class MenuServiceImpl implements IMenuService {
     }
 
     @Override
-    public List<Menu> selectByRoleId(String roleId) {
+    public List<Menu> findByRoleId(String roleId) {
         return menuMapper.selectByRoleId(roleId);
+    }
+
+    @Override
+    public Integer findCountByAttributes(MenuQueryParam menuQueryParam) {
+        return menuMapper.selectCountByAttributes(menuQueryParam);
+    }
+
+    @Override
+    public List<Menu> findByAttributes(MenuQueryParam menuQueryParam) {
+        return menuMapper.selectByAttributes(menuQueryParam);
     }
 }

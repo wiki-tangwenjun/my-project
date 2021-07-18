@@ -84,7 +84,7 @@ public class CustomRealm extends AuthorizingRealm {
             Set<String> permissions = new HashSet<>();
             for (Role role: roles) {
                 // 查找该角色权限
-                List<Menu> menus = iMenuService.selectByRoleId(role.getId());
+                List<Menu> menus = iMenuService.findByRoleId(role.getId());
                 role.setRoleMenu(menus);
                 // 需要将 [role], [permission] 封装到 Set 作为 info.setRoles(), info.setStringPermissions() 的参数
                 roleSet.add(role.getRoleKey());

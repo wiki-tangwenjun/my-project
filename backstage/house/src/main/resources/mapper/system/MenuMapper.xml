@@ -165,4 +165,35 @@
   <select id="selectByRoleId" resultMap="BaseResultMap">
     select b.id, name,folderOrMenu, menuHref,menuRoute, menuLevel,`status`,remark,parentId, permissionName,reserve1 from t_role_menu as a left join t_menu as b on a.menuId = b.id where a.roleId = #{roleId}
   </select>
+  <!-- 根据条件查询总数 -->
+  <select id="selectCountByAttributes" resultMap="BaseResultMap" resultType="java.lang.Integer">
+    select
+        count(*)
+        from t_menu
+        <where>
+            <if test="">
+            </if>
+          <if test="">
+          </if>
+          <if test="">
+          </if>
+        </where>
+  </select>
+  <!-- 根据条件查询信息 -->
+  <select id="selectByAttributes" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+        from t_menu
+      <where>
+        <if test="name != '' and name != null ">
+            and name like '%${name}%'
+        </if>
+        <if test="folderOrMenu != null">
+          and folderOrMenu = #{folderOrMenu}
+        </if>
+        <if test="status != null">
+          and status = #{status}
+        </if>
+      </where>
+  </select>
 </mapper>

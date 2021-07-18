@@ -45,16 +45,16 @@ public class RoleController {
 
     @GetMapping("/findCountByAttributes")
     @RequiresRoles(logical = Logical.OR, value = {"superAdmin"})
-    @ApiOperation(value="根据角色id查询角色信息", notes="根据角色id查询角色信息")
-    @Syslog(module="角色信息",style="查询",description="根据角色id查询角色信息")
+    @ApiOperation(value="根据查询条件查询总数信息", notes="根据查询条件查询总数信息")
+    @Syslog(module="角色信息",style="查询",description="根据查询条件查询总数信息")
     public ReturnValue<Integer> findCountByAttributes(RoleQueryParam roleQueryParam) {
         return new ReturnValue<>(iRoleService.findCountByAttributes(roleQueryParam));
     }
 
     @GetMapping("/findByAttributes")
     @RequiresRoles(logical = Logical.OR, value = {"superAdmin"})
-    @ApiOperation(value="根据角色id查询角色信息", notes="根据角色id查询角色信息")
-    @Syslog(module="角色信息",style="查询",description="根据角色id查询角色信息")
+    @ApiOperation(value="根据查询条件查询信息", notes="根据查询条件查询信息")
+    @Syslog(module="角色信息",style="查询",description="根据查询条件查询信息")
     public ReturnValue<List<Role>> findByAttributes(RoleQueryParam roleQueryParam) {
         List<Role> roles = iRoleService.findByAttributes(roleQueryParam);
         return new ReturnValue<>(roles);

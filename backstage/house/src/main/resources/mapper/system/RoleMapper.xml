@@ -109,16 +109,16 @@
             from t_role
         <where>
             <if test="name != null and name != ''">
-                name = #{name}
+                and name = #{name}
             </if>
             <if test="roleKey != null and roleKey != ''">
-                roleKey = #{roleKey}
+                and roleKey = #{roleKey}
             </if>
             <if test="level != null">
-                level = #{level}
+                and level = #{level}
             </if>
             <if test="status != null">
-                status = #{status}
+                and status = #{status}
             </if>
         </where>
     </select>
@@ -130,16 +130,16 @@
             from t_role
         <where>
             <if test="name != null and name != ''">
-                name = #{name}
+                and name = #{name}
             </if>
             <if test="roleKey != null and roleKey != ''">
-                roleKey = #{roleKey}
+                and roleKey = #{roleKey}
             </if>
             <if test="level != null">
-                level = #{level}
+                and level = #{level}
             </if>
             <if test="status != null">
-                status = #{status}
+                and status = #{status}
             </if>
         </where>
     </select>

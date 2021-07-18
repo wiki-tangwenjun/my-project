@@ -60,9 +60,7 @@ public class UserController {
         userLoginService.delete(RANDOMKEY);
         userLoginService.setKey(RANDOMKEY, String.valueOf((int) ((Math.random() * 9 + 1) * 10000)), 60);
 
-        String randomCode = userLoginService.getKey(RANDOMKEY);
-
-        return new ReturnValue<>(CommonEnum.ERROR_SUCCESS, randomCode);
+        return new ReturnValue<>(CommonEnum.ERROR_SUCCESS, userLoginService.getKey(RANDOMKEY));
     }
 
     @GetMapping("/getUserResources")
@@ -70,16 +68,13 @@ public class UserController {
     @Syslog(module="用户信息",style="查询",description="查询用户角色权限信息")
     @ApiOperation(value="根据token获取用户角色权限信息接口", notes="根据token获取用户角色权限信息")
     public ReturnValue<UserResources> getUserResources(HttpServletRequest request) throws Exception {
-        UserResources userResources = new UserResources();
         String header = request.getHeader("Authorization");
         if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-            userResources = userService.findByUserResource(token);
+            return new ReturnValue<>(userService.findByUserResource(token));
         } else {
             throw new Exception(CommonEnum.ERROR_TOKEN.getDescription());
         }
-
-        return new ReturnValue<>(userResources);
     }
 
     @PostMapping("/add")
@@ -95,7 +90,7 @@ public class UserController {
     @PostMapping("/addUserRole")
     @RequiresRoles(logical = Logical.OR, value = {"admin", "superAdmin"})
     @Syslog(module="用户信息",style="新增",description="用户新增角色")
-    @ApiOperation(value="用户新增角色接口", notes="新增用户角色接口")
+    @ApiOperation(value="用户新增角色接口", notes="用户新增角色接口")
     public ReturnValue<String> addUserRole(UserRole userRole) {
         iUserRoleService.add(userRole);
 
@@ -123,8 +118,8 @@ public class UserController {
 
     @DeleteMapping("/deleteUser")
     @RequiresRoles(logical = Logical.OR, value = {"superAdmin"})
-    @Syslog(module="用户信息",style="删除",description="删除用户角色")
-    @ApiOperation(value="删除用户角色接口", notes="删除用户角色接口")
+    @Syslog(module="用户信息",style="删除",description="删除用户")
+    @ApiOperation(value="删除用户", notes="删除用户")
     public ReturnValue<String> deleteUser(String userId) {
         userService.delete(userId);
 

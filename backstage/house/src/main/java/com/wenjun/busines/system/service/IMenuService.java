@@ -1,6 +1,7 @@
 package com.wenjun.busines.system.service;
 
 
+import com.wenjun.busines.system.dto.MenuQueryParam;
 import com.wenjun.busines.system.pojo.Menu;
 
 import java.util.List;
@@ -23,5 +24,23 @@ public interface IMenuService extends IService<Menu> {
      * @author wen jun tang
      * @date 2021/7/8 11:06
      */
-    List<Menu> selectByRoleId(String roleId);
+    List<Menu> findByRoleId(String roleId);
+
+    /**
+     * 根据条件查询总数
+     * @author tang wen jun
+     * @param menuQueryParam  查询条件
+     * @return java.util.List<com.wenjun.busines.system.pojo.Menu>
+     * @date 2021/7/18 21:38
+     */
+    Integer findCountByAttributes(MenuQueryParam menuQueryParam);
+
+    /**
+     * 根据条件查询菜单信息
+     * @author tang wen jun
+     * @param menuQueryParam  查询条件
+     * @return java.util.List<com.wenjun.busines.system.pojo.Menu>
+     * @date 2021/7/18 21:38
+     */
+    List<Menu> findByAttributes(MenuQueryParam menuQueryParam);
 }

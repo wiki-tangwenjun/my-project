@@ -40,4 +40,9 @@ public class UserRoleServiceImpl implements IUserRoleService {
     public UserRole findById(String id) {
         return userRoleMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public void deleteByAttributes(String userId, String roleId) {
+        userRoleMapper.deleteByAttributes(userId, roleId);
+    }
 }

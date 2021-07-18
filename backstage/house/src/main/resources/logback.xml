@@ -1,38 +1,141 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
-    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="/home" />
-    <!-- 控制台输出 -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+<configuration>
+	<!-- 每个logger都关联到logger上下文，默认上下文名称为“default”,用于区分不同应用程序的记录。一旦设置，不能修该 -->
+	<contextName>course</contextName>
+    <!--配置常量，在后面的配置中使用 -->
+    <property name="PROJECT_NAME" value="house" />
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+     <property name="LOG_HOME" value="/home/logs/${PROJECT_NAME}" />
+    <!--配置常量，在后面的配置中使用 -->
+    <!--定义日志输出格式:左对齐级别 -日期 -消息 换行-->
+    <property name="LOG_PATTERN" value="[%-5p] - %d{yyyy-MM-dd HH:mm:ss} - %msg%n" />
+    <!-- 定义日志输出字符集 -->
+    <property name="LOG_CHARSET" value="UTF-8" />
+
+    <!-- 调试日志：输出控制台 -->
+    <appender name="CONSOLE-LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <!--定义输出格式-->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
         </encoder>
-    </appender>
-    <!-- 按照每天生成日志文件 -->
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_HOME}/house.log.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--日志文件保留天数-->
-            <MaxHistory>30</MaxHistory>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-        </encoder>
-        <!--日志文件最大的大小-->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
+        <!-- 比INFO小的日志级别不会被打印出来:打印所有级别  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
     </appender>
 
-    <!-- 日志输出级别 -->
+    <!-- 正常INFO级别日志:输出文件-->
+    <appender name="INFO-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<!--定义输出文件名-->
+        <file>${LOG_HOME}/info/${PROJECT_NAME}.log</file>
+        <!--定义输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 比该配置的小的日志级别不会被打印出来  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <!--定义日志滚动的策略-->
+        <!-- TimeBasedRollingPolicy和SizeBasedTriggeringPolicy冲突,使用SizeAndTimeBasedRollingPolicy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        	<!--定义文件滚动时的文件名的格式：dys-warn_2019-01-10-%i.log-->
+            <fileNamePattern>${LOG_HOME}/info/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 每个文件大小最大200M -->
+            <maxFileSize>200MB</maxFileSize>
+            <!-- 最大保存n天 -->
+            <maxHistory>7</maxHistory>
+            <!-- 日志总保存量为2G：该属性在 1.1.6版本后 才开始支持-->
+            <totalSizeCap>2GB</totalSizeCap>
+            <!-- 启动时清除无效历史数据 -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 警告日志:输出文件-->
+    <appender name="WARN-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<!--定义输出文件名-->
+        <file>${LOG_HOME}/warn/${PROJECT_NAME}.log</file>
+        <!--定义输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 比该配置的小的日志级别不会被打印出来  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <!--定义日志滚动的策略-->
+        <!-- TimeBasedRollingPolicy和SizeBasedTriggeringPolicy冲突,使用SizeAndTimeBasedRollingPolicy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        	<!--定义文件滚动时的文件名的格式：dys-warn_2019-01-10-%i.log-->
+            <fileNamePattern>${LOG_HOME}/warn/${PROJECT_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 每个文件大小最大200M -->
+            <maxFileSize>200MB</maxFileSize>
+            <!-- 最大保存n天 -->
+            <maxHistory>7</maxHistory>
+            <!-- 日志总保存量为2G：该属性在 1.1.6版本后 才开始支持-->
+            <totalSizeCap>2GB</totalSizeCap>
+            <!-- 启动时清除无效历史数据 -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+	<!-- 错误日志:输出文件-->
+    <appender name="ERROR-LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<!--定义输出文件名-->
+        <file>${LOG_HOME}/error/${PROJECT_NAME}.log</file>
+        <!--定义输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 比该配置的小的日志级别不会被打印出来  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <!--定义日志滚动的策略-->
+        <!-- TimeBasedRollingPolicy和SizeBasedTriggeringPolicy冲突,使用SizeAndTimeBasedRollingPolicy -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+        	<!--定义文件滚动时的文件名的格式：dys-warn_2019-01-10.log-->
+            <fileNamePattern>${LOG_HOME}/error/${PROJECT_NAME}_%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!-- 每个文件大小最大500M -->
+            <maxFileSize>500MB</maxFileSize>
+            <!-- 最大保存n天 -->
+            <maxHistory>15</maxHistory>
+            <!-- 日志总保存量为2G：该属性在 1.1.6版本后 才开始支持-->
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    
+	<!-- 根日志输出：root为默认日志输出INFO或以上级别（additivity=true时被继承，或name类无法找到时被继承-->
     <root level="INFO">
-        <appender-ref ref="STDOUT" />
+    	<!-- 输出到控制台 -->
+    	<appender-ref ref="CONSOLE-LOG" />
+    	<!-- 输出到各个类型日志文件 -->
+        <appender-ref ref="INFO-LOG" />
+        <appender-ref ref="WARN-LOG" />
+        <appender-ref ref="ERROR-LOG" />
     </root>
-    <!--
-    <root level="DEBUG">
-        <appender-ref ref="STDOUT" />
-    </root>-->
+    
+    <!-- 调试日志：输出控制台 -->
+    <appender name="CONSOLE-LOG2" class="ch.qos.logback.core.ConsoleAppender">
+        <!--定义输出格式-->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>${LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 比DEBUG小的日志级别不会被打印出来:打印所有级别  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+    
+    <!-- mybatis输出：不继承根配置 -->
+    <logger name="com.dondown.mapper" level="DEBUG" additivity="false">
+        <!-- 输出到控制台 -->
+    	<appender-ref ref="CONSOLE-LOG2" />
+    </logger>
+
 </configuration>

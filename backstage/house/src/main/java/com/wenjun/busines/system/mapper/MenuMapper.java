@@ -1,5 +1,6 @@
 package com.wenjun.busines.system.mapper;
 
+import com.wenjun.busines.system.dto.MenuQueryParam;
 import com.wenjun.busines.system.pojo.Menu;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,22 @@ public interface MenuMapper {
      * @date 2021/7/8 11:06
      */
     List<Menu> selectByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 根据条件查询总数
+     * @author tang wen jun
+     * @param menuQueryParam  查询条件
+     * @return java.util.List<com.wenjun.busines.system.pojo.Menu>
+     * @date 2021/7/18 21:38
+     */
+    Integer selectCountByAttributes(MenuQueryParam menuQueryParam);
+
+    /**
+     * 根据条件查询菜单信息
+     * @author tang wen jun
+     * @param menuQueryParam  查询条件
+     * @return java.util.List<com.wenjun.busines.system.pojo.Menu>
+     * @date 2021/7/18 21:38
+     */
+    List<Menu> selectByAttributes(MenuQueryParam menuQueryParam);
 }
