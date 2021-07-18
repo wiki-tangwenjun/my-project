@@ -35,11 +35,11 @@ public class RoleMenuController {
     @Resource
     private IMenuService iMenuService;
 
-    @GetMapping("/findByAttributes")
+    @GetMapping("/findByRoleId")
     @RequiresRoles(logical = Logical.OR, value = {"admin", "superAdmin"})
     @Syslog(module="角色菜单信息",style="查询",description="根据角色id查询角色菜单信息")
     @ApiOperation(value="根据角色id查询角色菜单信息", notes="根据角色id查询角色菜单信息")
-    public ReturnValue<List<Menu>> findByAttributes (String roleId) {
+    public ReturnValue<List<Menu>> findByRoleId (String roleId) {
         return new ReturnValue<>(iMenuService.findByRoleId(roleId));
     }
 
