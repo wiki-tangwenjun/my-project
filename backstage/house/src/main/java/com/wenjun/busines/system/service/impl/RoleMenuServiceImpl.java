@@ -40,4 +40,14 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
     public RoleMenu findById(String id) {
         return roleMenuMapper.selectByPrimaryKey(id);
     }
+
+    @Override
+    public int updateRoleMenuSelective(String roleId, String menuId) {
+        return roleMenuMapper.updateRoleMenuSelective(roleId, menuId);
+    }
+
+    @Override
+    public int deleteRoleMenu(String roleId, String menuId) {
+        return roleMenuMapper.deleteRoleMenu(roleId, menuId);
+    }
 }

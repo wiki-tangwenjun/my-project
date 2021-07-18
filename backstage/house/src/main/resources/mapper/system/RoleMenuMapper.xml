@@ -19,6 +19,10 @@
     delete from t_role_menu
     where id = #{id,jdbcType=VARCHAR}
   </delete>
+  <delete id="deleteRoleMenu" parameterType="java.lang.String" >
+    delete from t_role_menu
+    where roleId=#{roleId} and menuId = #{menuId}
+  </delete>
   <insert id="insert" parameterType="com.wenjun.busines.system.pojo.RoleMenu" >
     insert into t_role_menu (id, roleId, menuId
       )
@@ -61,6 +65,18 @@
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateRoleMenuSelective" parameterType="com.wenjun.busines.system.pojo.RoleMenu" >
+    update t_role_menu
+    <set >
+      <if test="roleId != null" >
+        roleId = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuId != null" >
+        menuId = #{menuId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where roleId = #{roleId} and menuId = #{menuId}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wenjun.busines.system.pojo.RoleMenu" >
     update t_role_menu

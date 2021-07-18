@@ -1,6 +1,7 @@
 package com.wenjun.busines.system.service;
 
 import com.wenjun.busines.system.pojo.RoleMenu;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @projectName: house
@@ -12,4 +13,7 @@ import com.wenjun.busines.system.pojo.RoleMenu;
  * @version: 1.0
  */
 public interface IRoleMenuService extends IService<RoleMenu> {
+    int updateRoleMenuSelective(@Param("roleId")String roleId, @Param("menuId")String menuId);
+
+    int deleteRoleMenu(String roleId, String menuId);
 }
