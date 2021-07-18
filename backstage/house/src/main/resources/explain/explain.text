@@ -1,0 +1,27 @@
+项目说明:
+    这个项目的背景呢就是我<3156826935@qq.com>在租房时遇到了很多困难，比如找中介，但是呢中介其实也是用平台去找房子...  他们还收中介费。 所以作为一个程序猿的我就打算自己做一个租房的平台，
+  不收中介费，指在为和我一样在外打工的人们打造一个能租到一个价格与实物相匹配的房子。
+
+    这是我做这个平台的初心. 如果你感兴趣的话，可以加上面的qq我。目前这个平台是只有我一个人在做。
+
+我的打算:
+   我打算做一个一体化的平台，也就是三个平台, 一个是微信小程序, 一个是app, 还有就是数据总览后台管理的web端。
+   这个项目目前不打算涉及金额支付转账等功能。
+
+   目前就这样，出发。
+
+
+登录账号/密码是:
+超级管理员:
+    YWRtaW4=/fe3ca4c5097cd9f957b61f9d65035b6c
+token：
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjY0OTMxNzgsInVzZXJuYW1lIjoiYWRtaW4ifQ.GnliI7l16wwXe291eo_qxoFmYod29Z4mcVYlavqjqM0
+
+管理员:
+    YWRtaW4=/92edf245c0525bbcdcf91afd1ff257db
+token：
+    eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjY0MDk2NTQsInVzZXJuYW1lIjoidHdqIn0.MVEzRYTvs4560Pq3dJPXoGFQr88MVYWXwh84u8bjurI
+
+验证码是一分钟过期一次
+token 是24小时过期一次
+

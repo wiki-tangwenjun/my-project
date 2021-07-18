@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wenjun.busines.house.mapper.AppointmentHouseMapper" >
+  <resultMap id="BaseResultMap" type="com.wenjun.busines.house.pojo.AppointmentHouse" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="hourseId" property="hourseId" jdbcType="VARCHAR" />
+    <result column="seeTime" property="seeTime" jdbcType="TIMESTAMP" />
+    <result column="telphone" property="telphone" jdbcType="VARCHAR" />
+    <result column="onTime" property="onTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, hourseId, seeTime, telphone, onTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_appointment_house
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_appointment_house
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wenjun.busines.house.pojo.AppointmentHouse" >
+    insert into t_appointment_house (id, userId, hourseId,
+      seeTime, telphone, onTime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{hourseId,jdbcType=VARCHAR},
+      #{seeTime,jdbcType=TIMESTAMP}, #{telphone,jdbcType=VARCHAR}, #{onTime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wenjun.busines.house.pojo.AppointmentHouse" >
+    insert into t_appointment_house
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="hourseId != null" >
+        hourseId,
+      </if>
+      <if test="seeTime != null" >
+        seeTime,
+      </if>
+      <if test="telphone != null" >
+        telphone,
+      </if>
+      <if test="onTime != null" >
+        onTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="hourseId != null" >
+        #{hourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="seeTime != null" >
+        #{seeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="telphone != null" >
+        #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="onTime != null" >
+        #{onTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wenjun.busines.house.pojo.AppointmentHouse" >
+    update t_appointment_house
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="hourseId != null" >
+        hourseId = #{hourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="seeTime != null" >
+        seeTime = #{seeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="telphone != null" >
+        telphone = #{telphone,jdbcType=VARCHAR},
+      </if>
+      <if test="onTime != null" >
+        onTime = #{onTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wenjun.busines.house.pojo.AppointmentHouse" >
+    update t_appointment_house
+    set userId = #{userId,jdbcType=VARCHAR},
+      hourseId = #{hourseId,jdbcType=VARCHAR},
+      seeTime = #{seeTime,jdbcType=TIMESTAMP},
+      telphone = #{telphone,jdbcType=VARCHAR},
+      onTime = #{onTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
