@@ -1,9 +1,9 @@
 <template>
   <div class="d2-page-cover">
     <div class="d2-page-cover__logo">
-      <slot/>
+        <img class="page-login--logo" src="../../image/log.png">
     </div>
-    <p class="d2-page-cover__title">I am the landlord background management platform {{$version}}</p>
+    <p class="d2-page-cover__title">I am the landlord background management platform 1.0</p>
     <p class="d2-page-cover__sub-title">我是房东后台管理平台</p>
     <p class="d2-page-cover__build-time">最新构建时间 {{$buildTime}}</p>
     <slot name="footer"/>

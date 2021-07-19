@@ -18,21 +18,6 @@ function typeColor (type = 'default') {
 }
 
 /**
- * @description 打印一个 [ title | text ] 样式的信息
- * @param {String} title title text
- * @param {String} info info text
- * @param {String} type style
- */
-log.capsule = function (title, info, type = 'primary') {
-  console.log(
-    `%c ${title} %c ${info} %c`,
-    'background:#35495E; padding: 1px; border-radius: 3px 0 0 3px; color: #fff;',
-    `background:${typeColor(type)}; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff;`,
-    'background:transparent'
-  )
-}
-
-/**
  * @description 打印彩色文字
  */
 log.colorful = function (textArr) {

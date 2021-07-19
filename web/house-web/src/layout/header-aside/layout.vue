@@ -11,8 +11,9 @@
           :class="{'logo-group': true, 'logo-transition': asideTransition}"
           :style="{width: asideCollapse ? asideWidthCollapse : asideWidth}"
           flex-box="0">
-          <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
-          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+          <!-- <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
+          <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`"> -->
+          <div class="title-text-box"><span>我是房东管理平台</span></div>
         </router-link>
         <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
           <d2-icon name="bars"/>
@@ -161,4 +162,19 @@ export default {
 <style lang="scss">
 // 注册主题
 @import '~@/assets/style/theme/register.scss';
+.logo-transition {
+    position: relative;
+}
+.title-text-box {
+    display: flex;
+    color: #5a5353;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 800;
+    display: -webkit-box;
+    >span{
+        position: relative;
+        top: 15px;
+    }
+}
 </style>

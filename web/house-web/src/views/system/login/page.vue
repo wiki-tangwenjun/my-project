@@ -23,7 +23,8 @@
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
           <!-- logo -->
-          <img class="page-login--logo" src="./image/logo@2x.png">
+          <img class="page-login--logo" src="./image/log.png">
+          <h1>我是房东后台管理平台</h1>
           <!-- form -->
           <div class="page-login--form">
             <el-card shadow="never">
@@ -55,7 +56,8 @@
                     v-model="formLogin.code"
                     placeholder="验证码">
                     <template slot="append">
-                      <img class="login-code" src="./image/login-code.png">
+                      <!-- <img class="login-code" src="./image/login-code.png"> -->
+                      <canvas id="loginCode" width="120" height="36" class="codeImg" @click="getVerificationCode"></canvas>
                     </template>
                   </el-input>
                 </el-form-item>
@@ -74,34 +76,30 @@
               <span><d2-icon name="question-circle"/> 忘记密码</span>
               <span>注册用户</span>
             </p>
-            <!-- quick login -->
-            <el-button class="page-login--quick" size="default" type="info" @click="dialogVisible = true">
-              快速选择用户（测试功能）
-            </el-button>
           </div>
         </div>
         <div class="page-login--content-footer">
-          <p class="page-login--content-footer-locales">
+          <!-- <p class="page-login--content-footer-locales">
             <a
               v-for="language in $languages"
               :key="language.value"
               @click="onChangeLocale(language.value)">
               {{ language.label }}
             </a>
-          </p>
+          </p> -->
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
-            2018 D2 Projects 开源组织出品
-            <a href="https://github.com/FairyEver">
-              @FairyEver
+            2021 唐文军
+            <a href="https://github.com/AmbitionXiaojun/my-project">
+              @AmbitionXiaojun
             </a>
           </p>
-          <p class="page-login--content-footer-options">
+          <!-- <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
             <a href="#">隐私</a>
             <a href="#">条款</a>
-          </p>
+          </p> -->
         </div>
       </div>
     </div>
@@ -125,6 +123,7 @@
 import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
+import { drawPic } from '../../../common/util'
 export default {
   mixins: [
     localeMixin
@@ -187,7 +186,9 @@ export default {
   mounted () {
     this.timeInterval = setInterval(() => {
       this.refreshTime()
-    }, 1000)
+    }, 1000);
+
+    this.getVerificationCode();
   },
   beforeDestroy () {
     clearInterval(this.timeInterval)
@@ -206,8 +207,24 @@ export default {
     handleUserBtnClick (user) {
       this.formLogin.username = user.username
       this.formLogin.password = user.password
+      this.formLogin.code = user.code;
       this.submit()
     },
+    /**
+     * @description 获取验证码
+     */
+    getVerificationCode () {
+        drawPic(12345, "loginCode");
+        // this.getVerificationCode().then(res=>{
+        //     debugger
+        //     console.log(res);
+        // }).then(res=> {
+        //     console.log(res);
+        // }).catch(res => {
+        //     console.log(res);
+        // });
+    },
+
     /**
      * @description 提交表单
      */
@@ -220,7 +237,8 @@ export default {
           // 具体需要传递的数据请自行修改代码
           this.login({
             username: this.formLogin.username,
-            password: this.formLogin.password
+            password: this.formLogin.password,
+            code: this.formLogin.code
           })
             .then(() => {
               // 重定向对象不存在则返回顶层路径
@@ -278,7 +296,6 @@ export default {
   // main
   .page-login--logo {
     width: 240px;
-    margin-bottom: 2em;
     margin-top: -2em;
   }
   // 登录表单
@@ -295,6 +312,9 @@ export default {
     // 输入框左边的图表区域缩窄
     .el-input-group__prepend {
       padding: 0px 14px;
+    }
+    .el-input-group__append {
+         padding: 0px !important;
     }
     .login-code {
       height: 40px - 2px;

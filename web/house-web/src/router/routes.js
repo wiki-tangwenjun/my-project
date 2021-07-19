@@ -21,34 +21,45 @@ const frameIn = [
         },
         component: _import('system/index')
       },
-      // 演示页面
+      // 系统管理页面
       {
-        path: 'page1',
-        name: 'page1',
+        path: '/userManager',
+        name: 'userManager',
         meta: {
-          title: '页面 1',
+          title: '用户管理',
           auth: true
         },
-        component: _import('demo/page1')
+        component: _import('systemManager/userManager')
       },
       {
-        path: 'page2',
-        name: 'page2',
+        path: '/roleManager',
+        name: 'roleManager',
         meta: {
-          title: '页面 2',
+          title: '角色管理',
           auth: true
         },
-        component: _import('demo/page2')
+        component: _import('systemManager/roleManager')
       },
       {
-        path: 'page3',
-        name: 'page3',
+        path: '/menuManager',
+        name: 'menuManager',
         meta: {
-          title: '页面 3',
+          title: '菜单管理',
           auth: true
         },
-        component: _import('demo/page3')
+        component: _import('systemManager/menuManager')
       },
+      // 出租屋
+      {
+        path: '/house',
+        name: 'house',
+        meta: {
+          title: '出租屋管理',
+          auth: true
+        },
+        component: _import('houseManager/house')
+      },
+
       // 系统 前端日志
       {
         path: 'log',

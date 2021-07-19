@@ -36,6 +36,7 @@ export default {
       'set'
     ]),
     handleSelectTheme (name) {
+        debugger
       this.set(name)
     }
   }
