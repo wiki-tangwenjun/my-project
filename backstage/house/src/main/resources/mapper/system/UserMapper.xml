@@ -185,6 +185,41 @@
             </if>
         </where>
     </select>
+    <select id="selectCountByAttributes" resultType="java.lang.Integer">
+        select
+       count(*)
+        from t_user
+        <where>
+            <if test="personName != null">
+                and personName = #{personName}
+            </if>
+            <if test="idNumber != null">
+                and idNumber like '%${idNumber}%'
+            </if>
+            <if test="enabled != null">
+                and enabled = #{enabled,jdbcType=TINYINT}
+            </if>
+        </where>
+
+        <if test="orderProp != null and orderProp.length() > 0">
+            order by
+            <choose>
+                <when test="order != null and order != 'desc' and order != 'asc'">
+                    ${orderProp} asc
+                </when>
+                <when test="order == null">
+                    ${orderProp}
+                </when>
+                <otherwise>
+                    ${orderProp} ${order}
+                </otherwise>
+            </choose>
+        </if>
+        <if test="orderProp == null or orderProp.length() == 0">
+            order by id desc
+        </if>
+        limit #{pageIndex},#{pageSize}
+    </select>
     <!-- 查询根据属性查找信息 -->
     <select id="selectByAttributes" resultMap="BaseResultMap">
         select

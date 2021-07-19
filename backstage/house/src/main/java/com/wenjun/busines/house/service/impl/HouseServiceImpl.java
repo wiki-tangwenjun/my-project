@@ -1,11 +1,13 @@
 package com.wenjun.busines.house.service.impl;
 
+import com.wenjun.busines.house.dto.HouseQueryParam;
 import com.wenjun.busines.house.mapper.HouseMapper;
 import com.wenjun.busines.house.pojo.House;
 import com.wenjun.busines.house.service.IHouseService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @projectName: house
@@ -34,11 +36,26 @@ public class HouseServiceImpl implements IHouseService {
 
     @Override
     public void update(House entity) {
-
+        houseMapper.updateByPrimaryKey(entity);
     }
 
     @Override
     public House findById(String id) {
-        return null;
+        return houseMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer findCountByAttributes(HouseQueryParam houseQueryParam) {
+        return houseMapper.selectCountByAttributes(houseQueryParam);
+    }
+
+    @Override
+    public List<House> findByAttributes(HouseQueryParam houseQueryParam) {
+        return houseMapper.selectByAttributes(houseQueryParam);
+    }
+
+    @Override
+    public List<House> findByUserId(String userId) {
+        return houseMapper.selectByUserId(userId);
     }
 }

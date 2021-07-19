@@ -33,6 +33,11 @@
     heater, clean, houseScore, province, provinceCode, cityStreet, cityCode, status,
     longitude, latitude, create_time, update_time, remark, reserve1
   </sql>
+    <sql id="Base_Column_List2" >
+    b.id, b.userId, b.name, b.floor, b.floorTop, b.starTime, b.elevator, b.pets, b.cook, b.machine, b.conditioner,
+    b.heater, b.clean, b.houseScore, b.province, b.provinceCode, b.cityStreet, b.cityCode, b.status,
+    b.longitude, b.latitude, b.create_time, b.update_time, b.remark, b.reserve1
+  </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
@@ -326,4 +331,165 @@
       reserve1 = #{reserve1,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+    <!-- 根据条件查找总数 -->
+    <select id="selectCountByAttributes" resultType="java.lang.Integer">
+        select count(*) from (
+            select id from (
+                select id from t_user
+                    <where>
+                        <if test="userName != null and userName != ''">
+                            and userName like concat('%',#{userName} ,'%')
+                        </if>
+                    </where>
+            )a
+        left join
+            select userId from (
+                select userId from t_house
+                    <where>
+                        <if test="name != null and name != ''">
+                            and name like concat('%',#{name},'%')
+                        </if>
+                        <if test="floorTop != null">
+                            and floorTop = #{floorTop}
+                        </if>
+                        <if test="starTime != null">
+                            and starTime = #{starTime}
+                        </if>
+                        <if test="elevator != null">
+                            and elevator = #{elevator}
+                        </if>
+                        <if test="pets != null">
+                            and pets = #{pets}
+                        </if>
+                        <if test="cook != null">
+                            and cook = #{cook}
+                        </if>
+                        <if test="machine != null">
+                            and machine = #{machine}
+                        </if>
+                        <if test="conditioner != null">
+                            and conditioner = #{conditioner}
+                        </if>
+                        <if test="heater != null">
+                            and heater = #{heater}
+                        </if>
+                        <if test="clean != null">
+                            and clean = #{clean}
+                        </if>
+                        <if test="houseScore != null">
+                            and houseScore = #{houseScore}
+                        </if>
+                        <if test="province != null">
+                            and province = #{province}
+                        </if>
+                        <if test="cityStreet != null">
+                            and cityStreet = #{cityStreet}
+                        </if>
+                        <if test="status != null">
+                            and status = #{status}
+                        </if>
+                        <if test="starDate != null">
+                            and starDate >= #{starDate}
+                        </if>
+                        <if test="endDate != null">
+                            and date_format(starDate,'%Y-%m-%d') <![CDATA[ <= ]]> #{endDate}
+                        </if>
+                    </where>
+                )b
+            on a.id = b.userId
+        )c
+    </select>
+    <!-- 根据条件查找信息 -->
+    <select id="selectByAttributes" resultMap="BaseResultMap">
+        select
+         <include refid="Base_Column_List2"/>
+         from (
+        select id from (
+        select id from t_user
+        <where>
+            <if test="userName != null and userName != ''">
+                and userName like concat('%',#{userName} ,'%')
+            </if>
+        </where>
+        )a
+        left join
+        select userId from (
+        select userId from t_house
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            <if test="floorTop != null">
+                and floorTop = #{floorTop}
+            </if>
+            <if test="starTime != null">
+                and starTime = #{starTime}
+            </if>
+            <if test="elevator != null">
+                and elevator = #{elevator}
+            </if>
+            <if test="pets != null">
+                and pets = #{pets}
+            </if>
+            <if test="cook != null">
+                and cook = #{cook}
+            </if>
+            <if test="machine != null">
+                and machine = #{machine}
+            </if>
+            <if test="conditioner != null">
+                and conditioner = #{conditioner}
+            </if>
+            <if test="heater != null">
+                and heater = #{heater}
+            </if>
+            <if test="clean != null">
+                and clean = #{clean}
+            </if>
+            <if test="houseScore != null">
+                and houseScore = #{houseScore}
+            </if>
+            <if test="province != null">
+                and province = #{province}
+            </if>
+            <if test="cityStreet != null">
+                and cityStreet = #{cityStreet}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="starDate != null">
+                and starDate >= #{starDate}
+            </if>
+            <if test="endDate != null">
+                and date_format(starDate,'%Y-%m-%d') <![CDATA[ <= ]]> #{endDate}
+            </if>
+        </where>
+        )b
+        on a.id = b.userId
+        )c limit #{pageNum},#{pageSize} order by
+        <where>
+            <if test="orderByColumn != null and orderByColumn != ''">
+                #{orderByColumn}
+            </if>
+            <if test="orderByColumn == null or orderByColumn == ''">
+                create_time
+            </if>
+            <if test="isAsc != null and isAsc != ''">
+                #{isAsc}
+            </if>
+            <if test="isAsc == null and isAsc == ''">
+                desc
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据id查找出租屋 -->
+    <select id="selectByUserId" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+            from t_house
+            where userId = #{userId}
+    </select>
 </mapper>

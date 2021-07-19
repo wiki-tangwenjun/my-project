@@ -22,5 +22,7 @@ public interface UserMapper {
 
     User selectByPersonName(@Param("personName") String personName);
 
+    Integer selectCountByAttributes(UserQueryParam userQueryParam);
+
     List<User> selectByAttributes(UserQueryParam userQueryParam);
 }

@@ -103,7 +103,7 @@
   </update>
 
     <!-- 根据条件查询角色信息总数 -->
-    <select id="selectCountByAttributes" parameterType="com.wenjun.busines.system.dto.RoleQueryParam" resultType="java.lang.Integer">
+    <select id="selectCountByAttributes"  resultType="java.lang.Integer">
         select
             count(*)
             from t_role
