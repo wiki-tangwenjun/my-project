@@ -20,32 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc0fb7b3-27b9-443e-aff1-9a9fb47cfd7e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/.env" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/.env.development" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/public/icon.ico" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/public/image/theme/d2/logo/all.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/public/image/theme/d2/logo/all.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/api/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/api/modules/sys.user.api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/api/modules/sys.user.api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/api/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/api/service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/layout/header-aside/components/header-theme/components/d2-theme-list/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/layout/header-aside/components/header-theme/components/d2-theme-list/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/layout/header-aside/layout.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/layout/header-aside/layout.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/libs/util.log.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/libs/util.log.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/menu/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/menu/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/router/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/router/routes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/controller/HouseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/dto/HouseQueryParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/mapper/HouseMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/mapper/HouseMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/service/IHouseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/service/IHouseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/service/impl/HouseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/house/service/impl/HouseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/system/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/system/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/house/HouseMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/house/HouseMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/system/RoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/system/RoleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/system/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/system/UserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../web/house-web/src/store/modules/d2admin/modules/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/store/modules/d2admin/modules/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/store/modules/d2admin/modules/releases.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/store/modules/d2admin/modules/releases.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/demo/page1/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/demo/page2/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/demo/page3/index.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/system/index/components/d2-page-cover/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/views/system/index/components/d2-page-cover/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/system/index/image/qr@2x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/system/login/image/logo@2x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/src/views/system/login/page.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../web/house-web/src/views/system/login/page.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../web/house-web/tests/unit/.eslintrc.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +45,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -86,7 +69,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../workSpance/辽宁/liaoning-lawnet-project" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -126,7 +109,9 @@
       <workItem from="1626346119209" duration="1078000" />
       <workItem from="1626399407550" duration="7382000" />
       <workItem from="1626415255365" duration="11115000" />
-      <workItem from="1626661083054" duration="4797000" />
+      <workItem from="1626661083054" duration="8223000" />
+      <workItem from="1626689258959" duration="173000" />
+      <workItem from="1626689453568" duration="1581000" />
     </task>
     <task id="LOCAL-00001" summary="实现基础功能">
       <created>1626428107901</created>
@@ -166,10 +151,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="增加角色操作前端控制器" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1626431441404">
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser" timestamp="1626690728151">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1626431441404" />
+    <state x="765" y="225" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1626690728151" />
     <state x="560" y="106" key="CommitChangelistDialog2" timestamp="1626431726901">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -182,58 +167,58 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="184" y="86" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1626428068315" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1626399482320">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1626690127457">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1626399482320" />
-    <state width="1877" height="273" key="GridCell.Tab.0.bottom" timestamp="1626685307106">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1626690127457" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1626689226777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626685307106" />
-    <state width="1877" height="273" key="GridCell.Tab.0.center" timestamp="1626685307106">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226777" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1626689226777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626685307106" />
-    <state width="1877" height="273" key="GridCell.Tab.0.left" timestamp="1626685307106">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226777" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1626689226777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626685307106" />
-    <state width="1877" height="273" key="GridCell.Tab.0.right" timestamp="1626685307106">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226777" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1626689226777">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626685307106" />
-    <state width="1877" height="273" key="GridCell.Tab.1.bottom" timestamp="1626408768691">
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226777" />
+    <state width="1877" height="273" key="GridCell.Tab.1.bottom" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768691" />
-    <state width="1877" height="273" key="GridCell.Tab.1.center" timestamp="1626408768690">
+    <state width="1877" height="273" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
+    <state width="1877" height="273" key="GridCell.Tab.1.center" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768690" />
-    <state width="1877" height="273" key="GridCell.Tab.1.left" timestamp="1626408768690">
+    <state width="1877" height="273" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
+    <state width="1877" height="273" key="GridCell.Tab.1.left" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768690" />
-    <state width="1877" height="273" key="GridCell.Tab.1.right" timestamp="1626408768690">
+    <state width="1877" height="273" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
+    <state width="1877" height="273" key="GridCell.Tab.1.right" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768690" />
-    <state width="1877" height="273" key="GridCell.Tab.2.bottom" timestamp="1626408768692">
+    <state width="1877" height="273" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
+    <state width="1877" height="273" key="GridCell.Tab.2.bottom" timestamp="1626689226769">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768692" />
-    <state width="1877" height="273" key="GridCell.Tab.2.center" timestamp="1626408768692">
+    <state width="1877" height="273" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226769" />
+    <state width="1877" height="273" key="GridCell.Tab.2.center" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768692" />
-    <state width="1877" height="273" key="GridCell.Tab.2.left" timestamp="1626408768691">
+    <state width="1877" height="273" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
+    <state width="1877" height="273" key="GridCell.Tab.2.left" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768691" />
-    <state width="1877" height="273" key="GridCell.Tab.2.right" timestamp="1626408768692">
+    <state width="1877" height="273" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
+    <state width="1877" height="273" key="GridCell.Tab.2.right" timestamp="1626689226768">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626408768692" />
+    <state width="1877" height="273" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1626689226768" />
     <state x="461" y="164" key="SettingsEditor" timestamp="1626421562190">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -242,21 +227,21 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1626432374584" />
-    <state x="753" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1626432330495">
+    <state x="753" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1626686786057">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="753" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1626432330495" />
+    <state x="753" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1626686786057" />
     <state x="662" y="254" width="596" height="532" key="find.popup" timestamp="1626408017839">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="662" y="254" width="596" height="532" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1626408017839" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1626431978986">
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1626686040724">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1626431978986" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1626428697892">
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1626686040724" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1626690580955">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1626428697892" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1626690580955" />
   </component>
 </project>
