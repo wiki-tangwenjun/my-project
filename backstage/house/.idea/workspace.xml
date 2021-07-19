@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc0fb7b3-27b9-443e-aff1-9a9fb47cfd7e" name="Default Changelist" comment="" />
+    <list default="true" id="fc0fb7b3-27b9-443e-aff1-9a9fb47cfd7e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/system/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wenjun/busines/system/controller/UserController.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -99,6 +101,7 @@
       <workItem from="1626346119209" duration="1078000" />
       <workItem from="1626399407550" duration="7382000" />
       <workItem from="1626415255365" duration="11115000" />
+      <workItem from="1626661083054" duration="1285000" />
     </task>
     <task id="LOCAL-00001" summary="实现基础功能">
       <created>1626428107901</created>
@@ -130,6 +133,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="实现基础功能" />

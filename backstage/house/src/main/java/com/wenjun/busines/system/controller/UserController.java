@@ -69,12 +69,12 @@ public class UserController {
     @ApiOperation(value="根据token获取用户角色权限信息接口", notes="根据token获取用户角色权限信息")
     public ReturnValue<UserResources> getUserResources(HttpServletRequest request) throws Exception {
         String header = request.getHeader("Authorization");
-        if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
-            return new ReturnValue<>(userService.findByUserResource(token));
-        } else {
+        if (CheckUtil.isNull(header) && !header.startsWith("Bearer ")) {
             throw new Exception(CommonEnum.ERROR_TOKEN.getDescription());
         }
+        String token = header.substring(7);
+
+        return new ReturnValue<>(userService.findByUserResource(token));
     }
 
     @PostMapping("/add")
