@@ -501,6 +501,16 @@ CREATE TABLE IF NOT EXISTS t_appointment_house
     FOREIGN KEY(userId) REFERENCES t_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出租屋看房预约表 ';
 
+CREATE TABLE IF NOT EXISTS t_house_log
+(
+    id  VARCHAR(32) NOT NULL COMMENT 'id',
+    userId VARCHAR(32) NOT NULL COMMENT '用户id',
+    hourseId VARCHAR(32) NOT NULL COMMENT '房子id',
+    userTelphone VARCHAR(12) NOT NULL COMMENT '操作人手机号',
+    style VARCHAR(32) NOT NULL COMMENT '操作方式',
+    createTime datetime default now() COMMENT '操作时间'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='出租屋操作记录表 ';
+
 /* 评价表 */
 CREATE TABLE IF NOT EXISTS t_evaluate
 (
@@ -508,7 +518,9 @@ CREATE TABLE IF NOT EXISTS t_evaluate
     userId VARCHAR(32) NOT NULL COMMENT '看房人用户id',
     hourseId VARCHAR(32) NOT NULL COMMENT '所看的房子id',
     onTime BIGINT(2) NOT NULL COMMENT '工作人员是否准时到达 0迟到  1早到 2准时',
+    userOnTime BIGINT(2) NOT NULL COMMENT '看房人员是否准时到达 0迟到  1早到 2准时',
     attitude BIGINT(2) NOT NULL DEFAULT 5 COMMENT '工作人员服务态度 5分满分',
+    userAttitude BIGINT(2) NOT NULL COMMENT '看房人员服务态度 5分满分',
     authenticity BIGINT(2) NOT NULL DEFAULT 5 COMMENT '房屋真实度 5分满分',
     remark VARCHAR(128) COMMENT '其他描述',
     PRIMARY KEY (id),

@@ -1,10 +1,16 @@
 package com.wenjun.busines.house.service.impl;
 
+import com.wenjun.busines.house.dto.HouseAddParam;
 import com.wenjun.busines.house.dto.HouseQueryParam;
+import com.wenjun.busines.house.mapper.HouseEnclosureMapper;
+import com.wenjun.busines.house.mapper.HouseLogMapper;
 import com.wenjun.busines.house.mapper.HouseMapper;
 import com.wenjun.busines.house.pojo.House;
+import com.wenjun.busines.house.pojo.HouseEnclosure;
 import com.wenjun.busines.house.service.IHouseService;
+import com.wenjun.util.TextUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -23,6 +29,10 @@ public class HouseServiceImpl implements IHouseService {
 
     @Resource
     private HouseMapper houseMapper;
+    @Resource
+    private HouseLogMapper houseLogMapper;
+    @Resource
+    private HouseEnclosureMapper houseEnclosureMapper;
 
     @Override
     public void add(House entity) {
@@ -55,7 +65,20 @@ public class HouseServiceImpl implements IHouseService {
     }
 
     @Override
-    public List<House> findByUserId(String userId) {
-        return houseMapper.selectByUserId(userId);
+    @Transactional(rollbackFor = Exception.class)
+    public void insert(HouseAddParam houseAddParam) {
+        houseAddParam.getHouse().setId(TextUtil.getUUID());
+        houseMapper.insert(houseAddParam.getHouse());
+
+        houseAddParam.getHouseLog().setId(TextUtil.getUUID());
+        houseAddParam.getHouseLog().setHourseId(houseAddParam.getHouse().getId());
+        houseLogMapper.insert(houseAddParam.getHouseLog());
+
+        List<HouseEnclosure> houseEnclosures = houseAddParam.getHouseEnclosure();
+        for (HouseEnclosure houseEnclosure: houseEnclosures) {
+            houseEnclosure.setId(TextUtil.getUUID());
+            houseEnclosure.setHourseId(houseAddParam.getHouse().getId());
+            houseEnclosureMapper.insert(houseEnclosure);
+        }
     }
 }

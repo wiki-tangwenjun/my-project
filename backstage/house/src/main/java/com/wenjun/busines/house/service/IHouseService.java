@@ -1,5 +1,6 @@
 package com.wenjun.busines.house.service;
 
+import com.wenjun.busines.house.dto.HouseAddParam;
 import com.wenjun.busines.house.dto.HouseQueryParam;
 import com.wenjun.busines.house.pojo.House;
 import com.wenjun.busines.system.service.IService;
@@ -37,14 +38,14 @@ public interface IHouseService extends IService<House> {
      */
     List<House> findByAttributes(HouseQueryParam houseQueryParam);
 
-    /**
-     * 根据用户id查询用户出租屋
-    * @author wen jun tang
-    * @param userId 用户id
-    * @return java.util.List<com.wenjun.busines.house.pojo.House>
-    * @date 2021/7/19 18:29
-    */
-    List<House> findByUserId(String userId);
 
-    void insert();
+    /**
+     * 新增出租屋及其附件
+     *
+     * @param houseAddParam 添加参数
+     * @return void
+     * @author wen jun tang
+     * @date 2021/7/20 10:48
+     */
+    void insert(HouseAddParam houseAddParam);
 }
