@@ -58,4 +58,9 @@ public class HouseServiceImpl implements IHouseService {
     public List<House> findByUserId(String userId) {
         return houseMapper.selectByUserId(userId);
     }
+
+    @Override
+    public void insert() {
+
+    }
 }

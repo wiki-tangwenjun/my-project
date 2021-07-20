@@ -184,11 +184,17 @@ export default {
     }
   },
   mounted () {
+    this.getVerificationCode.then(res => {
+      debugger
+      console.log(res)
+    }).then(res => {
+      console.log(res)
+    }).catch(res => {
+      console.log(res)
+    })
     this.timeInterval = setInterval(() => {
       this.refreshTime()
     }, 1000);
-
-    this.getVerificationCode();
   },
   beforeDestroy () {
     clearInterval(this.timeInterval)
@@ -197,6 +203,10 @@ export default {
     ...mapActions('d2admin/account', [
       'login'
     ]),
+    ...mapActions('house/getVerificationCode', [
+      'getVerificationCode'
+    ]),
+
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
     },

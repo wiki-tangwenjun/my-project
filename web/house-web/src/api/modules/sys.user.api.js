@@ -1,23 +1,21 @@
-export default ({ service, request, faker, tools }) => ({
+export default ({request}) => ({
   /**
-   * @description 登录
-   * @param {Object} data 登录携带的信息
+   * @description 档案校验
+   * @param {Object} param 文件夹
    */
-  login (data = {}) {
-    // 接口请求
+  login(param = {}) {
     return request({
-      url: 'user/login',
+      url: `user/login`,
       method: 'get',
-      data
+      params: param,
     })
   },
 
   // 获取验证码
-  getVerificationCode (data = {}) {
+  getVerificationCode () {
     return request({
       url: 'user/getVerificationCode',
-      method: 'get',
-      data
+      method: 'get'
     })
   }
 })
