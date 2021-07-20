@@ -24,6 +24,8 @@ import java.util.Date;
 public class HouseQueryParam extends PageDomain implements Serializable {
     private static final long serialVersionUID = 4838679124002475733L;
 
+    @ApiModelProperty("用户id")
+    private String userId;
     @ApiModelProperty("房东姓名")
     private String userName;
     @ApiModelProperty("出租屋公寓名称")

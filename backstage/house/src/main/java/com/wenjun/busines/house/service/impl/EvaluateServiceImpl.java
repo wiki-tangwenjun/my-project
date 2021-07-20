@@ -1,11 +1,13 @@
 package com.wenjun.busines.house.service.impl;
 
+import com.wenjun.busines.house.dto.EvaluateParam;
 import com.wenjun.busines.house.mapper.EvaluateMapper;
 import com.wenjun.busines.house.pojo.Evaluate;
 import com.wenjun.busines.house.service.IEvaluateService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @projectName: house
@@ -39,5 +41,15 @@ public class EvaluateServiceImpl implements IEvaluateService {
     @Override
     public Evaluate findById(String id) {
         return evaluateMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public Integer selectCountByAttributes(EvaluateParam evaluateParam) {
+        return evaluateMapper.selectCountByAttributes(evaluateParam);
+    }
+
+    @Override
+    public List<Evaluate> selectByAttributes(EvaluateParam evaluateParam) {
+        return evaluateMapper.selectByAttributes(evaluateParam);
     }
 }

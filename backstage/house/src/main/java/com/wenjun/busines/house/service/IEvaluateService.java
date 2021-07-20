@@ -1,7 +1,10 @@
 package com.wenjun.busines.house.service;
 
+import com.wenjun.busines.house.dto.EvaluateParam;
 import com.wenjun.busines.house.pojo.Evaluate;
 import com.wenjun.busines.system.service.IService;
+
+import java.util.List;
 
 /**
  * @projectName: house
@@ -13,4 +16,7 @@ import com.wenjun.busines.system.service.IService;
  * @version: 1.0
  */
 public interface IEvaluateService extends IService<Evaluate> {
+    Integer selectCountByAttributes(EvaluateParam evaluateParam);
+
+    List<Evaluate> selectByAttributes(EvaluateParam evaluateParam);
 }
