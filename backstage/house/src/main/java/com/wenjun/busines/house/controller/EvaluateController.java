@@ -1,6 +1,8 @@
 package com.wenjun.busines.house.controller;
 
 import com.wenjun.anno.Syslog;
+import com.wenjun.busines.house.dto.EvaluateParam;
+import com.wenjun.busines.house.pojo.Evaluate;
 import com.wenjun.busines.house.service.IEvaluateService;
 import com.wenjun.handlerException.error.ReturnValue;
 import io.swagger.annotations.Api;
@@ -34,8 +36,8 @@ public class EvaluateController {
     @ApiOperation(value="删除出租屋", notes="删除出租屋")
     @Syslog(module="出租屋信息",style="修改",description="删除出租屋")
     @RequiresRoles(logical = Logical.OR, value = {"landlord", "admin", "superAdmin"})
-    public ReturnValue<List<Evaluate>> findByAttributes() {
+    public ReturnValue<List<Evaluate>> findByAttributes(EvaluateParam evaluateParam) {
 
-        return new ReturnValue<>(iEvaluateService.findByAttributes());
+        return new ReturnValue<>(iEvaluateService.findByAttributes(evaluateParam));
     }
 }

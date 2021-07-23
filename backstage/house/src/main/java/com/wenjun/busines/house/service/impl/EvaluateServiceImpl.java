@@ -49,7 +49,8 @@ public class EvaluateServiceImpl implements IEvaluateService {
     }
 
     @Override
-    public List<Evaluate> selectByAttributes(EvaluateParam evaluateParam) {
+    public List<Evaluate> findByAttributes(EvaluateParam evaluateParam) {
         return evaluateMapper.selectByAttributes(evaluateParam);
     }
+
 }
