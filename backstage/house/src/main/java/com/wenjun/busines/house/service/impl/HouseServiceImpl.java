@@ -81,4 +81,9 @@ public class HouseServiceImpl implements IHouseService {
             houseEnclosureMapper.insert(houseEnclosure);
         }
     }
+
+    @Override
+    public void insert() {
+
+    }
 }
