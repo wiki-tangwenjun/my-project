@@ -13,11 +13,8 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean isNull(String value){
-		if (null == value || value.trim().equals("")){
-			return true;
-		}
-		return false;
-	}
+        return null == value || "".equals(value.trim());
+    }
 
 	/**
 	 * 检查容器是否为空或null
@@ -25,11 +22,8 @@ public class CheckUtil {
 	 * @return
 	 */
 	public static boolean isNull(Collection<?> value){
-		if (null == value || value.isEmpty()){
-			return true;
-		}
-		return false;
-	}
+        return null == value || value.isEmpty();
+    }
 
 	/**
 	 * 检查对象是否为null
