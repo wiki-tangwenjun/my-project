@@ -71,7 +71,7 @@ public class HouseServiceImpl implements IHouseService {
     @Transactional(rollbackFor = Exception.class)
     public void insert(HttpServletRequest request, HouseAddParam houseAddParam) throws Exception {
         houseAddParam.getHouse().setId(TextUtil.getUUID());
-        houseAddParam.getHouse().setUserId(JWTUtil.getUserId(ServletHttpRequest.getHttpServletRequest(request)));
+        houseAddParam.getHouse().setUserId(JWTUtil.getUserId(ServletHttpRequest.getToken(request)));
         houseMapper.insert(houseAddParam.getHouse());
 
         houseAddParam.getHouseLog().setId(TextUtil.getUUID());

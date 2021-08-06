@@ -21,7 +21,7 @@ public class ServletHttpRequest {
      * @return String
      * @throws Exception 没获取到就是token异常
      */
-    public static String getHttpServletRequest(HttpServletRequest request) throws Exception {
+    public static String getToken(HttpServletRequest request) throws Exception {
         String header = request.getHeader("Authorization");
         if (CheckUtil.isNull(header) && !header.startsWith("Bearer ")) {
             throw new Exception(CommonEnum.ERROR_TOKEN.getDescription());

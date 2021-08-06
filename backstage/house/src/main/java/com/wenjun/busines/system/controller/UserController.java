@@ -69,7 +69,7 @@ public class UserController {
     @Syslog(module="用户信息",style="查询",description="查询用户角色权限信息")
     @ApiOperation(value="根据token获取用户角色权限信息接口", notes="根据token获取用户角色权限信息")
     public ReturnValue<UserResources> getUserResources(HttpServletRequest request) throws Exception {
-        return new ReturnValue<>(userService.findByUserResource(ServletHttpRequest.getHttpServletRequest(request)));
+        return new ReturnValue<>(userService.findByUserResource(ServletHttpRequest.getToken(request)));
     }
 
     @PostMapping("/add")

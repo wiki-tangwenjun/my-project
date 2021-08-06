@@ -66,7 +66,7 @@ public class HouseController {
     @ApiOperation(value="添加出租屋", notes="添加出租屋")
     @Syslog(module="出租屋信息",style="添加",description="添加出租屋")
     @RequiresRoles(logical = Logical.OR, value = {"landlord", "superAdmin"})
-    public ReturnValue<String> add(HttpServletRequest request, @Valid HouseAddParam houseAddParam){
+    public ReturnValue<String> add(HttpServletRequest request, @Valid HouseAddParam houseAddParam) throws Exception {
         iHouseService.insert(request, houseAddParam);
 
         return new ReturnValue<>(CommonEnum.ERROR_SUCCESS);
