@@ -6,10 +6,15 @@ import com.auth0.jwt.algorithms.Algorithm;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.wenjun.handlerException.error.CommonEnum;
+import io.jsonwebtoken.*;
+import org.apache.commons.collections.functors.ExceptionClosure;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 /**
@@ -33,10 +38,11 @@ public class JWTUtil {
     private void setSecretKey(String secret) {
         JWTUtil.SECRET = secret;
     }
+
     /**
      * 过期时间 24 小时
      */
-    private static final long EXPIRE_TIME = 86400*1000;
+    private static final long EXPIRE_TIME = 86400 * 1000;
 
 
     /**
@@ -45,34 +51,39 @@ public class JWTUtil {
     public static String createToken(String username, String userId) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
+            JwtBuilder jwtBuilder = Jwts.builder();
             // 附带username信息
-            return JWT.create()
-                    .withClaim("username", username)
-                    .withClaim("userId", userId)
+            return jwtBuilder.setHeaderParam("type", "JWT")
+                    // head
+                    .setHeaderParam("alg", "HS256")
+                    // payload
+                    .claim("username", username)
+                    .claim("userId", userId)
+                    .setSubject("admin-house")
                     //到期时间
-                    .withExpiresAt(date)
+                    .setExpiration(date)
                     //创建一个新的JWT，并使用给定的算法进行标记
-                    .sign(algorithm);
+                    .setId(TextUtil.getUUID().toString())
+                    // signature
+                    .signWith(SignatureAlgorithm.HS256, SECRET)
+                    .compact();
         } catch (Exception e) {
             return null;
         }
     }
 
+
     /**
      * 校验 token 是否正确
      */
-    public static boolean verify(String token, String username) {
+    public static boolean verify(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(SECRET);
-            //在token中附带了username信息
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("username", username)
-                    .build();
-            //验证 token
-            verifier.verify(token);
+            Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
             return true;
-        } catch (Exception exception) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -82,8 +93,11 @@ public class JWTUtil {
      */
     public static String getUsername(String token) {
         try {
-            DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("username").asString();
+            JwtParser jwtParser = Jwts.parser();
+            Jws<Claims> claimsJws = jwtParser.setSigningKey(SECRET).parseClaimsJws(token);
+            Claims claims = claimsJws.getBody();
+
+            return (String) claims.get("username");
         } catch (JWTDecodeException e) {
             return null;
         }
@@ -94,8 +108,11 @@ public class JWTUtil {
      */
     public static String getUserId(String token) {
         try {
-            DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("userId").asString();
+            JwtParser jwtParser = Jwts.parser();
+            Jws<Claims> claimsJws = jwtParser.setSigningKey(SECRET).parseClaimsJws(token);
+            Claims claims = claimsJws.getBody();
+
+            return (String) claims.get("userId");
         } catch (JWTDecodeException e) {
             return null;
         }

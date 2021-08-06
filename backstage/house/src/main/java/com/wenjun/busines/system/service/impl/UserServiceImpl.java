@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
                 throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getDescription());
             }
 
-            tokenName = user.getUserName();
+            tokenName = user.getPersonName();
             tokenId = user.getId();
             String inPassword = new String(Base64Util.decode(loginParam.getPassword()), StandardCharsets.UTF_8);
             String encPwd = EncryptUtil.md5(inPassword, null, 2);

@@ -8,6 +8,7 @@ import com.wenjun.busines.system.service.IMenuService;
 import com.wenjun.busines.system.service.IRoleService;
 import com.wenjun.util.CheckUtil;
 import com.wenjun.util.JWTUtil;
+import lombok.SneakyThrows;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -47,19 +48,18 @@ public class CustomRealm extends AuthorizingRealm {
         return token instanceof JWTToken;
     }
 
+    @SneakyThrows
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("doGetAuthenticationInfo=> 认证");
         String token = (String) authenticationToken.getCredentials();
         // 解密获得username，用于和数据库进行对比
         String username = JWTUtil.getUsername(token);
-        if (username == null || !JWTUtil.verify(token, username)) {
+        String userId = JWTUtil.getUserId(token);
+        if (CheckUtil.isNull(username) || CheckUtil.isNull(userId) || !JWTUtil.verify(token)) {
             throw new AuthenticationException("token认证失败！");
         }
 
-        /* 以下数据库查询可根据实际情况，可以不必再次查询，这里我两次查询会很耗资源
-         * 我这里增加两次查询是因为考虑到数据库管理员可能自行更改数据库中的用户信息
-         */
         User user = userMapper.selectByPersonName(username);
         if (CheckUtil.isNull(user.getPassword())) {
             throw new AuthenticationException("该用户不存在！");
