@@ -68,9 +68,9 @@ public class UserServiceImpl implements UserService {
         addUserParam.getUser().setId(TextUtil.getUUID());
 
         UserRole userRole = new UserRole();
-            userRole.setId(TextUtil.getUUID());
-            userRole.setUserId(addUserParam.getUser().getId());
-            userRole.setRoleId(addUserParam.getRoleId());
+        userRole.setId(TextUtil.getUUID());
+        userRole.setUserId(addUserParam.getUser().getId());
+        userRole.setRoleId(addUserParam.getRoleId());
 
         userRoleMapper.insert(userRole);
 
@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
         }
 
         String tokenName = "";
+        String tokenId = "";
         if (loginParam.getCode().equals(code)) {
             // 从数据库中验证用户名密码
             String userName = new String(Base64Util.decode(loginParam.getUserName()));
@@ -95,6 +96,7 @@ public class UserServiceImpl implements UserService {
             }
 
             tokenName = user.getUserName();
+            tokenId = user.getId();
             String inPassword = new String(Base64Util.decode(loginParam.getPassword()), StandardCharsets.UTF_8);
             String encPwd = EncryptUtil.md5(inPassword, null, 2);
             if (!encPwd.trim().equals(user.getPassword().trim())) {
@@ -104,7 +106,7 @@ public class UserServiceImpl implements UserService {
             throw new Exception(CommonEnum.ERROR_CHECK_CODE.getError());
         }
 
-        return JWTUtil.createToken(tokenName);
+        return JWTUtil.createToken(tokenName, tokenId);
     }
 
     @Override
@@ -118,11 +120,11 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.selectByPersonName(JWTUtil.getUsername(token));
         // 登录成功查找用户角色资源
         userResources.setUser(user);
-            List<Role> roles = roleMapper.selectByUserId(user.getId());
-            userResources.setUserRole(roles);
-            for (Role role: roles) {
-                role.setRoleMenu(menuMapper.selectByRoleId(role.getId()));
-            }
+        List<Role> roles = roleMapper.selectByUserId(user.getId());
+        userResources.setUserRole(roles);
+        for (Role role : roles) {
+            role.setRoleMenu(menuMapper.selectByRoleId(role.getId()));
+        }
 
         return userResources;
     }

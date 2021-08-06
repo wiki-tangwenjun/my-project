@@ -5,6 +5,7 @@ import com.wenjun.busines.house.dto.HouseQueryParam;
 import com.wenjun.busines.house.pojo.House;
 import com.wenjun.busines.system.service.IService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -47,5 +48,5 @@ public interface IHouseService extends IService<House> {
      * @author wen jun tang
      * @date 2021/7/20 10:48
      */
-    void insert(HouseAddParam houseAddParam);
+    void insert(HttpServletRequest request, HouseAddParam houseAddParam) throws Exception;
 }

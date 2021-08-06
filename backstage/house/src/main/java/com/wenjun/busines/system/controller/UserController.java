@@ -12,6 +12,7 @@ import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.handlerException.error.ReturnValue;
 import com.wenjun.redis.UserLoginService;
 import com.wenjun.util.CheckUtil;
+import com.wenjun.util.ServletHttpRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -68,13 +69,7 @@ public class UserController {
     @Syslog(module="用户信息",style="查询",description="查询用户角色权限信息")
     @ApiOperation(value="根据token获取用户角色权限信息接口", notes="根据token获取用户角色权限信息")
     public ReturnValue<UserResources> getUserResources(HttpServletRequest request) throws Exception {
-        String header = request.getHeader("Authorization");
-        if (CheckUtil.isNull(header) && !header.startsWith("Bearer ")) {
-            throw new Exception(CommonEnum.ERROR_TOKEN.getDescription());
-        }
-        String token = header.substring(7);
-
-        return new ReturnValue<>(userService.findByUserResource(token));
+        return new ReturnValue<>(userService.findByUserResource(ServletHttpRequest.getHttpServletRequest(request)));
     }
 
     @PostMapping("/add")

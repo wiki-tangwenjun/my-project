@@ -42,13 +42,14 @@ public class JWTUtil {
     /**
      * 生成 token
      */
-    public static String createToken(String username) {
+    public static String createToken(String username, String userId) {
         try {
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             // 附带username信息
             return JWT.create()
                     .withClaim("username", username)
+                    .withClaim("userId", userId)
                     //到期时间
                     .withExpiresAt(date)
                     //创建一个新的JWT，并使用给定的算法进行标记
@@ -83,6 +84,18 @@ public class JWTUtil {
         try {
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getClaim("username").asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 获得token中的信息，无需secret解密也能获得
+     */
+    public static String getUserId(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("userId").asString();
         } catch (JWTDecodeException e) {
             return null;
         }

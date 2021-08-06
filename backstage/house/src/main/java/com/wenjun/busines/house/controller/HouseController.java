@@ -14,6 +14,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -65,8 +66,8 @@ public class HouseController {
     @ApiOperation(value="添加出租屋", notes="添加出租屋")
     @Syslog(module="出租屋信息",style="添加",description="添加出租屋")
     @RequiresRoles(logical = Logical.OR, value = {"landlord", "superAdmin"})
-    public ReturnValue<String> add(@Valid HouseAddParam houseAddParam){
-        iHouseService.insert(houseAddParam);
+    public ReturnValue<String> add(HttpServletRequest request, @Valid HouseAddParam houseAddParam){
+        iHouseService.insert(request, houseAddParam);
 
         return new ReturnValue<>(CommonEnum.ERROR_SUCCESS);
     }

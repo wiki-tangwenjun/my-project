@@ -8,11 +8,14 @@ import com.wenjun.busines.house.mapper.HouseMapper;
 import com.wenjun.busines.house.pojo.House;
 import com.wenjun.busines.house.pojo.HouseEnclosure;
 import com.wenjun.busines.house.service.IHouseService;
+import com.wenjun.util.JWTUtil;
+import com.wenjun.util.ServletHttpRequest;
 import com.wenjun.util.TextUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -66,8 +69,9 @@ public class HouseServiceImpl implements IHouseService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void insert(HouseAddParam houseAddParam) {
+    public void insert(HttpServletRequest request, HouseAddParam houseAddParam) throws Exception {
         houseAddParam.getHouse().setId(TextUtil.getUUID());
+        houseAddParam.getHouse().setUserId(JWTUtil.getUserId(ServletHttpRequest.getHttpServletRequest(request)));
         houseMapper.insert(houseAddParam.getHouse());
 
         houseAddParam.getHouseLog().setId(TextUtil.getUUID());
