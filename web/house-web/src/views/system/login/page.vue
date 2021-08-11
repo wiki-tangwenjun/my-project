@@ -180,10 +180,8 @@ export default {
      * @description 获取验证码
      */
     getCode () {
-        this.getVerificationCode().then(res=>{
+        this.getVerificationCode().then(res => {
           drawPic(res.description, "loginCode");
-        }).then(res=> {
-            
         }).catch(res => {
             console.log(res);
         });
@@ -205,7 +203,7 @@ export default {
           })
             .then(() => {
               // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/')
+              this.$router.replace(this.$route.query.redirect || '/');
             })
         } else {
           // 登录表单校验失败

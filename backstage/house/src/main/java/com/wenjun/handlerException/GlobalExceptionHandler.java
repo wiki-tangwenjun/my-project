@@ -121,6 +121,6 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ReturnValue<String> exceptionHandler(Exception e) {
         log.error(e.getMessage());
-        return new ReturnValue<>(CommonEnum.ERROR_UNKNOW, e.getMessage());
+        return new ReturnValue<>(e.getMessage());
     }
 }

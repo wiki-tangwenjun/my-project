@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
             String userName = new String(Base64Util.decode(loginParam.getUserName()));
             User user = userMapper.selectByPersonName(userName);
             if (CheckUtil.isNull(user)) {
-                throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getDescription());
+                throw new NullPointerException(CommonEnum.ERROR_USER_NOT_FOUND.getError());
             }
 
             tokenName = user.getPersonName();
