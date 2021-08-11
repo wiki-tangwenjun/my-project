@@ -14,16 +14,9 @@
       <div
         class="page-login--content"
         flex="dir:top main:justify cross:stretch box:justify">
-        <div class="page-login--content-header">
-          <p class="page-login--content-header-motto">
-            时间是一切财富中最宝贵的财富
-          </p>
-        </div>
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
-          <!-- logo -->
-          <img class="page-login--logo" src="./image/log.png">
           <h1>我是房东后台管理平台</h1>
           <!-- form -->
           <div class="page-login--form">
@@ -56,7 +49,6 @@
                     v-model="loginParam.code"
                     placeholder="验证码">
                     <template slot="append">
-                      <!-- <img class="login-code" src="./image/login-code.png"> -->
                       <canvas id="loginCode" width="120" height="36" class="codeImg" @click="getCode"></canvas>
                     </template>
                   </el-input>
@@ -79,14 +71,6 @@
           </div>
         </div>
         <div class="page-login--content-footer">
-          <!-- <p class="page-login--content-footer-locales">
-            <a
-              v-for="language in $languages"
-              :key="language.value"
-              @click="onChangeLocale(language.value)">
-              {{ language.label }}
-            </a>
-          </p> -->
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
@@ -223,6 +207,9 @@ export default {
   background-color: $backgroundColor;
   height: 100%;
   position: relative;
+  background-image: url('./image/index-bkg.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   // 层
   .page-login--layer {
     @extend %full;
@@ -242,6 +229,9 @@ export default {
   .page-login--content {
     height: 100%;
     min-height: 500px;
+    .page-login--content-main {
+      margin-top: 14%;
+    }
   }
   // header
   .page-login--content-header {
@@ -261,7 +251,7 @@ export default {
   }
   // 登录表单
   .page-login--form {
-    width: 280px;
+    width: 380px;
     // 卡片
     .el-card {
       margin-bottom: 15px;
