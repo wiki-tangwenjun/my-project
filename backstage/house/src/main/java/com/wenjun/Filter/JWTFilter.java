@@ -3,6 +3,7 @@ package com.wenjun.Filter;
 import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.shiro.JWTToken;
 import com.wenjun.util.CheckUtil;
+import com.wenjun.util.ServletHttpRequest;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -54,14 +55,10 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
      * 判断用户是否想要登入。
      * 检测 header 里面是否包含 token 字段
      */
+    @SneakyThrows
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        HttpServletRequest req = (HttpServletRequest) request;
-        String header = req.getHeader("Authorization");
-        String token = null;
-        if (!CheckUtil.isNull(header) && header.startsWith("Bearer ")) {
-            token = header.substring(7);
-        }
+        String token = ServletHttpRequest.getToken((HttpServletRequest) request);
         return token != null;
     }
 

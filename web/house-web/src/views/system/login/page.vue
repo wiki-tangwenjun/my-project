@@ -32,12 +32,12 @@
                 ref="loginForm"
                 label-position="top"
                 :rules="rules"
-                :model="formLogin"
+                :model="loginParam"
                 size="default">
                 <el-form-item prop="username">
                   <el-input
                     type="text"
-                    v-model="formLogin.username"
+                    v-model="loginParam.username"
                     placeholder="用户名">
                     <i slot="prepend" class="fa fa-user-circle-o"></i>
                   </el-input>
@@ -45,7 +45,7 @@
                 <el-form-item prop="password">
                   <el-input
                     type="password"
-                    v-model="formLogin.password"
+                    v-model="loginParam.password"
                     placeholder="密码">
                     <i slot="prepend" class="fa fa-keyboard-o"></i>
                   </el-input>
@@ -53,11 +53,11 @@
                 <el-form-item prop="code">
                   <el-input
                     type="text"
-                    v-model="formLogin.code"
+                    v-model="loginParam.code"
                     placeholder="验证码">
                     <template slot="append">
                       <!-- <img class="login-code" src="./image/login-code.png"> -->
-                      <canvas id="loginCode" width="120" height="36" class="codeImg" @click="getVerificationCode"></canvas>
+                      <canvas id="loginCode" width="120" height="36" class="codeImg" @click="getCode"></canvas>
                     </template>
                   </el-input>
                 </el-form-item>
@@ -103,19 +103,7 @@
         </div>
       </div>
     </div>
-    <el-dialog
-      title="快速选择用户"
-      :visible.sync="dialogVisible"
-      width="400px">
-      <el-row :gutter="10" style="margin: -20px 0px -10px 0px;">
-        <el-col v-for="(user, index) in users" :key="index" :span="8">
-          <div class="page-login--quick-user" @click="handleUserBtnClick(user)">
-            <d2-icon name="user-circle-o"/>
-            <span>{{user.name}}</span>
-          </div>
-        </el-col>
-      </el-row>
-    </el-dialog>
+   
   </div>
 </template>
 
@@ -124,6 +112,7 @@ import dayjs from 'dayjs'
 import { mapActions } from 'vuex'
 import localeMixin from '@/locales/mixin.js'
 import { drawPic } from '../../../common/util'
+import log from '@/libs/util.log'
 export default {
   mixins: [
     localeMixin
@@ -134,28 +123,11 @@ export default {
       time: dayjs().format('HH:mm:ss'),
       // 快速选择用户
       dialogVisible: false,
-      users: [
-        {
-          name: 'Admin',
-          username: 'admin',
-          password: 'admin'
-        },
-        {
-          name: 'Editor',
-          username: 'editor',
-          password: 'editor'
-        },
-        {
-          name: 'User1',
-          username: 'user1',
-          password: 'user1'
-        }
-      ],
       // 表单
-      formLogin: {
-        username: 'admin',
-        password: 'admin',
-        code: 'v9am'
+      loginParam: {
+        username: '',
+        password: '',
+        code: ''
       },
       // 表单校验
       rules: {
@@ -188,7 +160,7 @@ export default {
       this.refreshTime()
     }, 1000);
 
-    this.getVerificationCode();
+    this.getCode();
   },
   beforeDestroy () {
     clearInterval(this.timeInterval)
@@ -197,32 +169,24 @@ export default {
     ...mapActions('d2admin/account', [
       'login'
     ]),
+    ...mapActions('house/user', [
+      'getVerificationCode'
+    ]),
     refreshTime () {
       this.time = dayjs().format('HH:mm:ss')
     },
-    /**
-     * @description 接收选择一个用户快速登录的事件
-     * @param {Object} user 用户信息
-     */
-    handleUserBtnClick (user) {
-      this.formLogin.username = user.username
-      this.formLogin.password = user.password
-      this.formLogin.code = user.code;
-      this.submit()
-    },
+
     /**
      * @description 获取验证码
      */
-    getVerificationCode () {
-        drawPic(12345, "loginCode");
-        // this.getVerificationCode().then(res=>{
-        //     debugger
-        //     console.log(res);
-        // }).then(res=> {
-        //     console.log(res);
-        // }).catch(res => {
-        //     console.log(res);
-        // });
+    getCode () {
+        this.getVerificationCode().then(res=>{
+          drawPic(res.description, "loginCode");
+        }).then(res=> {
+            
+        }).catch(res => {
+            console.log(res);
+        });
     },
 
     /**
@@ -233,12 +197,11 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 登录
-          // 注意 这里的演示没有传验证码
-          // 具体需要传递的数据请自行修改代码
+          let Base64 = require('js-base64').Base64;
           this.login({
-            username: this.formLogin.username,
-            password: this.formLogin.password,
-            code: this.formLogin.code
+            userName: Base64.encode(this.loginParam.username),
+            password: Base64.encode(this.loginParam.password),
+            code: this.loginParam.code
           })
             .then(() => {
               // 重定向对象不存在则返回顶层路径

@@ -18,7 +18,7 @@ public class DesUtils {
     /**
      * 公钥  8位以上
      */
-    private static final String SECRET_KEY="DD123456";
+    private static final String SECRET_KEY="twj12345";
 
     /**
      * 获取秘钥对象
