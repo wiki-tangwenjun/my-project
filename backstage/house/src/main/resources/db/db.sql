@@ -416,9 +416,9 @@ CREATE TABLE IF NOT EXISTS t_menu
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单资源表 ';
 INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('1', '系统管理', '0', 'system', 'system', '0', '0', '系统管理', NULL, 'system', NULL);
 INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('2', '用户管理', '1', 'userMange', 'system/userMange', '1', '0', '用户管理', '1', 'system-user', NULL);
-INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('3', '角色管理', '2', 'roleMange', 'system/roleMange', '2', '0', '角色管理', '1', 'system-role', NULL);
-INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('4', '菜单管理', '3', 'menuMange', 'system/menuMange', '3', '0', '菜单管理', '1', 'system-menu', NULL);
-INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('5', '系统日志', '4', 'operateLog', 'system/operate', '4', '0', '系统日志', '1', 'system-log', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('3', '角色管理', '1', 'roleMange', 'system/roleMange', '2', '0', '角色管理', '1', 'system-role', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('4', '菜单管理', '1', 'menuMange', 'system/menuMange', '3', '0', '菜单管理', '1', 'system-menu', NULL);
+INSERT INTO `house`.`t_menu` (`id`, `name`, `folderOrMenu`, `menuHref`, `menuRoute`, `menuLevel`, `status`, `remark`, `parentId`, `permissionName`, `reserve1`) VALUES ('5', '系统日志', '1', 'operateLog', 'system/operate', '4', '0', '系统日志', '1', 'system-log', NULL);
 
 
 

@@ -1,26 +1,24 @@
 <template>
   <div class="page-login">
-    <div class="page-login--layer page-login--layer-area">
-      <ul class="circles">
-        <li v-for="n in 10" :key="n"></li>
-      </ul>
+    <div class="index-log-box">
+        <div class="index-log-title">
+            <span class="log-item"></span>
+            <h1>我是房东管理平台</h1>
+        </div>
+        <div class="index-log-item"></div>
     </div>
-    <div
-      class="page-login--layer page-login--layer-time"
-      flex="main:center cross:center">
-      {{time}}
-    </div>
+
     <div class="page-login--layer">
       <div
         class="page-login--content"
-        flex="dir:top main:justify cross:stretch box:justify">
+        >
         <div
           class="page-login--content-main"
           flex="dir:top main:center cross:center">
-          <h1>我是房东后台管理平台</h1>
           <!-- form -->
           <div class="page-login--form">
             <el-card shadow="never">
+            <h2>LOGIN</h2>
               <el-form
                 ref="loginForm"
                 label-position="top"
@@ -52,6 +50,7 @@
                       <canvas id="loginCode" width="120" height="36" class="codeImg" @click="getCode"></canvas>
                     </template>
                   </el-input>
+                  
                 </el-form-item>
                 <el-button
                   size="default"
@@ -70,6 +69,8 @@
             </p>
           </div>
         </div>
+        
+      </div>
         <div class="page-login--content-footer">
           <p class="page-login--content-footer-copyright">
             Copyright
@@ -79,15 +80,13 @@
               @AmbitionXiaojun
             </a>
           </p>
-          <!-- <p class="page-login--content-footer-options">
+          <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
             <a href="#">隐私</a>
             <a href="#">条款</a>
-          </p> -->
+          </p>
         </div>
-      </div>
     </div>
-   
   </div>
 </template>
 
@@ -103,8 +102,6 @@ export default {
   ],
   data () {
     return {
-      timeInterval: null,
-      time: dayjs().format('HH:mm:ss'),
       // 快速选择用户
       dialogVisible: false,
       // 表单
@@ -140,14 +137,7 @@ export default {
     }
   },
   mounted () {
-    this.timeInterval = setInterval(() => {
-      this.refreshTime()
-    }, 1000);
-
     this.getCode();
-  },
-  beforeDestroy () {
-    clearInterval(this.timeInterval)
   },
   methods: {
     ...mapActions('d2admin/account', [
@@ -156,9 +146,6 @@ export default {
     ...mapActions('house/user', [
       'getVerificationCode'
     ]),
-    refreshTime () {
-      this.time = dayjs().format('HH:mm:ss')
-    },
 
     /**
      * @description 获取验证码
@@ -203,14 +190,43 @@ export default {
 .page-login {
   @extend %unable-select;
   $backgroundColor: #F0F2F5;
-  // ---
   background-color: $backgroundColor;
   height: 100%;
   position: relative;
-  background-image: url('./image/index-bkg.jpg');
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  // 层
+  .index-log-box {
+    height: 100%;
+    width: 454px;
+    background-image: url('./image/index.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    .index-log-title {
+        position: absolute;
+        width: 454px;
+        text-align: center;
+        .log-item {
+            position: absolute;
+            left: 45px;
+            top: 23px;
+            height: 40px;
+            width: 45px;
+            border-radius: 8px;
+            background-image: url('./image/log.jpg');
+            background-size: 100% 100%;
+        }
+    }
+    .index-log-item {
+        position: absolute;
+        background-image: url('./image/index-home.jpg');
+        top: 0;
+        bottom: 0;
+        left: 34px;
+        right: 0;
+        width: 380px;
+        height: 252px;
+        margin: auto 0;
+    }
+  }
+  
   .page-login--layer {
     @extend %full;
     overflow: auto;
@@ -218,7 +234,6 @@ export default {
   .page-login--layer-area {
     overflow: hidden;
   }
-  // 时间
   .page-login--layer-time {
     font-size: 24em;
     font-weight: bold;
@@ -227,10 +242,11 @@ export default {
   }
   // 登陆页面控件的容器
   .page-login--content {
-    height: 100%;
-    min-height: 500px;
+    // height: 100%;
+    // min-height: 500px;
     .page-login--content-main {
       margin-top: 14%;
+      margin-left: 30%;
     }
   }
   // header
@@ -252,6 +268,11 @@ export default {
   // 登录表单
   .page-login--form {
     width: 380px;
+    .is-never-shadow {
+        width: 379px;
+        height: 380px;
+        box-shadow: #666 0px 0px 4px;
+    }
     // 卡片
     .el-card {
       margin-bottom: 15px;
@@ -311,49 +332,7 @@ export default {
       color: $color-text-sub;
     }
   }
-  // footer
-  .page-login--content-footer {
-    padding: 1em 0;
-    .page-login--content-footer-locales {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 15px;
-      font-size: 12px;
-      line-height: 12px;
-      text-align: center;
-      color: $color-text-normal;
-      a {
-        color: $color-text-normal;
-        margin: 0 .5em;
-        &:hover {
-          color: $color-text-main;
-        }
-      }
-    }
-    .page-login--content-footer-copyright {
-      padding: 0px;
-      margin: 0px;
-      margin-bottom: 10px;
-      font-size: 12px;
-      line-height: 12px;
-      text-align: center;
-      color: $color-text-normal;
-      a {
-        color: $color-text-normal;
-      }
-    }
-    .page-login--content-footer-options {
-      padding: 0px;
-      margin: 0px;
-      font-size: 12px;
-      line-height: 12px;
-      text-align: center;
-      a {
-        color: $color-text-normal;
-        margin: 0 1em;
-      }
-    }
-  }
+  
   // 背景
   .circles {
     position: absolute;
@@ -449,6 +428,52 @@ export default {
         height: 150px;
         animation-delay: 0s;
         animation-duration: 11s;
+      }
+    }
+  }
+  // footer
+  .page-login--content-footer {
+    padding: 1em 0;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    .page-login--content-footer-locales {
+      padding: 0px;
+      margin: 0px;
+      margin-bottom: 15px;
+      font-size: 12px;
+      line-height: 12px;
+      text-align: center;
+      color: $color-text-normal;
+      a {
+        color: $color-text-normal;
+        margin: 0 .5em;
+        &:hover {
+          color: $color-text-main;
+        }
+      }
+    }
+    .page-login--content-footer-copyright {
+      padding: 0px;
+      margin: 0px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      line-height: 12px;
+      text-align: center;
+      color: $color-text-normal;
+      a {
+        color: $color-text-normal;
+      }
+    }
+    .page-login--content-footer-options {
+      padding: 0px;
+      margin: 0px;
+      font-size: 12px;
+      line-height: 12px;
+      text-align: center;
+      a {
+        color: $color-text-normal;
+        margin: 0 1em;
       }
     }
   }
