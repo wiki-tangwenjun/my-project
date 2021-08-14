@@ -11,7 +11,6 @@ import com.wenjun.busines.system.service.UserService;
 import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.handlerException.error.ReturnValue;
 import com.wenjun.redis.UserLoginService;
-import com.wenjun.util.CheckUtil;
 import com.wenjun.util.JWTUtil;
 import com.wenjun.util.ServletHttpRequest;
 import io.swagger.annotations.Api;
@@ -60,7 +59,7 @@ public class UserController {
     @Syslog(module="用户信息",style="查询",description="获取随机码")
     public ReturnValue<String> getVerificationCode() {
         userLoginService.delete(RANDOMKEY);
-        userLoginService.setKey(RANDOMKEY, String.valueOf((int) ((Math.random() * 9 + 1) * 10000)), 60);
+        userLoginService.setKey(RANDOMKEY, String.valueOf((int) ((Math.random() * 9 + 1) * 10000)), 1);
 
         return new ReturnValue<>(CommonEnum.ERROR_SUCCESS, userLoginService.getKey(RANDOMKEY));
     }
@@ -70,7 +69,6 @@ public class UserController {
     @Syslog(module="用户信息",style="查询",description="查询用户角色权限信息")
     @ApiOperation(value="根据token获取用户角色权限信息接口", notes="根据token获取用户角色权限信息")
     public ReturnValue<UserResources> getUserResources(HttpServletRequest request) throws Exception {
-        System.out.println(JWTUtil.getUserId(ServletHttpRequest.getToken(request)));
         return new ReturnValue<>(userService.findByUserResource(ServletHttpRequest.getToken(request)));
     }
 

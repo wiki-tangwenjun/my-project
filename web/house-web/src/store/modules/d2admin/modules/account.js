@@ -26,7 +26,7 @@ export default {
       // token 代表用户当前登录状态 建议在网络请求中携带 token
       // 如有必要 token 需要定时更新，默认保存一天
       util.cookies.set('uuid', res.uuid)
-      util.cookies.set('token', res.description)
+      util.cookies.set('token', "Bearer "+res.description)
       // 设置 vuex 用户信息
       await dispatch('d2admin/user/set', { name: userName }, { root: true })
       // 用户登录后从持久化数据加载一系列的设置
@@ -57,6 +57,7 @@ export default {
         MessageBox.confirm('确定要注销当前用户吗', '注销用户', { type: 'warning' })
           .then(() => {
             commit('d2admin/gray/set', false, { root: true })
+            sessionStorage.removeItem('userInfo')
             logout()
           })
           .catch(() => {
@@ -73,19 +74,19 @@ export default {
      */
     async load ({ dispatch }) {
       // 加载用户名
-      await dispatch('d2admin/user/load', null, { root: true })
+      await dispatch('d2admin/user/load', null, { root: true });
       // 加载主题
-      await dispatch('d2admin/theme/load', null, { root: true })
+      await dispatch('d2admin/theme/load', null, { root: true });
       // 加载页面过渡效果设置
-      await dispatch('d2admin/transition/load', null, { root: true })
+      await dispatch('d2admin/transition/load', null, { root: true });
       // 持久化数据加载上次退出时的多页列表
-      await dispatch('d2admin/page/openedLoad', null, { root: true })
+      await dispatch('d2admin/page/openedLoad', null, { root: true });
       // 持久化数据加载侧边栏配置
-      await dispatch('d2admin/menu/asideLoad', null, { root: true })
+      await dispatch('d2admin/menu/asideLoad', null, { root: true });
       // 持久化数据加载全局尺寸
-      await dispatch('d2admin/size/load', null, { root: true })
+      await dispatch('d2admin/size/load', null, { root: true });
       // 持久化数据加载颜色设置
-      await dispatch('d2admin/color/load', null, { root: true })
+      await dispatch('d2admin/color/load', null, { root: true });
     }
   }
 }

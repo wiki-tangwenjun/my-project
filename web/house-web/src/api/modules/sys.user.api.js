@@ -17,5 +17,13 @@ export default ({request}) => ({
       url: 'user/getVerificationCode',
       method: 'get'
     })
+  },
+
+  // 获取用户角色权限
+  getUserRoleRights () {
+    return request({
+        url: 'user/getUserResources',
+        method: 'get'
+    })
   }
 })

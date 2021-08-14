@@ -75,7 +75,7 @@
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
-            2021 唐文军
+            2021-2099 唐文军
             <a href="https://github.com/AmbitionXiaojun/my-project">
               @AmbitionXiaojun
             </a>
@@ -106,8 +106,8 @@ export default {
       dialogVisible: false,
       // 表单
       loginParam: {
-        username: '',
-        password: '',
+        username: 'twj',
+        password: 'twj123456',
         code: ''
       },
       // 表单校验
@@ -144,7 +144,8 @@ export default {
       'login'
     ]),
     ...mapActions('house/user', [
-      'getVerificationCode'
+      'getVerificationCode',
+      'getUserRoleRights'
     ]),
 
     /**
@@ -173,12 +174,22 @@ export default {
             code: this.loginParam.code
           })
             .then(() => {
-              // 重定向对象不存在则返回顶层路径
-              this.$router.replace(this.$route.query.redirect || '/');
+                this.$store.dispatch('house/user/getUserRoleRights')
+                    .then(res=> {
+                        sessionStorage.setItem('userInfo', JSON.stringify(res.value));
+                        // 重定向对象不存在则返回顶层路径
+                        this.$router.replace(this.$route.query.redirect || '/');
+                    }).catch(res=> {
+                        this.$message.error('获取角色资源异常');
+                });
             })
+            .catch(res=> {
+                this.$router.push({name: '403'});
+                this.$message.error(res.description)
+            });
         } else {
           // 登录表单校验失败
-          this.$message.error('表单校验失败，请检查')
+          this.$message.error('表单校验失败，请检查');
         }
       })
     }

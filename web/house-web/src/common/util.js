@@ -26,7 +26,6 @@ export function drawPic(num, elementId) {
     ctx.fillStyle = randomColor(180, 240); //颜色若太深可能导致看不清
     ctx.fillRect(0, 0, width, height);
     /**绘制文字**/
-
     let txt = num;
     ctx.fillStyle = randomColor(50, 160); //随机生成字体颜色
     ctx.font = randomNum(25, 35) + 'px SimHei'; //随机生成字体大小
