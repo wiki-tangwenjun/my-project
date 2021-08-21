@@ -41,15 +41,6 @@ module.exports = {
   devServer: {
     publicPath, // 和 publicPath 保持一致
     disableHostCheck: process.env.NODE_ENV === 'development', // 关闭 host check，方便使用 ngrok 之类的内网转发工具?
-    proxy: {  //配置跨域
-      '/api': {
-        target: 'http://127.0.0.1:8001/',  
-        changOrigin: true,  //允许跨域
-        pathRewrite: {
-          '^/api': '/api' 
-        }
-      },
-    }
   },
   css: {
     loaderOptions: {
