@@ -138,6 +138,7 @@ export default {
   },
   mounted () {
     this.getCode();
+   
   },
   methods: {
     ...mapActions('d2admin/account', [

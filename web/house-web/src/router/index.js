@@ -62,16 +62,14 @@ router.beforeEach((to, from, next) => {
                     if (permissions[i].menuRoute.indexOf(to.fullPath) != -1) {
                         pagePermissions.push(permissions[i].permissionName);
                     }
-                }
-                
-                for (let i = 0; i < permissions.length; i++) {
                     if (permissions[i].menuHref && permissions[i].menuHref !== null) {
                         let item = router.match(permissions[i].menuHref);  // 找到权限列表中匹配改条路由对应的权限信息
                         if (item) {
                             // 匹配路由=> 完全匹配或者前缀匹配
                             if (permissions[i].menuHref === to.path || to.path.startsWith(permissions[i].menuHref)) {
                                 // 匹配到路由后，将权限信息添加在路由的meta中
-                                item.meta.operations = pagePermissions.join(",");
+                                item.meta.operations = pagePermissions;
+                                item.meta.page = permissions[i].menuHref;
                                 allow = true;
                             }
                         }

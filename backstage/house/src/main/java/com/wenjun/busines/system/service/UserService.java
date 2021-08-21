@@ -17,13 +17,13 @@ import java.util.List;
 public interface UserService extends IService<User> {
 
     /**
-    * 增加一个对象
+     * 增加一个对象
      *
-    * @author wen jun tang
-    * @param addUserParam 用户保存对象
-    * @return void
-    * @date 2021/7/16 15:47
-    */
+     * @param addUserParam 用户保存对象
+     * @return void
+     * @author wen jun tang
+     * @date 2021/7/16 15:47
+     */
     void insert(AddUserParam addUserParam);
 
     /**
@@ -36,6 +36,15 @@ public interface UserService extends IService<User> {
      */
     String findByUserName(LoginParam loginParam) throws Exception;
 
+    /**
+     * 根据用户名称查询用户是否存在
+     *
+     * @param personName 用户名称
+     * @return com.wenjun.busines.system.pojo.User
+     * @author tang wen jun
+     * @date 2021/8/21 22:24
+     */
+    User findByPersonName(String personName);
 
     /**
      * 按条件查询用户信息
@@ -49,10 +58,11 @@ public interface UserService extends IService<User> {
 
     /**
      * 根据token获取用户名称--》 根据用户名称查询用户角色和资源
-    * @author wen jun tang
-    * @param token 用户登录获取的token
-    * @return com.wenjun.busines.system.pojo.UserResources
-    * @date 2021/7/15 12:08
-    */
+     *
+     * @param token 用户登录获取的token
+     * @return com.wenjun.busines.system.pojo.UserResources
+     * @author wen jun tang
+     * @date 2021/7/15 12:08
+     */
     UserResources findByUserResource(String token);
 }

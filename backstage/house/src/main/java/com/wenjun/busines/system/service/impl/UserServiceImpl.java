@@ -9,8 +9,6 @@ import com.wenjun.busines.system.mapper.RoleMapper;
 import com.wenjun.busines.system.mapper.UserMapper;
 import com.wenjun.busines.system.mapper.UserRoleMapper;
 import com.wenjun.busines.system.pojo.*;
-import com.wenjun.busines.system.service.IMenuService;
-import com.wenjun.busines.system.service.IRoleService;
 import com.wenjun.busines.system.service.UserService;
 import com.wenjun.handlerException.error.CommonEnum;
 import com.wenjun.redis.UserLoginService;
@@ -107,6 +105,11 @@ public class UserServiceImpl implements UserService {
         }
 
         return JWTUtil.createToken(tokenName, tokenId);
+    }
+
+    @Override
+    public User findByPersonName(String personName) {
+        return userMapper.selectByPersonName(personName);
     }
 
     @Override

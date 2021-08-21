@@ -1,9 +1,9 @@
 /** 生成一个随机数 **/
-function randomNum(min, max) {
+export function randomNum(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 /** 生成一个随机色 **/
-function randomColor(min, max) {
+export function randomColor(min, max) {
     let r = randomNum(min, max);
     let g = randomNum(min, max);
     let b = randomNum(min, max);
@@ -56,3 +56,4 @@ export function drawPic(num, elementId) {
         ctx.fill();
     }
 }
+

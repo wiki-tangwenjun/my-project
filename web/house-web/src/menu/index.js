@@ -16,40 +16,47 @@ function supplementPath (menu) {
 
 export const menuHeader = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
-  {
-    title: '房屋管理',
-    icon: 'folder-o',
-    children: [
-      { path: '/house', title: '出租屋管理' },
-    ]
-  },
+ 
   {
     title: '系统管理',
     icon: 'folder-o',
+    path: '/system',
     children: [
-      { path: '/userManager', title: '用户管理' },
-      { path: '/roleManager', title: '角色管理' },
-      { path: '/menuManager', title: '菜单管理' }
+        { path: '/userMange', title: '用户管理' },
+        { path: '/roleMange', title: '角色管理' },
+        { path: '/menuMange', title: '菜单管理' }
     ]
-  }
+  },
+  {
+    title: '房屋管理',
+    icon: 'folder-o',
+    path: '/house',
+    children: [
+      { path: '/houseMange', title: '出租屋管理' },
+      { path: '/evaluateMange', title: '评价管理' }
+    ]
+  },
 ])
 
 export const menuAside = supplementPath([
   { path: '/index', title: '首页', icon: 'home' },
   {
-    title: '房屋管理',
+    title: '系统管理',
     icon: 'folder-o',
+    path: '/system',
     children: [
-      { path: '/house', title: '出租屋管理' },
+        { path: '/userMange', title: '用户管理' },
+        { path: '/roleMange', title: '角色管理' },
+        { path: '/menuMange', title: '菜单管理' }
     ]
   },
   {
-    title: '系统管理',
+    title: '房屋管理',
     icon: 'folder-o',
+    path: '/house',
     children: [
-      { path: '/userManager', title: '用户管理' },
-      { path: '/roleManager', title: '角色管理' },
-      { path: '/menuManager', title: '菜单管理' }
+      { path: '/houseMange', title: '出租屋管理' },
+      { path: '/evaluateMange', title: '评价管理' }
     ]
-  }
+  },
 ])

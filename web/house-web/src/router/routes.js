@@ -23,8 +23,8 @@ const frameIn = [
       },
       // 系统管理页面
       {
-        path: '/userManager',
-        name: 'userManager',
+        path: '/userMange',
+        name: 'userManage',
         meta: {
           title: '用户管理',
           auth: true
@@ -32,8 +32,8 @@ const frameIn = [
         component: _import('systemManager/userManager')
       },
       {
-        path: '/roleManager',
-        name: 'roleManager',
+        path: '/roleMange',
+        name: 'roleManage',
         meta: {
           title: '角色管理',
           auth: true
@@ -41,8 +41,8 @@ const frameIn = [
         component: _import('systemManager/roleManager')
       },
       {
-        path: '/menuManager',
-        name: 'menuManager',
+        path: '/menuMange',
+        name: 'menuManage',
         meta: {
           title: '菜单管理',
           auth: true
@@ -51,7 +51,7 @@ const frameIn = [
       },
       // 出租屋
       {
-        path: '/house',
+        path: '/houseMange',
         name: 'house',
         meta: {
           title: '出租屋管理',
@@ -59,17 +59,36 @@ const frameIn = [
         },
         component: _import('houseManager/house')
       },
-
-      // 系统 前端日志
+      // 评价
       {
-        path: 'log',
-        name: 'log',
+        path: '/evaluateMange',
+        name: 'evaluate',
         meta: {
-          title: '前端日志',
+          title: '评价管理',
           auth: true
         },
-        component: _import('system/log')
+        component: _import('houseManager/evaluate')
       },
+      // 403 无权限
+      {
+        path: '/403',
+        name: '403',
+        meta: {
+          title: '无权限',
+          auth: true
+        },
+        component: _import('error/403')
+      },
+      // 系统 前端日志
+    //   {
+    //     path: 'log',
+    //     name: 'log',
+    //     meta: {
+    //       title: '前端日志',
+    //       auth: true
+    //     },
+    //     component: _import('system/log')
+    //   },
       // 刷新页面 必须保留
       {
         path: 'refresh',
