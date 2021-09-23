@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wenjun.busines.house.mapper.EvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.wenjun.busines.house.pojo.Evaluate" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="userId" property="userId" jdbcType="VARCHAR" />
+    <result column="hourseId" property="hourseId" jdbcType="VARCHAR" />
+    <result column="onTime" property="onTime" jdbcType="BIGINT" />
+    <result column="userOnTime" property="userOnTime" jdbcType="BIGINT" />
+    <result column="attitude" property="attitude" jdbcType="BIGINT" />
+    <result column="userAttitude" property="userAttitude" jdbcType="BIGINT" />
+    <result column="authenticity" property="authenticity" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userId, hourseId, onTime, userOnTime, attitude, userAttitude, authenticity, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_evaluate
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_evaluate
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wenjun.busines.house.pojo.Evaluate" >
+    insert into t_evaluate (id, userId, hourseId,
+      onTime, userOnTime, attitude,
+      userAttitude, authenticity, remark
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{hourseId,jdbcType=VARCHAR},
+      #{onTime,jdbcType=BIGINT}, #{userOnTime,jdbcType=BIGINT}, #{attitude,jdbcType=BIGINT},
+      #{userAttitude,jdbcType=BIGINT}, #{authenticity,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wenjun.busines.house.pojo.Evaluate" >
+    insert into t_evaluate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        userId,
+      </if>
+      <if test="hourseId != null" >
+        hourseId,
+      </if>
+      <if test="onTime != null" >
+        onTime,
+      </if>
+      <if test="userOnTime != null" >
+        userOnTime,
+      </if>
+      <if test="attitude != null" >
+        attitude,
+      </if>
+      <if test="userAttitude != null" >
+        userAttitude,
+      </if>
+      <if test="authenticity != null" >
+        authenticity,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="hourseId != null" >
+        #{hourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="onTime != null" >
+        #{onTime,jdbcType=BIGINT},
+      </if>
+      <if test="userOnTime != null" >
+        #{userOnTime,jdbcType=BIGINT},
+      </if>
+      <if test="attitude != null" >
+        #{attitude,jdbcType=BIGINT},
+      </if>
+      <if test="userAttitude != null" >
+        #{userAttitude,jdbcType=BIGINT},
+      </if>
+      <if test="authenticity != null" >
+        #{authenticity,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wenjun.busines.house.pojo.Evaluate" >
+    update t_evaluate
+    <set >
+      <if test="userId != null" >
+        userId = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="hourseId != null" >
+        hourseId = #{hourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="onTime != null" >
+        onTime = #{onTime,jdbcType=BIGINT},
+      </if>
+      <if test="userOnTime != null" >
+        userOnTime = #{userOnTime,jdbcType=BIGINT},
+      </if>
+      <if test="attitude != null" >
+        attitude = #{attitude,jdbcType=BIGINT},
+      </if>
+      <if test="userAttitude != null" >
+        userAttitude = #{userAttitude,jdbcType=BIGINT},
+      </if>
+      <if test="authenticity != null" >
+        authenticity = #{authenticity,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wenjun.busines.house.pojo.Evaluate" >
+    update t_evaluate
+    set userId = #{userId,jdbcType=VARCHAR},
+      hourseId = #{hourseId,jdbcType=VARCHAR},
+      onTime = #{onTime,jdbcType=BIGINT},
+      userOnTime = #{userOnTime,jdbcType=BIGINT},
+      attitude = #{attitude,jdbcType=BIGINT},
+      userAttitude = #{userAttitude,jdbcType=BIGINT},
+      authenticity = #{authenticity,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <!-- 根据条件查询总数 -->
+    <select id="selectCountByAttributes" resultType="java.lang.Integer">
+
+    </select>
+    <!-- 根据条件查询信息 -->
+    <select id="selectByAttributes" resultMap="BaseResultMap">
+
+    </select>
+</mapper>
